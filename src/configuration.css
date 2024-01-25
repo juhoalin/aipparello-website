@@ -1,7 +1,252 @@
-body {
-    background: green;
+.quiz-overlay {
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+    min-width: 100vw;
+    min-height: 100vh;
+    background: rgba(94, 94, 94, 0.6);
+    backdrop-filter: blur(11px);
+    transition: opacity 0.3s ease-in-out;
 }
 
-h1 {
-    color: red;
+.quiz-container {
+    display: flex;
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: white;
+    transition: right 0.3s ease-in-out;
+    max-width: 800px;
+}
+
+.radient-wrapper {
+    display: flex;
+    flex-direction: row;
+    position: fixed;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    opacity: 0.15;
+    background-color: hsla(230, 100%, 80%, 1);
+    background-image: radial-gradient(
+            at 20% 19%,
+            hsla(183, 100%, 88%, 1) 0px,
+            transparent 50%
+        ),
+        radial-gradient(at 38% 88%, hsla(302, 87%, 87%, 1) 0px, transparent 50%),
+        radial-gradient(at 70% 55%, hsla(220, 52%, 76%, 1) 0px, transparent 50%);
+}
+
+.content {
+    z-index: 10;
+}
+
+.quiz-upper-nav {
+    width: 100%;
+    position: absolute;
+    padding: 20px 20px 0px 20px;
+    z-index: 100;
+}
+
+.quiz-close {
+    padding: 9px 15px 9px 15px;
+    border-radius: 4px;
+    background-color: white;
+}
+
+.quiz {
+    min-height: 100vh;
+    width: 100%;
+    padding-bottom: 0px;
+}
+
+.quiz-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 100vh;
+}
+
+.quiz-phase {
+    display: flex;
+    flex-direction: column;
+    justify-content: top;
+    align-items: top;
+    max-width: 85%;
+    width: 90%;
+    min-height: 100vh;
+    max-height: 100vh;
+    overflow: scroll;
+    padding-bottom: 300px;
+}
+
+.quiz-phase::-webkit-scrollbar {
+    display: none;
+    width: 0px; /* Set the width of the scrollbar */
+}
+
+.quiz-phase::-webkit-scrollbar-thumb {
+    background-color: #888; /* Set the color of the scrollbar thumb */
+}
+
+.quiz-phase::-webkit-scrollbar-track {
+    background-color: #f1f1f1; /* Set the color of the scrollbar track */
+}
+
+.quiz-phase.active {
+}
+
+.radio-question {
+    display: flex;
+    flex-direction: column;
+    gap: 35px;
+    padding: 50px 0 70px 0;
+    border-bottom: 2px solid #000;
+}
+
+.question-header {
+    font-size: 36px;
+    font-weight: 200;
+    line-height: 40px;
+    max-width: 75%;
+}
+
+.radio-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.radio-wrapper-container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.radio-label {
+    font-size: 20px;
+}
+
+.radio-wrapper {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 82px;
+    height: 82px;
+    border-radius: 50%;
+    border: 2px solid #000;
+}
+
+.radio-option {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 82px;
+    height: 82px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    font-size: 24px;
+    font-weight: 800;
+}
+
+.radio-input {
+    opacity: 0;
+}
+
+input[type="radio"]:checked + .radio-option {
+    background-color: black; /* Set the desired text color */
+    color: white;
+}
+
+.navigation {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    max-width: 100%;
+    width: 100%;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: bottom;
+    gap: 32px;
+    /* border-top: 2px solid #000; */
+    margin: 20 20 20 20;
+}
+
+.progress-container {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    width: 100%;
+    gap: 12px;
+}
+
+.progress-text {
+    margin-bottom: 0px;
+    font-size: 20px;
+}
+
+.progress-bar-quiz {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    width: 100%;
+    height: 20px;
+    background-color: #e5e5e5;
+    border-radius: 50px;
+}
+
+.progress {
+    background-color: black;
+    height: 100%;
+    width: 25%;
+    border-radius: 50px;
+}
+
+.nav-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px 20px 20px 20px;
+    gap: 32px;
+    width: 100%;
+    height: 100%;
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    gap: 12px;
+}
+
+.quiz-button {
+    width: 300px;
+    height: 50px;
+    border-radius: 8px;
+    color: white;
+    background: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.previous {
+    background: white;
+    color: black;
+    justify-content: left;
+
 }

@@ -8,7 +8,7 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: "./src/configuration.html",
             filename: "webflow.serve.html",
-            inject: true,
+            inject: false,
         }),
     ],
     mode: "production",
