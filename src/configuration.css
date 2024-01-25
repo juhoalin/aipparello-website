@@ -19,25 +19,46 @@
     background-color: white;
     transition: right 0.3s ease-in-out;
     max-width: 800px;
+    overflow: hidden;
 }
 
 .radient-wrapper {
     display: flex;
     flex-direction: row;
-    position: fixed;
+    position: absolute;
+    top: 0;
+    left: -50%;
     z-index: 1;
-    width: 100%;
+    width: 200%;
     height: 100%;
-    opacity: 0.15;
-    background-color: hsla(230, 100%, 80%, 1);
+    opacity: 1;
+    /* background-color: hsla(230, 100%, 80%, 1);
     background-image: radial-gradient(
             at 20% 19%,
             hsla(183, 100%, 88%, 1) 0px,
             transparent 50%
         ),
         radial-gradient(at 38% 88%, hsla(302, 87%, 87%, 1) 0px, transparent 50%),
-        radial-gradient(at 70% 55%, hsla(220, 52%, 76%, 1) 0px, transparent 50%);
+        radial-gradient(at 70% 55%, hsla(220, 52%, 76%, 1) 0px, transparent 50%); */
+    background-size: 100% 100%;
+    background-position: 0px 0px, 0px 0px, 0px 0px, 0px 0px, 0px 0px, 0px 0px,
+        0px 0px, 0px 0px, 0px 0px, 0px 0px, 0px 0px, 0px 0px;
+    background-image: radial-gradient(
+            23% 28% at 24% 31%,
+            #cefaffa6 1%,
+            #073aff00 100%
+        ),
+        radial-gradient(18% 28% at 18% 71%, #ffffffff 6%, #073aff00 100%),
+        radial-gradient(38% 34% at 13% 63%, #ffffffff 0%, #073aff00 100%),
+        radial-gradient(23% 55% at 84% 52%, #ffffffff 7%, #073aff00 100%),
+        radial-gradient(22% 38% at 39% 20%, #ffffffff 2%, #073aff00 100%),
+        radial-gradient(42% 53% at 34% 72%, #ffffffff 7%, #073aff00 100%),
+        radial-gradient(38% 43% at 51% 52%, #ffffffff 2%, #073aff00 100%),
+        radial-gradient(22% 30% at 67% 16%, #ff6dde3d 0%, #073aff00 100%),
+        radial-gradient(35% 56% at 51% 97%, #8a4fff54 0%, #073aff00 100%),
+        linear-gradient(125deg, #ffffffff 1%, #ffffffff 100%);
 }
+
 
 .content {
     z-index: 10;
@@ -248,5 +269,4 @@ input[type="radio"]:checked + .radio-option {
     background: white;
     color: black;
     justify-content: left;
-
 }
