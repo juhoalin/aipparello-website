@@ -33,6 +33,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function openQuizOverlay() {
         quizOverlay.style.display = "flex";
+        const body = document.querySelector("body");
+        body.style.overflow = "hidden"; // Prevent scrolling when overlay is open
 
         // Set opacity to 1 after a short delay to allow for the transition
         setTimeout(() => {
@@ -47,6 +49,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const quizCloseButton = document.querySelector(".quiz-close");
 
     function closeQuizOverlay() {
+        const body = document.querySelector("body");
+        body.style.overflow = "auto"; // Prevent scrolling when overlay is open
         quizOverlay.style.opacity = "0"; // Set opacity to 0 when closing
         setTimeout(() => {
             quizOverlay.style.display = "none";
