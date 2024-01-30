@@ -136,6 +136,15 @@
     gap: 35px;
     padding: 50px 0 70px 0;
     border-bottom: 2px solid #000;
+    opacity: 0.5;
+}
+
+.radio-question.active {
+    opacity: 1;
+}
+
+.radio-question.answered {
+    opacity: 1;;
 }
 
 .question-header {

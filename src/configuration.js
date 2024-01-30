@@ -137,15 +137,41 @@ function startQuiz() {
 }
 
 function changePhasesWithDelay(newPhase, oldPhase, delay) {
-    if (oldPhase) { oldPhase.style.opacity = "0" };
+    if (oldPhase) {
+        oldPhase.style.opacity = "0";
+    }
     setTimeout(() => {
-        if (oldPhase) { oldPhase.classList.remove("active")};
+        if (oldPhase) {
+            oldPhase.classList.remove("active");
+        }
         newPhase.classList.add("active");
     }, delay);
 
     setTimeout(() => {
         newPhase.style.opacity = "1";
     }, delay * 2);
+}
+
+function updateQuestionState(currentQuestion, nextQuestion, phase) {
+    const phaseDone = cookies.getConfigurationStatus().phases[phase].completed;
+    currentQuestion.classList.remove("active");
+    if (nextQuestion) {
+        nextQuestion.classList.add("active");
+    }
+
+    if (!phaseDone) {
+        
+    } else {
+        setTimeout(() => {
+            currentQuestion.classList.remove("active");
+            console.log(allPhases[phase].querySelectorAll(".radio-question"));
+            allPhases[phase]
+                .querySelectorAll(".radio-question")
+                .forEach((question) => {
+                    question.classList.add("answered");
+                });
+        }, 300);
+    }
 }
 
 function updateConfiguration() {
@@ -176,7 +202,30 @@ function updateConfiguration() {
 }
 
 function updateQuestionButtons() {
+    let totalprogress = 0;
+    cookies.getConfigurationStatus().phases.filter( phase => {return phase.questions > 0}).forEach((phase) => {
+        console.log(totalprogress);
+        if (phase.completed) {
+            totalprogress += phase.questions;
+        }
+    });
     radioQuestions.forEach((question, questionIndex) => {
+
+        const parentPhase = question.parentNode;
+        const parentPhaseIndex = Array.from(allPhases).indexOf(parentPhase);
+        const parentPhaseStatus = cookies.getConfigurationStatus().phases[parentPhaseIndex];
+  
+            if ((questionIndex - totalprogress) === parentPhaseStatus.progress && !parentPhaseStatus.completed) {
+                question.classList.add("active");
+
+            } else if (!parentPhaseStatus.completed) {
+                question.classList.remove("active");
+            } else {
+                question.classList.add("answered");
+            }
+        
+    
+
         const buttons = question.querySelectorAll(".radio-input");
         const questionNo = questionIndex;
         buttons.forEach((button, buttonIndex) => {
@@ -194,8 +243,17 @@ function updateQuestionButtons() {
                     questionNo,
                     buttonIndex
                 );
+                const currentPhase =
+                    cookies.getConfigurationStatus().currentPhase;
+                const currentQuestion = question;
+                const nextQuestion = radioQuestions[questionIndex + 1];
                 console.log("radio-clicked");
                 move("forward");
+                updateQuestionState(
+                    currentQuestion,
+                    nextQuestion,
+                    currentPhase
+                );
             });
         });
     });
@@ -239,8 +297,8 @@ document.addEventListener("DOMContentLoaded", function () {
     startQuizButton.addEventListener("click", () => {
         move("forward");
     });
-    updateQuestionButtons();
     updateConfiguration();
+    updateQuestionButtons();
 });
 
 window.addEventListener("load", () => {});
