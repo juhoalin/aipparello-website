@@ -154,14 +154,34 @@ function changePhasesWithDelay(newPhase, oldPhase, delay) {
 
 function updateQuestionState(currentQuestion, nextQuestion, phase) {
     const phaseDone = cookies.getConfigurationStatus().phases[phase].completed;
+    const quizPhase = allPhases[phase];
     currentQuestion.classList.remove("active");
+    quizPhase.style.overflow = "scroll";
     if (nextQuestion) {
         nextQuestion.classList.add("active");
+        const rect = nextQuestion.getBoundingClientRect();
+        const containerRect = quizPhase.getBoundingClientRect();
+        const scrollTop =
+            quizPhase.scrollTop ||
+            quizPhase.pageYOffset ||
+            document.documentElement.scrollTop;
+        const targetPosition =
+            rect.top +
+            scrollTop -
+            containerRect.top -
+            (containerRect.height - rect.height) / 2;
+
+        quizPhase.scrollTo({
+            top: targetPosition + 100,
+            behavior: "smooth",
+        });
+        // quizPhase.style.overflow = 'hidden';
     }
 
     if (!phaseDone) {
     } else {
         setTimeout(() => {
+            quizPhase.style.overflow = "scroll";
             currentQuestion.classList.remove("active");
             console.log(allPhases[phase].querySelectorAll(".radio-question"));
             allPhases[phase]
@@ -228,6 +248,8 @@ function updateConfiguration(direction) {
     }
 }
 
+function updateQuestionScrollPosition(question) {}
+
 function updateQuestionButtons() {
     let totalprogress = 0;
     cookies
@@ -280,12 +302,14 @@ function updateQuestionButtons() {
                 const currentQuestion = question;
                 const nextQuestion = radioQuestions[questionIndex + 1];
                 console.log("radio-clicked");
-                move("forward");
-                updateQuestionState(
-                    currentQuestion,
-                    nextQuestion,
-                    currentPhase
-                );
+                if (!cookies.phaseDone()) {
+                    move("forward");
+                    updateQuestionState(
+                        currentQuestion,
+                        nextQuestion,
+                        currentPhase
+                    );
+                }
             });
         });
     });
