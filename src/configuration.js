@@ -160,7 +160,6 @@ function updateQuestionState(currentQuestion, nextQuestion, phase) {
     }
 
     if (!phaseDone) {
-        
     } else {
         setTimeout(() => {
             currentQuestion.classList.remove("active");
@@ -174,15 +173,28 @@ function updateQuestionState(currentQuestion, nextQuestion, phase) {
     }
 }
 
-function updateConfiguration() {
+function updateConfiguration(direction) {
     let oldPhase = null;
     let newPhase = null;
     allPhases.forEach((phase, index) => {
-        if (index === cookies.getConfigurationStatus().currentPhase) {
+        if (
+            index === cookies.getConfigurationStatus().currentPhase &&
+            direction === "forward"
+        ) {
             newPhase = phase;
         } else if (
-            index ===
-            cookies.getConfigurationStatus().currentPhase - 1
+            index === cookies.getConfigurationStatus().currentPhase - 1 &&
+            direction === "forward"
+        ) {
+            oldPhase = phase;
+        } else if (
+            index === cookies.getConfigurationStatus().currentPhase &&
+            direction === "backward"
+        ) {
+            newPhase = phase;
+        } else if (
+            index === cookies.getConfigurationStatus().currentPhase + 1 &&
+            direction === "backward"
         ) {
             oldPhase = phase;
         }
@@ -199,32 +211,52 @@ function updateConfiguration() {
     } else if (cookies.getConfigurationStatus().designDone) {
     } else if (cookies.getConfigurationStatus().sizeDone) {
     }
+
+    console.log(cookies.phaseDone());
+
+    if (cookies.getConfigurationStatus().currentPhase === 0) {
+        progressContainer.classList.remove("active");
+        quizButtonContainer.classList.add("hidden");
+        startQuizButtonContainer.classList.remove("hidden");
+        checknameFilled();
+    }
+
+    if (cookies.phaseDone()) {
+        quizNextButton.classList.remove("disabled");
+    } else {
+        quizNextButton.classList.add("disabled");
+    }
 }
 
 function updateQuestionButtons() {
     let totalprogress = 0;
-    cookies.getConfigurationStatus().phases.filter( phase => {return phase.questions > 0}).forEach((phase) => {
-        console.log(totalprogress);
-        if (phase.completed) {
-            totalprogress += phase.questions;
-        }
-    });
+    cookies
+        .getConfigurationStatus()
+        .phases.filter((phase) => {
+            return phase.questions > 0;
+        })
+        .forEach((phase) => {
+            console.log(totalprogress);
+            if (phase.completed) {
+                totalprogress += phase.questions;
+            }
+        });
     radioQuestions.forEach((question, questionIndex) => {
-
         const parentPhase = question.parentNode;
         const parentPhaseIndex = Array.from(allPhases).indexOf(parentPhase);
-        const parentPhaseStatus = cookies.getConfigurationStatus().phases[parentPhaseIndex];
-  
-            if ((questionIndex - totalprogress) === parentPhaseStatus.progress && !parentPhaseStatus.completed) {
-                question.classList.add("active");
+        const parentPhaseStatus =
+            cookies.getConfigurationStatus().phases[parentPhaseIndex];
 
-            } else if (!parentPhaseStatus.completed) {
-                question.classList.remove("active");
-            } else {
-                question.classList.add("answered");
-            }
-        
-    
+        if (
+            questionIndex - totalprogress === parentPhaseStatus.progress &&
+            !parentPhaseStatus.completed
+        ) {
+            question.classList.add("active");
+        } else if (!parentPhaseStatus.completed) {
+            question.classList.remove("active");
+        } else {
+            question.classList.add("answered");
+        }
 
         const buttons = question.querySelectorAll(".radio-input");
         const questionNo = questionIndex;
@@ -279,9 +311,15 @@ const move = (direction) => {
     if (direction == "forward") {
         cookies.moveForward();
         updateProgressBar();
-        updateConfiguration();
+        updateConfiguration("forward");
     } else if (direction === "backward") {
         cookies.moveBackward();
+        updateProgressBar();
+        updateConfiguration("backward");
+    } else if ("forward-skip") {
+        cookies.skipPhases();
+        updateProgressBar();
+        updateConfiguration("forward");
     }
 };
 
@@ -293,12 +331,26 @@ const handlePrevious = () => {};
 document.addEventListener("DOMContentLoaded", function () {
     setInitialProperties();
     setConfiguration();
+    inputElement.value =
+        cookies.getOrder().personalities[
+            cookies.getCurrentPersonality()
+        ].personality;
     inputElement.addEventListener("input", checknameFilled);
     startQuizButton.addEventListener("click", () => {
-        move("forward");
+        if (!cookies.getConfigurationStatus().nameDone) {
+            move("forward");
+        } else {
+            move("forward-skip");
+        }
     });
-    updateConfiguration();
+    updateConfiguration("forward");
     updateQuestionButtons();
+    quizPreviousButton.addEventListener("click", () => {
+        move("backward");
+    });
+    quizNextButton.addEventListener("click", () => {
+        move("forward-skip");
+    });
 });
 
 window.addEventListener("load", () => {});

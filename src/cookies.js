@@ -45,7 +45,7 @@ let configurationStatus = {
 
 const phaseDone = () => {
     const data = configurationStatus.phases[configurationStatus.currentPhase]
-    return data.progress === data.length;
+    return data.progress === (data.length);
 };
 
 const newPhasteStatus = (length, progress, questions, completed) => {
@@ -135,10 +135,15 @@ function moveForward() {
     saveconfigurationStatusToCookie(configurationStatus);
 }
 
-function moveBackward() {
-    const currentPhase = configurationStatus.currentPhase;
-    const phaseData = configurationStatus.phases[currentPhase];
 
+function moveBackward() {
+    configurationStatus.currentPhase--;
+
+    saveconfigurationStatusToCookie(configurationStatus);
+}
+
+function skipPhases() {
+    configurationStatus.currentPhase++;
     saveconfigurationStatusToCookie(configurationStatus);
 }
 
@@ -307,4 +312,5 @@ module.exports = {
     getConfigurationStatus,
     getCurrentPersonality,
     phaseDone,
+    skipPhases,
 };
