@@ -27,11 +27,11 @@ const quizContainer = document.querySelector(".quiz-container");
 const quizCloseButton = document.querySelector(".quiz-close");
 const previousButton = document.getElementById("previous-button");
 const nextButton = document.getElementById("next-button");
+const progressContainer = document.getElementById("progress-container");
 const progressText = document.getElementById("progress-text");
 const progressBar = document.getElementById("progress-bar");
 const radioQuestions = document.querySelectorAll(".radio-question");
 const radioButtons = document.querySelectorAll(".radio-input");
-const getDesignsButton = document.getElementById("get-designs-button");
 const inputElement = document.getElementById("nickname");
 const startQuizButtonContainer = document.getElementById(
     "start-quiz-button-container"
@@ -107,10 +107,13 @@ const updatePhaseStyles = (currentPhase, phaseProgress) => {};
 
 const updateProgressBar = () => {
     cookies.updateTotalProgress();
-    progressBar.style.width = `${cookies.getConfigurationStatus().totalProgress}%`;
-    progressText.innerHTML = `${cookies.getConfigurationStatus().totalProgress}%`;
+    progressBar.style.width = `${
+        cookies.getConfigurationStatus().totalProgress
+    }%`;
+    progressText.innerHTML = `${
+        cookies.getConfigurationStatus().totalProgress
+    }%`;
 };
-
 
 function checknameFilled() {
     cookies.updateName(inputElement.value);
@@ -133,6 +136,97 @@ function startQuiz() {
     quizButtonContainer.classList.remove("hidden");
 }
 
+function changePhasesWithDelay(newPhase, oldPhase, delay) {
+    if (oldPhase) { oldPhase.style.opacity = "0" };
+    setTimeout(() => {
+        if (oldPhase) { oldPhase.classList.remove("active")};
+        newPhase.classList.add("active");
+    }, delay);
+
+    setTimeout(() => {
+        newPhase.style.opacity = "1";
+    }, delay * 2);
+}
+
+function updateConfiguration() {
+    let oldPhase = null;
+    let newPhase = null;
+    allPhases.forEach((phase, index) => {
+        if (index === cookies.getConfigurationStatus().currentPhase) {
+            newPhase = phase;
+        } else if (
+            index ===
+            cookies.getConfigurationStatus().currentPhase - 1
+        ) {
+            oldPhase = phase;
+        }
+    });
+
+    changePhasesWithDelay(newPhase, oldPhase, 300);
+
+    if (cookies.getConfigurationStatus().nameDone) {
+        startQuizButtonContainer.classList.add("hidden");
+        quizButtonContainer.classList.remove("hidden");
+        progressContainer.classList.add("active");
+    } else if (cookies.getConfigurationStatus().quizDone) {
+        progressContainer.classList.remove("active");
+    } else if (cookies.getConfigurationStatus().designDone) {
+    } else if (cookies.getConfigurationStatus().sizeDone) {
+    }
+}
+
+function updateQuestionButtons() {
+    radioQuestions.forEach((question, questionIndex) => {
+        const buttons = question.querySelectorAll(".radio-input");
+        const questionNo = questionIndex;
+        buttons.forEach((button, buttonIndex) => {
+            const isAnswered =
+                cookies.getOrder().personalities[
+                    cookies.getCurrentPersonality()
+                ].quiz[questionNo];
+            if (buttonIndex === isAnswered) {
+                button.checked = true;
+            }
+
+            button.addEventListener("click", () => {
+                cookies.updateQuiz(
+                    cookies.getCurrentPersonality(),
+                    questionNo,
+                    buttonIndex
+                );
+                console.log("radio-clicked");
+                move("forward");
+            });
+        });
+    });
+}
+
+function updateQuiz() {
+    radioQuestions.forEach((question, index) => {
+        const buttons = question.querySelectorAll(".radio-input");
+        const questionNo = index;
+        buttons.forEach((button, index) => {
+            button.addEventListener("click", () => {
+                cookies.updateQuiz(
+                    cookies.getCurrentPersonality(),
+                    questionNo,
+                    index
+                );
+            });
+        });
+    });
+}
+
+const move = (direction) => {
+    if (direction == "forward") {
+        cookies.moveForward();
+        updateProgressBar();
+        updateConfiguration();
+    } else if (direction === "backward") {
+        cookies.moveBackward();
+    }
+};
+
 const handleNextButton = () => {};
 
 const handlePrevious = () => {};
@@ -142,7 +236,11 @@ document.addEventListener("DOMContentLoaded", function () {
     setInitialProperties();
     setConfiguration();
     inputElement.addEventListener("input", checknameFilled);
-    startQuizButton.addEventListener("click", startQuiz);
+    startQuizButton.addEventListener("click", () => {
+        move("forward");
+    });
+    updateQuestionButtons();
+    updateConfiguration();
 });
 
 window.addEventListener("load", () => {});

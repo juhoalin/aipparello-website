@@ -1,3 +1,5 @@
+
+
 console.log("hello from cookies.js");
 
 //Saved cookies structure
@@ -41,10 +43,17 @@ let configurationStatus = {
     sizeDone: false,
 };
 
-const newPhasteStatus = (length, progress) => {
+const phaseDone = () => {
+    const data = configurationStatus.phases[configurationStatus.currentPhase]
+    return data.progress === data.length;
+};
+
+const newPhasteStatus = (length, progress, questions, completed) => {
     return {
         length: length,
         progress: progress,
+        questions: questions,
+        completed: completed,
     };
 };
 
@@ -64,7 +73,6 @@ const getCurrentPersonality = () => {
 //updateFunctions
 function updateQuiz(personalityIndex, questionNumber, answerValue) {
     // Update the quiz array of the specified personality
-    const currentpersonality = getCurrentPersonalityFromCookie();
     order.personalities[personalityIndex].quiz[questionNumber] = answerValue;
 
     // Save the updated order object to cookies
@@ -95,9 +103,13 @@ function createPhases(phases) {
     if (configurationStatus.phases.length === 0) {
         phases.forEach((phase, index) => {
             const children = phase.querySelectorAll(".phase-step");
+            const getQuestions  = phase.querySelectorAll(".radio-question");
+            const questions = getQuestions ? getQuestions.length : 0;
+            console.log(children);
             configurationStatus.phases.push(
-                newPhasteStatus(children.length, 0)
+                newPhasteStatus(children.length, 0, questions, false)
             );
+
         });
     }
 }
@@ -106,15 +118,19 @@ function moveForward() {
     const currentPhase = configurationStatus.currentPhase;
     const phaseData = configurationStatus.phases[currentPhase];
 
-    if (phaseData.progress < phaseData.length - 1) {
+    if (configurationStatus.phases[currentPhase].progress < configurationStatus.phases[currentPhase].length - 1) {
         configurationStatus.phases[currentPhase].progress++;
     
-    } else {
-        configurationStatus.phases[currentPhase].progress++;
+    } else if (configurationStatus.currentPhase < configurationStatus.phases.length - 1) {
+        configurationStatus.phases[configurationStatus.currentPhase].progress++;
+        configurationStatus.phases[configurationStatus.currentPhase].completed = true;
         configurationStatus.currentPhase++;
         configurationStatus.phases[
             configurationStatus.currentPhase
         ].progress = 0;
+    } else if (configurationStatus.currentPhase === configurationStatus.phases.length - 1) {
+        configurationStatus.phases[configurationStatus.currentPhase].progress++;
+        configurationStatus.phases[configurationStatus.currentPhase].completed = true;
     }
     saveconfigurationStatusToCookie(configurationStatus);
 }
@@ -123,28 +139,26 @@ function moveBackward() {
     const currentPhase = configurationStatus.currentPhase;
     const phaseData = configurationStatus.phases[currentPhase];
 
-    if (phaseData.progress > 0) {
-        phaseData.progress--;
-    } else {
-        configurationStatus.currentPhase--;
-        configurationStatus.phases[configurationStatus.currentPhase].progress =
-            configurationStatus.phases[configurationStatus.currentPhase].length;
-    }
     saveconfigurationStatusToCookie(configurationStatus);
 }
 
 function updateTotalProgress() {
+    const phasesWithQuestions = configurationStatus.phases.filter((phase) => {
+        return phase.questions > 0;
+    });
+
     let total = 0;
-    configurationStatus.phases.forEach((phase) => {
+    phasesWithQuestions.forEach((phase) => {
         total += phase.progress;
     });
     let theoreticalTotal = 0;
 
-    configurationStatus.phases.forEach((phase) => {
-        theoreticalTotal += phase.length;
+    phasesWithQuestions.forEach((phase) => {
+        theoreticalTotal += phase.questions;
     });
 
     console.log(theoreticalTotal);
+
 
     configurationStatus.totalProgress = Math.round(
         (total / theoreticalTotal) * 100
@@ -292,4 +306,5 @@ module.exports = {
     getOrder,
     getConfigurationStatus,
     getCurrentPersonality,
+    phaseDone,
 };

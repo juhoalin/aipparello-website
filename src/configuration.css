@@ -93,6 +93,8 @@
 
 .quiz-phase {
     display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
 }
 
 .quiz-phase::-webkit-scrollbar {
@@ -119,12 +121,13 @@
     max-height: 100vh;
     overflow: scroll;
     padding-bottom: 300px;
+    opacity: 0;
 }
 
 .quiz-phase.name.active {
     display: flex;
     flex-direction: column;
-    background-color: rebeccapurple;
+    opacity: 0;
 }
 
 .radio-question {
@@ -213,6 +216,10 @@ input[type="radio"]:checked + .radio-option {
 }
 
 .progress-container {
+    display: none;
+}
+
+.progress-container.active {
     display: flex;
     justify-content: left;
     align-items: center;
