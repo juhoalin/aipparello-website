@@ -152,6 +152,48 @@ function changePhasesWithDelay(newPhase, oldPhase, delay) {
     }, delay * 2);
 }
 
+function preventScroll(event) {
+    event.preventDefault();
+}
+
+function scrollToQuestion(quizPhase, questionRect, containerRect) {
+
+
+    // quizPhase.style.overflow = "scroll";
+    const scrollTop =
+        quizPhase.scrollTop ||
+        quizPhase.pageYOffset ||
+        document.documentElement.scrollTop;
+    const targetPosition =
+        questionRect.top +
+        scrollTop -
+        containerRect.top -
+        (containerRect.height - questionRect.height) / 2;
+
+    quizPhase.scrollTo({
+        top: targetPosition,
+        behavior: "smooth",
+    });
+
+    quizPhase.addEventListener("scroll", () => {
+        let allAnswered = true;
+        quizPhase.querySelectorAll(".radio-question").forEach((question) => {
+            if (!question.classList.contains("answered")) {
+                allAnswered = false;
+            }
+        });
+        if (!allAnswered) {
+            setTimeout(() => {
+                // quizPhase.addEventListener('scroll', preventScroll);
+                // quizPhase.style.overflow = "hidden";
+            }, 500); // Adjust the delay as needed
+        } else {
+            quizPhase.style.overflow = "scroll";
+            // quizPhase.removeEventListener('scroll', preventScroll);
+        }
+    });
+}
+
 function updateQuestionState(currentQuestion, nextQuestion, phase) {
     const phaseDone = cookies.getConfigurationStatus().phases[phase].completed;
     const quizPhase = allPhases[phase];
@@ -159,29 +201,18 @@ function updateQuestionState(currentQuestion, nextQuestion, phase) {
     quizPhase.style.overflow = "scroll";
     if (nextQuestion) {
         nextQuestion.classList.add("active");
-        const rect = nextQuestion.getBoundingClientRect();
-        const containerRect = quizPhase.getBoundingClientRect();
-        const scrollTop =
-            quizPhase.scrollTop ||
-            quizPhase.pageYOffset ||
-            document.documentElement.scrollTop;
-        const targetPosition =
-            rect.top +
-            scrollTop -
-            containerRect.top -
-            (containerRect.height - rect.height) / 2;
-
-        quizPhase.scrollTo({
-            top: targetPosition + 100,
-            behavior: "smooth",
-        });
-        // quizPhase.style.overflow = 'hidden';
     }
 
     if (!phaseDone) {
+        const rect = nextQuestion.getBoundingClientRect();
+        const containerRect = quizPhase.getBoundingClientRect();
+        scrollToQuestion(quizPhase, rect, containerRect);
     } else {
         setTimeout(() => {
             quizPhase.style.overflow = "scroll";
+            quizPhase.classList.add("answered");
+            console.log(nextQuestion.parentNode, "parentNode")
+            // nextQuestion.parentNode.overflow = "hidden";
             currentQuestion.classList.remove("active");
             console.log(allPhases[phase].querySelectorAll(".radio-question"));
             allPhases[phase]
@@ -248,8 +279,6 @@ function updateConfiguration(direction) {
     }
 }
 
-function updateQuestionScrollPosition(question) {}
-
 function updateQuestionButtons() {
     let totalprogress = 0;
     cookies
@@ -277,8 +306,14 @@ function updateQuestionButtons() {
         } else if (!parentPhaseStatus.completed) {
             question.classList.remove("active");
         } else {
+            parentPhase.classList.add("answered");
             question.classList.add("answered");
         }
+
+        // if (cookies.getConfigurationStatus().currentPhase === parentPhaseIndex) {
+        //     scrollToQuestion(parentPhase, question.getBoundingClientRect(), parentPhase.getBoundingClientRect());
+        // }
+
 
         const buttons = question.querySelectorAll(".radio-input");
         const questionNo = questionIndex;
@@ -290,8 +325,11 @@ function updateQuestionButtons() {
             if (buttonIndex === isAnswered) {
                 button.checked = true;
             }
-
             button.addEventListener("click", () => {
+                const wasAnswered =
+                    cookies.getOrder().personalities[
+                        cookies.getCurrentPersonality()
+                    ].quiz[questionNo];
                 cookies.updateQuiz(
                     cookies.getCurrentPersonality(),
                     questionNo,
@@ -302,7 +340,8 @@ function updateQuestionButtons() {
                 const currentQuestion = question;
                 const nextQuestion = radioQuestions[questionIndex + 1];
                 console.log("radio-clicked");
-                if (!cookies.phaseDone()) {
+                console.log("saatana", wasAnswered);
+                if (!cookies.phaseDone() && wasAnswered == undefined) {
                     move("forward");
                     updateQuestionState(
                         currentQuestion,
