@@ -91,6 +91,9 @@
     min-height: 100vh;
 }
 
+.heading-1-phase0 {
+}
+
 .quiz-phase {
     display: none;
     opacity: 0;
@@ -121,7 +124,7 @@
     max-height: 100vh;
     overflow: scroll;
     padding-bottom: 40vh;
-    padding-top: 30vh;
+    padding-top: 10vh;
     opacity: 0;
 }
 
@@ -130,16 +133,74 @@
     padding-bottom: 20vh;
 }
 
-.quiz-phase.disable-scroll
-
-.quiz-phase.enable-scroll {
+.quiz-phase.disable-scroll .quiz-phase.enable-scroll {
     overflow: scroll;
 }
 
 .quiz-phase.name.active {
     display: flex;
     flex-direction: column;
+    gap: 35px;
     opacity: 0;
+    width: 90%;
+    justify-content: center;
+    align-items: center;
+}
+
+.name h1 {
+    min-width: 100%;
+    text-align: center;
+}
+
+#nickname {
+    min-width: 100%;
+    font-size: 48px;
+    border: none;
+    background: transparent;
+    text-align: center;
+}
+
+#nickname:focus {
+    outline: none;
+}
+#nickname::placeholder {
+    opacity: 0.5;
+}
+
+.instructions {
+    display: flex;
+    flex-direction: column;
+    gap: 35px;
+    border-bottom: 2px solid #000;
+    padding: 50px 0 35px 0;
+}
+
+.quiz h1 {
+    min-width: 100%;
+}
+
+.desc {
+    font-size: 24px;
+    min-width: 75%;
+    line-height: normal;
+}
+.lure {
+    margin-top: 100px;
+    max-width: 60%;
+    text-align: center;
+    font-size: 24px;
+    line-height: normal;
+}
+
+#nickname::after {
+    content: " "; /* Add invisible content to display the border */
+    display: block; /* Make the pseudo-element behave like a block element */
+    width: 100%; /* Set the width to span the entire input field */
+    height: 2px; /* Set the height of your desired border thickness */
+    background-color: black; /* Set your desired border color */
+    position: absolute; /* Position the border at the bottom */
+    bottom: -2px; /* Adjust the offset for precise positioning */
+    left: 0; /* Ensure the border starts at the left edge */
 }
 
 .radio-question {
@@ -156,7 +217,7 @@
 }
 
 .radio-question.answered {
-    opacity: 1;;
+    opacity: 1;
 }
 
 .question-header {
@@ -292,7 +353,7 @@ input[type="radio"]:checked + .radio-option {
 }
 
 .button-container.column {
-    flex-direction: column-reverse;   
+    flex-direction: column-reverse;
 }
 
 .button-container.hidden {
@@ -324,6 +385,4 @@ input[type="radio"]:checked + .radio-option {
 .quiz-button.secondary.center {
     justify-content: center;
 }
-
-
 

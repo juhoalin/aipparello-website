@@ -9,16 +9,25 @@
             <form class="quiz-form" id="quizForm">
                 <!-- Phase 0 -->
                 <div class="quiz-phase name" id="phase0">
+                    <h1 class="heading-1 phase0">PERSONALITY QUIZ</h1>
                     <input
                         type="text"
                         class="phase-step active"
                         name="nickname"
                         id="nickname"
-                        placeholder="Your nickname"
+                        placeholder="Your name / nickname"
                     />
+                    <p class="bodytext lure">
+                        Create your design by completing 100% free personality quiz. </p>
                 </div>
                 <!-- Phase 1 -->
                 <div class="quiz-phase quiz" id="phase1">
+                    <div class="instructions">
+                        <p class="bodytext desc">
+                            Please rate the following statements on a scale of
+                            1-5 based on your immediate perception.
+                        </p>
+                    </div>
                     <!-- Question 1 -->
                     <div class="radio-question phase-step" id="q1">
                         <h3 class="question-header">
@@ -266,7 +275,6 @@
                             </div>
                         </div>
                     </div>
-
                     <!-- Question 4 -->
                     <div class="radio-question phase-step" id="q4">
                         <h3 class="question-header">
@@ -349,9 +357,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <!-- Phase 2 -->
-                <div class="quiz-phase quiz" id="phase2">
                     <!-- Question 5 -->
                     <div class="radio-question phase-step" id="q5">
                         <h3 class="question-header">
@@ -680,9 +685,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <!-- Phase 3 -->
-                <div class="quiz-phase quiz" id="phase3">
                     <!-- Question 9 -->
                     <div class="radio-question phase-step" id="q9">
                         <h3 class="question-header">
@@ -1042,9 +1044,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <!-- Phase 4 -->
-                <div class="quiz-phase quiz" id="phase4">
                     <!-- Question 13 -->
                     <div class="radio-question phase-step" id="q13">
                         <h3 class="question-header">
@@ -1441,7 +1440,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="navigation">
                     <div class="nav-content">
                         <div class="progress-container" id="progress-container">
@@ -1450,7 +1448,10 @@
                                 <div class="progress" id="progress-bar"></div>
                             </div>
                         </div>
-                        <div class="button-container" id="start-quiz-button-container">
+                        <div
+                            class="button-container"
+                            id="start-quiz-button-container"
+                        >
                             <button
                                 class="quiz-button disabled"
                                 type="button"
@@ -1460,7 +1461,10 @@
                                 START QUIZ
                             </button>
                         </div>
-                        <div class="button-container hidden" id="quiz-button-container">
+                        <div
+                            class="button-container hidden"
+                            id="quiz-button-container"
+                        >
                             <button
                                 class="quiz-button secondary"
                                 type="button"
@@ -1478,15 +1482,18 @@
                                 NEXT →
                             </button>
                         </div>
-                        <div class="button-container column hidden" id="show-designs-button-container">
-                            <button
-                            class="quiz-button secondary center"
-                            type="button"
-                            onclick=""
-                            id="show-designs-back-button"
+                        <div
+                            class="button-container column hidden"
+                            id="show-designs-button-container"
                         >
-                            BACK
-                        </button>
+                            <button
+                                class="quiz-button secondary center"
+                                type="button"
+                                onclick=""
+                                id="show-designs-back-button"
+                            >
+                                BACK
+                            </button>
                             <button
                                 class="quiz-button"
                                 type="button"
@@ -1497,15 +1504,18 @@
                             </button>
                         </div>
 
-                        <div class="button-container column hidden" id="select-design-button-container">
-                            <button
-                            class="quiz-button secondary center"
-                            type="button"
-                            onclick=""
-                            id="select-design-back-button"
+                        <div
+                            class="button-container column hidden"
+                            id="select-design-button-container"
                         >
-                            BACK
-                        </button>
+                            <button
+                                class="quiz-button secondary center"
+                                type="button"
+                                onclick=""
+                                id="select-design-back-button"
+                            >
+                                BACK
+                            </button>
                             <button
                                 class="quiz-button"
                                 type="button"
@@ -1515,15 +1525,18 @@
                                 CREATE YOUR DESIGN
                             </button>
                         </div>
-                        <div class="button-container column hidden" id="select-size-button-container">
-                            <button
-                            class="quiz-button secondary center"
-                            type="button"
-                            onclick=""
-                            id="select-size-back-button"
+                        <div
+                            class="button-container column hidden"
+                            id="select-size-button-container"
                         >
-                            BACK
-                        </button>
+                            <button
+                                class="quiz-button secondary center"
+                                type="button"
+                                onclick=""
+                                id="select-size-back-button"
+                            >
+                                BACK
+                            </button>
                             <button
                                 class="quiz-button"
                                 type="button"
