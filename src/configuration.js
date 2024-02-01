@@ -157,9 +157,6 @@ function preventScroll(event) {
 }
 
 function scrollToQuestion(quizPhase, questionRect, containerRect) {
-
-
-    // quizPhase.style.overflow = "scroll";
     const scrollTop =
         quizPhase.scrollTop ||
         quizPhase.pageYOffset ||
@@ -175,23 +172,6 @@ function scrollToQuestion(quizPhase, questionRect, containerRect) {
         behavior: "smooth",
     });
 
-    quizPhase.addEventListener("scroll", () => {
-        let allAnswered = true;
-        quizPhase.querySelectorAll(".radio-question").forEach((question) => {
-            if (!question.classList.contains("answered")) {
-                allAnswered = false;
-            }
-        });
-        if (!allAnswered) {
-            setTimeout(() => {
-                // quizPhase.addEventListener('scroll', preventScroll);
-                // quizPhase.style.overflow = "hidden";
-            }, 500); // Adjust the delay as needed
-        } else {
-            quizPhase.style.overflow = "scroll";
-            // quizPhase.removeEventListener('scroll', preventScroll);
-        }
-    });
 }
 
 function updateQuestionState(currentQuestion, nextQuestion, phase) {
@@ -211,8 +191,6 @@ function updateQuestionState(currentQuestion, nextQuestion, phase) {
         setTimeout(() => {
             quizPhase.style.overflow = "scroll";
             quizPhase.classList.add("answered");
-            console.log(nextQuestion.parentNode, "parentNode")
-            // nextQuestion.parentNode.overflow = "hidden";
             currentQuestion.classList.remove("active");
             console.log(allPhases[phase].querySelectorAll(".radio-question"));
             allPhases[phase]
