@@ -88,7 +88,9 @@ const setInitialProperties = () => {
 function setConfiguration() {
     cookies.initialCookiesSetup(allPhases);
     updateProgressBar();
-    console.log("options cookie", cookies.getCookie("order"));
+    if (cookies.designsFetched()) {
+        updatePersonality();
+    } 
 }
 
 //function to open the quiz overlay
@@ -347,7 +349,7 @@ function updateQuestionButtons() {
                         nextQuestion,
                         currentPhase
                     );
-                } else {
+                } else if (wasAnswered == undefined && isLastQuestion) {
                     move("forward");
                 }
             });
@@ -377,8 +379,6 @@ const move = (direction) => {
 async function fetchDesigns() {
     loadingScreen.classList.add("active");
     loadingScreen.style.opacity = "1";
-    console.log("Fetching designs...");
-    console.log("designs fetched: ", cookies.designsFetched());
 
     if (!cookies.designsFetched()) {
         try {
@@ -387,10 +387,8 @@ async function fetchDesigns() {
                     cookies.getCurrentPersonality()
                 ].quiz;
             const responseData = await api.getDesigns(quizData);
-            console.log("Quiz Data from Configurarion JS:", responseData.options);
             cookies.updateGetDesigns(responseData);
             updatePersonality();
-            console.log(cookies.getOrder());
         } catch (error) {
             console.log(error);
         }
@@ -404,7 +402,6 @@ async function fetchDesigns() {
 }
 
 const updatePersonality = () => {
-    console.log("Updating personality...");
     const order = cookies.getOrder();
     const personality = order.personalities[cookies.getCurrentPersonality()];
     const personalityData = personality.personality;
@@ -441,7 +438,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
     quizNextButton.addEventListener("click", () => {
         move("forward");
-        console.log(cookies.designsFetched());
         if (!cookies.designsFetched()) {
             fetchDesigns();
         } else {

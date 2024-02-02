@@ -59,22 +59,12 @@ const updateGetDesigns = (data) => {
         personality.feelingScore;
     order.personalities[currentPersonality].personality.prospectingScore =
         personality.prospectingScore;
-    saveOrderToCookie(order);
+
     options.forEach((option) => {
         order.personalities[currentPersonality].products[0].options.push(
             option
         );
     });
-
-    const orderJSON = JSON.stringify(order); // Serialize your data
-    const cookieSizeLimit = 4096; // 4KB in bytes
-    const serializedDataLength = orderJSON.length; // Get the length of the serialized string
-
-    if (serializedDataLength > cookieSizeLimit) {
-        console.log("Data size exceeds cookie size limit");
-    } else {
-        console.log("Data size is within cookie size limit");
-    }
 
     saveOrderToCookie(order);
 };
@@ -281,7 +271,6 @@ function saveCurrentPersonalityToCookie(currentPersonality) {
 function saveOrderToCookie(order) {
     // Convert the order object to a JSON string
     const orderJSON = JSON.stringify(order);
-    console.log("Order saved to localStorage:", orderJSON);
 
     // Save the JSON string to localStorage
     localStorage.setItem("order", orderJSON);
