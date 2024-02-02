@@ -358,6 +358,9 @@ async function fetchDesigns() {
                 .quiz;
         const responseData = await api.getDesigns(quizData);
         console.log("Quiz Data from Configurarion JS:", responseData);
+        cookies.updateDesignOptions(responseData.options);
+        cookies.updatePersonality(responseData.personality);
+        console.log(cookies.getOrder());
     } catch (error) {
         console.log(error);
     }
@@ -376,7 +379,7 @@ document.addEventListener("DOMContentLoaded", function () {
     inputElement.value =
         cookies.getOrder().personalities[
             cookies.getCurrentPersonality()
-        ].personality;
+        ].name;
     inputElement.addEventListener("input", checknameFilled);
     startQuizButton.addEventListener("click", () => {
         if (!cookies.getConfigurationStatus().nameDone) {
@@ -401,23 +404,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
     showDesignsButton.addEventListener("click", () => {});
 
-    const quizPhase = document.getElementById("phase1");
-    const activeQuestion = quizPhase.querySelector(".radio-question.active");
-    const scrollTop = activeQuestion.offsetTop - quizPhase.offsetHeight / 2;
-    quizPhase.scrollTop = scrollTop;
 });
 
 window.addEventListener("unload", function () {
-    const scrollPosition = document.getElementById("phase1").scrollTop;
-    localStorage.setItem("scrollPosition", scrollPosition);
+
 });
 
 // When the page loads (e.g., in the load event)
 window.addEventListener("load", function () {
-    const savedScrollPosition = localStorage.getItem("scrollPosition");
-    if (savedScrollPosition !== null) {
-        document.getElementById("phase1").scrollTop = savedScrollPosition;
-    }
+
 });
 
 //Debug

@@ -9,14 +9,16 @@ let currentPersonality = 0;
 let order = {
     personalities: [
         {
-            personality: "",
+            name: "",
             quiz: [],
-            personalityType: "",
-            personalityRole: "",
-            extroversionScore: 0,
-            sensingScore: 0,
-            feelngScore: 0,
-            propspectingScore: 0,
+            personality: {
+                personalityType: "",
+                personalityRole: "",
+                extroversionScore: 0,
+                sensingScore: 0,
+                feelngScore: 0,
+                propspectingScore: 0,
+            },
             products: [
                 {
                     product: "",
@@ -39,6 +41,11 @@ let configurationStatus = {
     quizDone: false,
     designDone: false,
     sizeDone: false,
+};
+
+const updateDesignOptions = (options) => {
+    order.personalities[currentPersonality].products[0].options = options;
+    saveOrderToCookie(order);
 };
 
 const updatePersonality = (personality) => {
@@ -112,7 +119,7 @@ function updateQuiz(personalityIndex, questionNumber, answerValue) {
 // Update the name of the specified personality
 function updateName(name) {
     // Update the quiz array of the specified personality
-    order.personalities[currentPersonality].personality = name;
+    order.personalities[currentPersonality].name = name;
 
     // Save the updated order object to cookies
     saveOrderToCookie(order);
@@ -213,7 +220,7 @@ function updateTotalProgress() {
 
 // Update the nameDone status
 function updateNameDone() {
-    if (order.personalities[currentPersonality].personality === "") {
+    if (order.personalities[currentPersonality].name === "") {
         configurationStatus.nameDone = false;
     } else {
         configurationStatus.phases[0].completed = true;
@@ -347,4 +354,6 @@ module.exports = {
     designsFetched,
     designsSelected,
     lastStep,
+    updatePersonality,
+    updateDesignOptions
 };
