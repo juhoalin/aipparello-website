@@ -58,24 +58,38 @@ const selectSizeButtonContainer = document.getElementById(
 );
 const selectSizeButton = document.getElementById("select-size-button");
 const selectSizeBackButton = document.getElementById("select-size-back-button");
+
+const personalityName = document.getElementById("personality-name");
+const extrovesionText = document.getElementById("extroversion-text");
+const extroversionBar = document.getElementById("extroversion-bar");
+const sensingText = document.getElementById("sensing-text");
+const sensingBar = document.getElementById("sensing-bar");
+const feelingText = document.getElementById("feeling-text");
+const feelingBar = document.getElementById("feeling-bar");
+const prospectingText = document.getElementById("prospecting-text");
+const prospectingBar = document.getElementById("prospecting-bar");
 //Other variables
 
 //Functions
 
 //handle overlay & quiz opening
 const setInitialProperties = () => {
-    quizOverlay.style.opacity = "0";
-    quizOverlay.style.display = "none";
-    quizContainer.style.right = "-125vw";
+    quizOverlay.style.opacity = "1";
+    quizOverlay.style.display = "flex";
+    quizContainer.style.right = "0";
+    // quizOverlay.style.opacity = "0";
+    // quizOverlay.style.display = "none";
+    // quizContainer.style.right = "-125vw";
     createYoursButton.addEventListener("click", openQuizOverlay);
     quizCloseButton.addEventListener("click", closeQuizOverlay);
 };
 
 //update cookies and frontend based on cookies on page load
-const setConfiguration = () => {
+function setConfiguration() {
     cookies.initialCookiesSetup(allPhases);
     updateProgressBar();
-};
+    console.log("options cookie", cookies.getCookie("order"));
+}
 
 //function to open the quiz overlay
 const openQuizOverlay = () => {
@@ -90,7 +104,6 @@ const openQuizOverlay = () => {
 
     quizContainer.style.right = "0";
 };
-
 
 //function to close the quiz overlay§
 function closeQuizOverlay() {
@@ -222,9 +235,16 @@ function updateConfiguration(direction) {
         startQuizButtonContainer.classList.add("hidden");
         quizButtonContainer.classList.remove("hidden");
         progressContainer.classList.add("active");
+        showDesignsButtonContainer.classList.add("hidden");
     }
 
-    if (cookies.getConfigurationStatus().quizDone) {
+    if (
+        cookies.getConfigurationStatus().quizDone &&
+        cookies.getConfigurationStatus().currentPhase === 2
+    ) {
+        showDesignsButtonContainer.classList.remove("hidden");
+        quizButtonContainer.classList.add("hidden");
+        progressContainer.classList.remove("active");
     }
     if (cookies.getConfigurationStatus().designDone) {
     }
@@ -310,12 +330,17 @@ function updateQuestionButtons() {
                     questionNo,
                     buttonIndex
                 );
-                const isLastQuestion = questionIndex === radioQuestions.length - 1;
+                const isLastQuestion =
+                    questionIndex === radioQuestions.length - 1;
                 const currentPhase =
                     cookies.getConfigurationStatus().currentPhase;
                 const currentQuestion = question;
                 const nextQuestion = radioQuestions[questionIndex + 1];
-                if (!cookies.phaseDone() && wasAnswered == undefined && !isLastQuestion) {
+                if (
+                    !cookies.phaseDone() &&
+                    wasAnswered == undefined &&
+                    !isLastQuestion
+                ) {
                     move("forward");
                     updateQuestionState(
                         currentQuestion,
@@ -352,34 +377,55 @@ const move = (direction) => {
 async function fetchDesigns() {
     loadingScreen.classList.add("active");
     loadingScreen.style.opacity = "1";
-    try {
-        const quizData =
-            cookies.getOrder().personalities[cookies.getCurrentPersonality()]
-                .quiz;
-        const responseData = await api.getDesigns(quizData);
-        console.log("Quiz Data from Configurarion JS:", responseData);
-        cookies.updateDesignOptions(responseData.options);
-        cookies.updatePersonality(responseData.personality);
-        console.log(cookies.getOrder());
-    } catch (error) {
-        console.log(error);
-    }
-    setTimeout(() => {
-        loadingScreen.style.opacity = "0";
+    console.log("Fetching designs...");
+    console.log("designs fetched: ", cookies.designsFetched());
+
+    if (!cookies.designsFetched()) {
+        try {
+            const quizData =
+                cookies.getOrder().personalities[
+                    cookies.getCurrentPersonality()
+                ].quiz;
+            const responseData = await api.getDesigns(quizData);
+            console.log("Quiz Data from Configurarion JS:", responseData.options);
+            cookies.updateGetDesigns(responseData);
+            updatePersonality();
+            console.log(cookies.getOrder());
+        } catch (error) {
+            console.log(error);
+        }
         setTimeout(() => {
-            loadingScreen.classList.remove("active");
-        }, 300);
-    }, 3000);
+            loadingScreen.style.opacity = "0";
+            setTimeout(() => {
+                loadingScreen.classList.remove("active");
+            }, 300);
+        }, 3000);
+    }
 }
+
+const updatePersonality = () => {
+    console.log("Updating personality...");
+    const order = cookies.getOrder();
+    const personality = order.personalities[cookies.getCurrentPersonality()];
+    const personalityData = personality.personality;
+
+    personalityName.innerHTML = personality.name;
+    extrovesionText.innerHTML = personalityData.extroversionScore * 100 + "%";
+    extroversionBar.style.width = `${personalityData.extroversionScore * 100}%`;
+    sensingText.innerHTML = personalityData.sensingScore * 100 + "%";
+    sensingBar.style.width = `${personalityData.sensingScore * 100}%`;
+    feelingText.innerHTML = personalityData.feelingScore * 100 + "%";
+    feelingBar.style.width = `${personalityData.feelingScore * 100}%`;
+    prospectingText.innerHTML = personalityData.prospectingScore * 100 + "%";
+    prospectingBar.style.width = `${personalityData.prospectingScore * 100}%`;
+};
 
 //Event listeners
 document.addEventListener("DOMContentLoaded", function () {
     setInitialProperties();
     setConfiguration();
     inputElement.value =
-        cookies.getOrder().personalities[
-            cookies.getCurrentPersonality()
-        ].name;
+        cookies.getOrder().personalities[cookies.getCurrentPersonality()].name;
     inputElement.addEventListener("input", checknameFilled);
     startQuizButton.addEventListener("click", () => {
         if (!cookies.getConfigurationStatus().nameDone) {
@@ -395,7 +441,12 @@ document.addEventListener("DOMContentLoaded", function () {
     });
     quizNextButton.addEventListener("click", () => {
         move("forward");
-        fetchDesigns();
+        console.log(cookies.designsFetched());
+        if (!cookies.designsFetched()) {
+            fetchDesigns();
+        } else {
+            updatePersonality();
+        }
     });
 
     showDesignsBackButton.addEventListener("click", () => {
@@ -403,16 +454,11 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     showDesignsButton.addEventListener("click", () => {});
-
 });
 
-window.addEventListener("unload", function () {
-
-});
+window.addEventListener("unload", function () {});
 
 // When the page loads (e.g., in the load event)
-window.addEventListener("load", function () {
-
-});
+window.addEventListener("load", function () {});
 
 //Debug

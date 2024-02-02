@@ -16,8 +16,8 @@ let order = {
                 personalityRole: "",
                 extroversionScore: 0,
                 sensingScore: 0,
-                feelngScore: 0,
-                propspectingScore: 0,
+                feelingScore: 0,
+                prospectingScore: 0,
             },
             products: [
                 {
@@ -43,19 +43,47 @@ let configurationStatus = {
     sizeDone: false,
 };
 
-const updateDesignOptions = (options) => {
-    order.personalities[currentPersonality].products[0].options = options;
-    saveOrderToCookie(order);
-};
+const updateGetDesigns = (data) => {
+    const options = data.options;
+    const personality = data.personality;
 
-const updatePersonality = (personality) => {
-    order.personalities[currentPersonality].personality = personality;
+    order.personalities[currentPersonality].personality.personalityType =
+        personality.personalityType;
+    order.personalities[currentPersonality].personality.personalityRole =
+        personality.personalityRole;
+    order.personalities[currentPersonality].personality.extroversionScore =
+        personality.extroversionScore;
+    order.personalities[currentPersonality].personality.sensingScore =
+        personality.sensingScore;
+    order.personalities[currentPersonality].personality.feelingScore =
+        personality.feelingScore;
+    order.personalities[currentPersonality].personality.prospectingScore =
+        personality.prospectingScore;
+    saveOrderToCookie(order);
+    options.forEach((option) => {
+        order.personalities[currentPersonality].products[0].options.push(
+            option
+        );
+    });
+
+    const orderJSON = JSON.stringify(order); // Serialize your data
+    const cookieSizeLimit = 4096; // 4KB in bytes
+    const serializedDataLength = orderJSON.length; // Get the length of the serialized string
+
+    if (serializedDataLength > cookieSizeLimit) {
+        console.log("Data size exceeds cookie size limit");
+    } else {
+        console.log("Data size is within cookie size limit");
+    }
+
     saveOrderToCookie(order);
 };
 
 // check if the designs have been fetched
 const designsFetched = () => {
-    const designs = order.personalities[currentPersonality].products[0].options;
+    const designs =
+        getCookie("order").personalities[currentPersonality].products[0]
+            .options;
     if (designs.length > 0) {
         return true;
     } else {
@@ -242,66 +270,47 @@ function updateQuizDone() {
 }
 
 //saves / updates / creates current personality
+// Saves / updates / creates current personality to cookies
 function saveCurrentPersonalityToCookie(currentPersonality) {
     const cookieName = "currentPersonality";
     const cookieValue = JSON.stringify(currentPersonality);
-    const expirationDays = 1; // Cookie expiration in days
-
-    const date = new Date();
-    date.setTime(date.getTime() + expirationDays * 24 * 60 * 60 * 1000); // Set expiration date
-
-    const expires = "expires=" + date.toUTCString();
-    document.cookie =
-        cookieName + "=" + cookieValue + ";" + expires + ";path=/";
+    localStorage.setItem(cookieName, cookieValue);
 }
 
 // Function to save the order object to cookies
 function saveOrderToCookie(order) {
     // Convert the order object to a JSON string
     const orderJSON = JSON.stringify(order);
+    console.log("Order saved to localStorage:", orderJSON);
 
-    // Set cookie expiration date (one year from now)
-    // Set cookie expiration date (24 hours from now)
-    const expirationDate = new Date();
-    expirationDate.setTime(expirationDate.getTime() + 24 * 60 * 60 * 1000); // Add 24 hours in milliseconds
-
-    // Set the cookie with the JSON string
-    document.cookie = `order=${encodeURIComponent(
-        orderJSON
-    )};expires=${expirationDate.toUTCString()};path=/`;
-
-    getCookie("order");
+    // Save the JSON string to localStorage
+    localStorage.setItem("order", orderJSON);
 }
 
 // Function to save configurationStatus object to cookies
 function saveconfigurationStatusToCookie(configurationStatus) {
-    const expirationDate = new Date();
-    expirationDate.setTime(expirationDate.getTime() + 24 * 60 * 60 * 1000); // Add 24 hours in milliseconds
-    document.cookie = `configurationStatus=${JSON.stringify(
-        configurationStatus
-    )}; expires=${expirationDate}; path=/`;
+    // Convert the configurationStatus object to a JSON string
+    const configurationStatusJSON = JSON.stringify(configurationStatus);
+
+    // Save the JSON string to localStorage
+    localStorage.setItem("configurationStatus", configurationStatusJSON);
 }
 
 // Function to retrieve a specific cookie by name
 function getCookie(cookieName) {
-    const cookies = document.cookie.split(";");
-    let parsedCookie = null; // Initialize parsedCookie as null
+    const cookieValue = localStorage.getItem(cookieName);
 
-    for (let i = 0; i < cookies.length; i++) {
-        const cookie = cookies[i].trim();
-        if (cookie.startsWith(cookieName + "=")) {
-            const cookieValue = decodeURIComponent(
-                cookie.substring(cookieName.length + 1)
-            );
-            parsedCookie = JSON.parse(cookieValue);
-            break; // Once found, no need to continue looping
-        }
+    // If cookieValue is not null, parse the JSON string and return it
+    if (cookieValue !== null) {
+        return JSON.parse(cookieValue);
+    } else {
+        return null; // Return null if cookie not found
     }
-    return parsedCookie; // Return null if cookie not found, or the parsed cookie object if found
 }
 
+
 // Update the phase status on window load based on cookies / if no cookies are found, create new ones
-function initialCookiesSetup(phases) {
+async function initialCookiesSetup(phases) {
     // Check if there is an order cookie
     const orderCookie = getCookie("order");
     if (!orderCookie) {
@@ -309,7 +318,7 @@ function initialCookiesSetup(phases) {
         saveOrderToCookie(order);
     } else {
         order = orderCookie;
-        console.log("Order cookie found:", order);
+        console.log("Order cookie found:", orderCookie);
     }
 
     // Check if there is a configurationStatus cookie
@@ -354,6 +363,6 @@ module.exports = {
     designsFetched,
     designsSelected,
     lastStep,
-    updatePersonality,
-    updateDesignOptions
+    updateGetDesigns,
+    getCookie,
 };

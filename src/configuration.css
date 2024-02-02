@@ -148,15 +148,86 @@
 }
 
 .quiz-phase.personality.active {
+    padding-top: 0;
     display: flex;
     flex-direction: column;
-    gap: 35px;
+    gap: 24x;
     opacity: 0;
-    width: 90%;
-    height: 100%;
-    justify-content: center;
+    width: 75%;
+    justify-content: top;
+    align-items: left;
+    background-color: white;
+    padding: 50px 50px 50px 50px;
+    margin-bottom: 125px;
+}
+
+.phase-step.personality {
+    display: flex;
+    flex-direction: column;
+    gap:24px;
+    width: 100%;
+}
+
+.personality-header {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+}
+
+#personality-description {
+    width: 100%;
+}
+
+.personality-metric {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+    margin-top: 24px;
+}
+
+.personality-metric-data-container {
+    width: 100%;
+    flex-direction: row;
+    display: flex;
     align-items: center;
-    background-color: red;
+    justify-content: flex-start;
+    gap: 20px;
+}
+
+
+.personality-metric-data {
+    width: 100%;
+    display: flex;
+    background-color: lightgray;
+    height: 20px;
+    border-radius: 50px;
+}
+
+.personality-metric-bar {
+    width: 25%;
+    height: 100%;
+    background-color: black;
+    border-radius: 50px;
+}
+
+#save-to-email-container {
+    display: flex;
+    gap: 16px;
+    width: 100%;
+    margin-top: 24px;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 2px solid #000;
+    padding-top: 24px;
+}
+
+#save-to-email-button {
+    background: transparent;
+    border: none;
+    font-size: 16px;
+    font-weight: 800;
 }
 
 .name h1 {
