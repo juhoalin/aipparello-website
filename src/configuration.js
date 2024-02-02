@@ -5,8 +5,6 @@ require("./cookies.js");
 const cookies = require("./cookies.js");
 const api = require("./api.js");
 
-console.log("Hello from configuration.js!");
-
 // Get the element with id "quiz-content"
 const quizContent = document.getElementById("quiz-content");
 
@@ -20,6 +18,7 @@ quizContent.innerHTML = quizHTML.default;
 
 //Get all HTML elements
 
+const loadingScreen = document.querySelector(".loading-screen");
 const allPhases = document.querySelectorAll(".quiz-phase");
 const createYoursButton = document.querySelector(".create-yours");
 const quizOverlay = document.querySelector(".quiz-overlay");
@@ -63,7 +62,7 @@ const selectSizeBackButton = document.getElementById("select-size-back-button");
 
 //Functions
 
-//handle overlay
+//handle overlay & quiz opening
 const setInitialProperties = () => {
     quizOverlay.style.opacity = "0";
     quizOverlay.style.display = "none";
@@ -72,11 +71,13 @@ const setInitialProperties = () => {
     quizCloseButton.addEventListener("click", closeQuizOverlay);
 };
 
+//update cookies and frontend based on cookies on page load
 const setConfiguration = () => {
     cookies.initialCookiesSetup(allPhases);
     updateProgressBar();
 };
 
+//function to open the quiz overlay
 const openQuizOverlay = () => {
     quizOverlay.style.display = "flex";
     const body = document.querySelector("body");
@@ -90,6 +91,8 @@ const openQuizOverlay = () => {
     quizContainer.style.right = "0";
 };
 
+
+//function to close the quiz overlay§
 function closeQuizOverlay() {
     const body = document.querySelector("body");
     body.style.overflow = "auto"; // Prevent scrolling when overlay is open
@@ -100,11 +103,7 @@ function closeQuizOverlay() {
     quizContainer.style.right = "-125vh";
 }
 
-// used to update the progress of the quiz
-const updatePhaseProgress = () => {};
-
-const updatePhaseStyles = (currentPhase, phaseProgress) => {};
-
+//update quiz progress bar
 const updateProgressBar = () => {
     cookies.updateTotalProgress();
     progressBar.style.width = `${
@@ -115,6 +114,7 @@ const updateProgressBar = () => {
     }%`;
 };
 
+//function to check if name is filled and enable start quiz button
 function checknameFilled() {
     cookies.updateName(inputElement.value);
     cookies.updateNameDone();
@@ -125,17 +125,7 @@ function checknameFilled() {
     }
 }
 
-function startQuiz() {
-    const currentPhase = cookies.getConfigurationStatus().currentPhase;
-    allPhases[currentPhase].classList.remove("active");
-    startQuizButtonContainer.classList.add("hidden");
-    cookies.moveForward();
-    updateProgressBar();
-    const nextPhase = cookies.getConfigurationStatus().currentPhase;
-    allPhases[1].classList.add("active");
-    quizButtonContainer.classList.remove("hidden");
-}
-
+//used to change phases with delay and smooth opacity change
 function changePhasesWithDelay(newPhase, oldPhase, delay) {
     if (oldPhase) {
         oldPhase.style.opacity = "0";
@@ -152,10 +142,7 @@ function changePhasesWithDelay(newPhase, oldPhase, delay) {
     }, delay * 2);
 }
 
-function preventScroll(event) {
-    event.preventDefault();
-}
-
+//function to scroll to the question currently being answered
 function scrollToQuestion(quizPhase, questionRect, containerRect) {
     const scrollTop =
         quizPhase.scrollTop ||
@@ -171,9 +158,9 @@ function scrollToQuestion(quizPhase, questionRect, containerRect) {
         top: targetPosition,
         behavior: "smooth",
     });
-
 }
 
+//function to update the state of the questions – active, answered, etc.
 function updateQuestionState(currentQuestion, nextQuestion, phase) {
     const phaseDone = cookies.getConfigurationStatus().phases[phase].completed;
     const quizPhase = allPhases[phase];
@@ -192,7 +179,6 @@ function updateQuestionState(currentQuestion, nextQuestion, phase) {
             quizPhase.style.overflow = "scroll";
             quizPhase.classList.add("answered");
             currentQuestion.classList.remove("active");
-            console.log(allPhases[phase].querySelectorAll(".radio-question"));
             allPhases[phase]
                 .querySelectorAll(".radio-question")
                 .forEach((question) => {
@@ -202,6 +188,7 @@ function updateQuestionState(currentQuestion, nextQuestion, phase) {
     }
 }
 
+//function to update the whole configuration interface  based on the current phase. Called when moving forward in the process
 function updateConfiguration(direction) {
     let oldPhase = null;
     let newPhase = null;
@@ -235,13 +222,15 @@ function updateConfiguration(direction) {
         startQuizButtonContainer.classList.add("hidden");
         quizButtonContainer.classList.remove("hidden");
         progressContainer.classList.add("active");
-    } else if (cookies.getConfigurationStatus().quizDone) {
-        progressContainer.classList.remove("active");
-    } else if (cookies.getConfigurationStatus().designDone) {
-    } else if (cookies.getConfigurationStatus().sizeDone) {
     }
 
-    console.log(cookies.phaseDone());
+    if (cookies.getConfigurationStatus().quizDone) {
+    }
+    if (cookies.getConfigurationStatus().designDone) {
+    }
+
+    if (cookies.getConfigurationStatus().sizeDone) {
+    }
 
     if (cookies.getConfigurationStatus().currentPhase === 0) {
         progressContainer.classList.remove("active");
@@ -257,7 +246,9 @@ function updateConfiguration(direction) {
     }
 }
 
+//function to update the state of the radio buttons based on the cookies. Called on page load and when moving forward in the process
 function updateQuestionButtons() {
+    //On load, calculate current progress in quiz
     let totalprogress = 0;
     cookies
         .getConfigurationStatus()
@@ -265,11 +256,11 @@ function updateQuestionButtons() {
             return phase.questions > 0;
         })
         .forEach((phase) => {
-            console.log(totalprogress);
             if (phase.completed) {
                 totalprogress += phase.questions;
             }
         });
+    // Loop through all questions and update their state
     radioQuestions.forEach((question, questionIndex) => {
         const parentPhase = question.parentNode;
         const parentPhaseIndex = Array.from(allPhases).indexOf(parentPhase);
@@ -287,12 +278,18 @@ function updateQuestionButtons() {
             parentPhase.classList.add("answered");
             question.classList.add("answered");
         }
-
-        // if (cookies.getConfigurationStatus().currentPhase === parentPhaseIndex) {
-        //     scrollToQuestion(parentPhase, question.getBoundingClientRect(), parentPhase.getBoundingClientRect());
-        // }
-
-
+        // if the question is the one currently being answered, scroll to it
+        if (
+            cookies.getConfigurationStatus().phases[parentPhaseIndex]
+                .progress === questionIndex
+        ) {
+            scrollToQuestion(
+                parentPhase,
+                question.getBoundingClientRect(),
+                parentPhase.getBoundingClientRect()
+            );
+        }
+        // Loop through all radio buttons and update their state and add click event listeners
         const buttons = question.querySelectorAll(".radio-input");
         const questionNo = questionIndex;
         buttons.forEach((button, buttonIndex) => {
@@ -313,44 +310,31 @@ function updateQuestionButtons() {
                     questionNo,
                     buttonIndex
                 );
+                const isLastQuestion = questionIndex === radioQuestions.length - 1;
                 const currentPhase =
                     cookies.getConfigurationStatus().currentPhase;
                 const currentQuestion = question;
                 const nextQuestion = radioQuestions[questionIndex + 1];
-                console.log("radio-clicked");
-                console.log("saatana", wasAnswered);
-                if (!cookies.phaseDone() && wasAnswered == undefined) {
+                if (!cookies.phaseDone() && wasAnswered == undefined && !isLastQuestion) {
                     move("forward");
                     updateQuestionState(
                         currentQuestion,
                         nextQuestion,
                         currentPhase
                     );
+                } else {
+                    move("forward");
                 }
             });
         });
     });
 }
 
-function updateQuiz() {
-    radioQuestions.forEach((question, index) => {
-        const buttons = question.querySelectorAll(".radio-input");
-        const questionNo = index;
-        buttons.forEach((button, index) => {
-            button.addEventListener("click", () => {
-                cookies.updateQuiz(
-                    cookies.getCurrentPersonality(),
-                    questionNo,
-                    index
-                );
-            });
-        });
-    });
-}
-
+//function to move forward or backward in the process. Updates cookies and frontend based on cookies
 const move = (direction) => {
     if (direction == "forward") {
         cookies.moveForward();
+        cookies.updateQuizDone();
         updateProgressBar();
         updateConfiguration("forward");
     } else if (direction === "backward") {
@@ -364,9 +348,26 @@ const move = (direction) => {
     }
 };
 
-const handleNextButton = () => {};
-
-const handlePrevious = () => {};
+// function to fetch designs from the API
+async function fetchDesigns() {
+    loadingScreen.classList.add("active");
+    loadingScreen.style.opacity = "1";
+    try {
+        const quizData =
+            cookies.getOrder().personalities[cookies.getCurrentPersonality()]
+                .quiz;
+        const responseData = await api.getDesigns(quizData);
+        console.log("Quiz Data from Configurarion JS:", responseData);
+    } catch (error) {
+        console.log(error);
+    }
+    setTimeout(() => {
+        loadingScreen.style.opacity = "0";
+        setTimeout(() => {
+            loadingScreen.classList.remove("active");
+        }, 300);
+    }, 3000);
+}
 
 //Event listeners
 document.addEventListener("DOMContentLoaded", function () {
@@ -390,10 +391,33 @@ document.addEventListener("DOMContentLoaded", function () {
         move("backward");
     });
     quizNextButton.addEventListener("click", () => {
-        move("forward-skip");
+        move("forward");
+        fetchDesigns();
     });
+
+    showDesignsBackButton.addEventListener("click", () => {
+        move("backward");
+    });
+
+    showDesignsButton.addEventListener("click", () => {});
+
+    const quizPhase = document.getElementById("phase1");
+    const activeQuestion = quizPhase.querySelector(".radio-question.active");
+    const scrollTop = activeQuestion.offsetTop - quizPhase.offsetHeight / 2;
+    quizPhase.scrollTop = scrollTop;
 });
 
-window.addEventListener("load", () => {});
+window.addEventListener("unload", function () {
+    const scrollPosition = document.getElementById("phase1").scrollTop;
+    localStorage.setItem("scrollPosition", scrollPosition);
+});
+
+// When the page loads (e.g., in the load event)
+window.addEventListener("load", function () {
+    const savedScrollPosition = localStorage.getItem("scrollPosition");
+    if (savedScrollPosition !== null) {
+        document.getElementById("phase1").scrollTop = savedScrollPosition;
+    }
+});
 
 //Debug

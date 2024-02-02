@@ -1,36 +1,38 @@
+const cookies = require("./cookies.js");
 
-function getDesigns(quizData) {
+async function getDesigns(quizData) {
     const data = {
         answers: quizData,
     };
 
-    console.log('Data:', data);
+    console.log("Data:", data);
 
-    fetch('https://evhmif8p8c.execute-api.ap-southeast-1.amazonaws.com/prod/designs/get-options', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    })
-    .then(response => {
+    try {
+        const response = await fetch(
+            "https://evhmif8p8c.execute-api.ap-southeast-1.amazonaws.com/prod/designs/get-options",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
+            }
+        );
+
         if (!response.ok) {
-            throw new Error('Network response was not ok');
+            throw new Error("Network response was not ok");
         }
-        return response.json();
-    })
-    .then(responseData => {
-        console.log('Response Data:', responseData);
+
+        const responseData = await response.json();
+        console.log("Response Data:", responseData);
         // Process the response data here
         return responseData;
-    })
-    .catch(error => {
-        console.error('There was a problem with the fetch operation:', error);
-    });
+    } catch (error) {
+        console.error("There was a problem with the fetch operation:", error);
+        throw error; // Re-throw the error to propagate it to the caller
+    }
 }
-
 
 module.exports = {
     getDesigns,
 };
-
