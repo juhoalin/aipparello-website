@@ -59,6 +59,7 @@ const selectSizeButtonContainer = document.getElementById(
 const selectSizeButton = document.getElementById("select-size-button");
 const selectSizeBackButton = document.getElementById("select-size-back-button");
 
+const personaliType = document.getElementById("personality-type");
 const personalityName = document.getElementById("personality-name");
 const extrovesionText = document.getElementById("extroversion-text");
 const extroversionBar = document.getElementById("extroversion-bar");
@@ -90,7 +91,8 @@ function setConfiguration() {
     updateProgressBar();
     if (cookies.designsFetched()) {
         updatePersonality();
-    } 
+        updateDesigns();
+    }
 }
 
 //function to open the quiz overlay
@@ -238,6 +240,7 @@ function updateConfiguration(direction) {
         quizButtonContainer.classList.remove("hidden");
         progressContainer.classList.add("active");
         showDesignsButtonContainer.classList.add("hidden");
+        selectDesignButtonContainer.classList.add("hidden");
     }
 
     if (
@@ -248,7 +251,11 @@ function updateConfiguration(direction) {
         quizButtonContainer.classList.add("hidden");
         progressContainer.classList.remove("active");
     }
-    if (cookies.getConfigurationStatus().designDone) {
+    if (cookies.getConfigurationStatus().currentPhase === 3) {
+        showDesignsButtonContainer.classList.add("hidden");
+        quizButtonContainer.classList.add("hidden");
+        progressContainer.classList.remove("active");
+        selectDesignButtonContainer.classList.remove("hidden");
     }
 
     if (cookies.getConfigurationStatus().sizeDone) {
@@ -389,6 +396,7 @@ async function fetchDesigns() {
             const responseData = await api.getDesigns(quizData);
             cookies.updateGetDesigns(responseData);
             updatePersonality();
+            updateDesigns();
         } catch (error) {
             console.log(error);
         }
@@ -406,7 +414,7 @@ const updatePersonality = () => {
     const personality = order.personalities[cookies.getCurrentPersonality()];
     const personalityData = personality.personality;
 
-    personalityName.innerHTML = personality.name;
+    personaliType.innerHTML = personalityData.personalityRole;
     extrovesionText.innerHTML = personalityData.extroversionScore * 100 + "%";
     extroversionBar.style.width = `${personalityData.extroversionScore * 100}%`;
     sensingText.innerHTML = personalityData.sensingScore * 100 + "%";
@@ -415,6 +423,62 @@ const updatePersonality = () => {
     feelingBar.style.width = `${personalityData.feelingScore * 100}%`;
     prospectingText.innerHTML = personalityData.prospectingScore * 100 + "%";
     prospectingBar.style.width = `${personalityData.prospectingScore * 100}%`;
+};
+
+const updateDesigns = () => {
+    if (cookies.designsFetched()) {
+        const designContainers = document.querySelectorAll(".design-container");
+        const designs = cookies.getOptions();
+
+        designContainers.forEach((container, index) => {
+            const designImageElement = container.querySelector(".design-image");
+            const designNameElement = container.querySelector(".design-name");
+            const buttonElement = container.querySelector(".design-button");
+            const design = designs[index].url;
+            const prompt = designs[index].prompt;
+            const token = designs[index].token;
+            designImageElement.src = design;
+            designNameElement.innerHTML = prompt;
+            buttonElement.value = token;
+
+            buttonElement.addEventListener("click", () => {
+                cookies.updateSelectedDesign(token);
+                selectDesignButton.classList.remove("disabled");
+                const allButtons = document.querySelectorAll(".design-button");
+                allButtons.forEach((button) => {
+                    button.classList.remove("selected");
+                    button.innerHTML = "SELECT";
+                    const nearestDesignContainer = button.closest('.design-container')
+                    nearestDesignContainer.classList.remove("selected");
+                });
+                buttonElement.classList.add("selected");
+                buttonElement.innerHTML = "SELECTED";
+                const nearestDesignContainer = buttonElement.closest('.design-container')
+                nearestDesignContainer.classList.add("selected");
+            });
+        });
+
+        if (cookies.getSelectedDesign()) {
+            updateSelectedDesign();
+        }
+    }
+};
+
+const updateSelectedDesign = () => {
+    const selectedDesign = cookies.getSelectedDesign();
+    const allDesignButtons = document.querySelectorAll(".design-button");
+
+    if (selectedDesign) {
+        allDesignButtons.forEach((button) => {
+            if (button.value === selectedDesign) {
+                button.classList.add("selected");
+                button.innerHTML = "SELECTED";
+                const nearestDesignContainer = button.closest('.design-container')
+                nearestDesignContainer.classList.add("selected");
+            }
+        });
+        selectDesignButton.classList.remove("disabled");
+    }
 };
 
 //Event listeners
@@ -449,7 +513,17 @@ document.addEventListener("DOMContentLoaded", function () {
         move("backward");
     });
 
-    showDesignsButton.addEventListener("click", () => {});
+    showDesignsButton.addEventListener("click", () => {
+        console.log("show designs");
+        move("forward-skip");
+        // updateDesigns();
+    });
+
+    selectDesignBackButton.addEventListener("click", () => {
+        move("backward");
+    });
+
+    selectDesignButton.addEventListener("click", () => {});
 });
 
 window.addEventListener("unload", function () {});

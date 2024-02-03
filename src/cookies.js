@@ -43,6 +43,19 @@ let configurationStatus = {
     sizeDone: false,
 };
 
+const getSelectedDesign = () => {
+    return order.personalities[currentPersonality].products[0].selectedDesign;
+};
+
+const updateSelectedDesign = (token) => {
+    order.personalities[currentPersonality].products[0].selectedDesign = token;
+    saveOrderToCookie(order);
+};
+
+const getOptions = () => {
+    return order.personalities[currentPersonality].products[0].options;
+};
+
 const updateGetDesigns = (data) => {
     const options = data.options;
     const personality = data.personality;
@@ -354,4 +367,7 @@ module.exports = {
     lastStep,
     updateGetDesigns,
     getCookie,
+    getOptions,
+    updateSelectedDesign,
+    getSelectedDesign
 };
