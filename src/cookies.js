@@ -39,6 +39,7 @@ let configurationStatus = {
     totalProgress: 0,
     nameDone: false,
     quizDone: false,
+    personalityDone: false,
     designDone: false,
     sizeDone: false,
 };
@@ -49,7 +50,11 @@ const getSelectedDesign = () => {
 
 const updateSelectedDesign = (token) => {
     order.personalities[currentPersonality].products[0].selectedDesign = token;
+    configurationStatus.designDone = true;
+    configurationStatus.phases[3].completed = true;
+    configurationStatus.phases[3].progress = 1;
     saveOrderToCookie(order);
+    saveconfigurationStatusToCookie(configurationStatus);
 };
 
 const getOptions = () => {
@@ -79,7 +84,12 @@ const updateGetDesigns = (data) => {
         );
     });
 
+    configurationStatus.personalityDone = true;
+    configurationStatus.phases[2].completed = true;
+    configurationStatus.phases[2].progress = 1;
+
     saveOrderToCookie(order);
+    saveconfigurationStatusToCookie(configurationStatus);
 };
 
 // check if the designs have been fetched
@@ -100,6 +110,10 @@ const designsSelected = () => {
         order.personalities[currentPersonality].products[0].selectedDesign;
     return selectedDesign !== "";
 };
+
+const designDone = () => {
+    return configurationStatus.designDone;
+}
 
 // Check if the current phase is done
 const phaseDone = () => {
@@ -249,6 +263,7 @@ function updateTotalProgress() {
     saveconfigurationStatusToCookie(configurationStatus);
 }
 
+
 // Update the nameDone status
 function updateNameDone() {
     if (order.personalities[currentPersonality].name === "") {
@@ -369,5 +384,6 @@ module.exports = {
     getCookie,
     getOptions,
     updateSelectedDesign,
-    getSelectedDesign
+    getSelectedDesign,
+    designDone
 };

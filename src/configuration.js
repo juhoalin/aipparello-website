@@ -14,6 +14,8 @@ const quizHTML = require("./configuration.html");
 // Inject the HTML into the quiz-content element
 quizContent.innerHTML = quizHTML.default;
 
+const addToCartHTML = document.getElementById("new-add-to-cart-container");
+const addToCartTarget = document.getElementById("phase-step-new-fit-container");
 //Now actual quiz-code
 
 //Get all HTML elements
@@ -59,6 +61,8 @@ const selectSizeButtonContainer = document.getElementById(
 const selectSizeButton = document.getElementById("select-size-button");
 const selectSizeBackButton = document.getElementById("select-size-back-button");
 
+const addToCartButton = document.getElementById("add-to-cart-button");
+
 const personaliType = document.getElementById("personality-type");
 const personalityName = document.getElementById("personality-name");
 const extrovesionText = document.getElementById("extroversion-text");
@@ -83,6 +87,10 @@ const setInitialProperties = () => {
     // quizContainer.style.right = "-125vw";
     createYoursButton.addEventListener("click", openQuizOverlay);
     quizCloseButton.addEventListener("click", closeQuizOverlay);
+    addToCartTarget.appendChild(addToCartHTML);
+    const cartOuterDiv = addToCartHTML.querySelector(".w-commerce-commercecartwrapper");
+    cartOuterDiv.setAttribute("id", "cart-outer-div");
+    console.log("add-to-cart-element", addToCartTarget);
 };
 
 //update cookies and frontend based on cookies on page load
@@ -256,9 +264,15 @@ function updateConfiguration(direction) {
         quizButtonContainer.classList.add("hidden");
         progressContainer.classList.remove("active");
         selectDesignButtonContainer.classList.remove("hidden");
+        selectSizeButtonContainer.classList.add("hidden");
     }
 
-    if (cookies.getConfigurationStatus().sizeDone) {
+    if (cookies.getConfigurationStatus().designDone && cookies.getConfigurationStatus().currentPhase === 4) {
+        showDesignsButtonContainer.classList.add("hidden");
+        quizButtonContainer.classList.add("hidden");
+        progressContainer.classList.remove("active");
+        selectDesignButtonContainer.classList.add("hidden");
+        selectSizeButtonContainer.classList.remove("hidden");
     }
 
     if (cookies.getConfigurationStatus().currentPhase === 0) {
@@ -414,15 +428,16 @@ const updatePersonality = () => {
     const personality = order.personalities[cookies.getCurrentPersonality()];
     const personalityData = personality.personality;
 
-    personaliType.innerHTML = personalityData.personalityRole;
-    extrovesionText.innerHTML = personalityData.extroversionScore * 100 + "%";
-    extroversionBar.style.width = `${personalityData.extroversionScore * 100}%`;
-    sensingText.innerHTML = personalityData.sensingScore * 100 + "%";
-    sensingBar.style.width = `${personalityData.sensingScore * 100}%`;
-    feelingText.innerHTML = personalityData.feelingScore * 100 + "%";
-    feelingBar.style.width = `${personalityData.feelingScore * 100}%`;
-    prospectingText.innerHTML = personalityData.prospectingScore * 100 + "%";
-    prospectingBar.style.width = `${personalityData.prospectingScore * 100}%`;
+        personaliType.innerHTML = personalityData.personalityRole;
+        extrovesionText.innerHTML = personalityData.extroversionScore * 100 + "%";
+        extroversionBar.style.width = `${personalityData.extroversionScore * 100}%`;
+        sensingText.innerHTML = personalityData.sensingScore * 100 + "%";
+        sensingBar.style.width = `${personalityData.sensingScore * 100}%`;
+        feelingText.innerHTML = personalityData.feelingScore * 100 + "%";
+        feelingBar.style.width = `${personalityData.feelingScore * 100}%`;
+        prospectingText.innerHTML = personalityData.prospectingScore * 100 + "%";
+        prospectingBar.style.width = `${personalityData.prospectingScore * 100}%`;
+
 };
 
 const updateDesigns = () => {
@@ -523,7 +538,18 @@ document.addEventListener("DOMContentLoaded", function () {
         move("backward");
     });
 
-    selectDesignButton.addEventListener("click", () => {});
+    selectDesignButton.addEventListener("click", () => {
+        move("forward");
+        
+    });
+
+    selectSizeBackButton.addEventListener("click", () => {
+        move("backward");
+    });
+
+    selectSizeButton.addEventListener("click", () => {
+        addToCartButton.click();
+    });
 });
 
 window.addEventListener("unload", function () {});
