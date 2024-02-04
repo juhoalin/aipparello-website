@@ -68,4 +68,5 @@ async function reserveDesign(token) {
 
 module.exports = {
     getDesigns,
+    reserveDesign
 };

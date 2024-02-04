@@ -20,7 +20,12 @@ const addToCartTarget = document.getElementById("phase-step-new-fit-container");
 
 //Get all HTML elements
 
-const loadingScreen = document.querySelector(".loading-screen");
+const loadingScreen = document.getElementById("loading-screen-personality");
+const confirmDesignButton = document.getElementById("confirm-design-button");
+const confirmDesignButtonError = document.getElementById("confirm-design-button-error");
+const editDesignButton = document.getElementById("edit-design-button");
+const editDesignButtonError = document.getElementById("edit-design-button-error");
+const lowModalReserveDesign = document.getElementById( "loading-screen-reserve-design");
 const allPhases = document.querySelectorAll(".quiz-phase");
 const createYoursButton = document.querySelector(".create-yours");
 const quizOverlay = document.querySelector(".quiz-overlay");
@@ -127,6 +132,59 @@ function closeQuizOverlay() {
     }, 300); // Set timeout to match the transition duration
     quizContainer.style.right = "-125vh";
 }
+
+function openLowModal(outerID, innerID, state) {   
+    const outer = document.getElementById(outerID);
+    const inner = document.getElementById(innerID);
+
+    outer.classList.add("active");
+    inner.classList.add("active");
+    
+
+    setTimeout(() => {
+        outer.style.opacity = "1";
+        inner.style.marginBottom = "0";
+    },10)
+
+
+    setTimeout(() => {
+    
+    },600)
+
+
+    const standard = inner.querySelector(".standard");
+    const error = inner.querySelector(".error");
+    const loading = inner.querySelector(".loading-modal");
+
+    if (state === "standard") {
+        standard.classList.add("active");
+        error.classList.remove("active");
+        loading.classList.remove("active");       
+    } else if (state === "error") {
+        error.classList.add("active");
+        standard.classList.remove("active");
+        loading.classList.remove("active");
+    } else if (state === "loading") {
+        loading.classList.add("active");
+        standard.classList.remove("active");
+        error.classList.remove("active"); 
+    }
+}
+
+function closeLowModal(outerID, innerID) {
+    const outer = document.getElementById(outerID);
+    const inner = document.getElementById(innerID);
+
+    inner.style.marginBottom = "-100vh";
+    outer.style.opacity = "0";
+
+    setTimeout(() => {
+        outer.classList.remove("active");
+        inner.classList.remove("active");
+    }, 300);
+
+}
+
 
 //update quiz progress bar
 const updateProgressBar = () => {
@@ -423,6 +481,20 @@ async function fetchDesigns() {
     }
 }
 
+async function reserveDesign(token) {
+    openLowModal("low-modal-reserve-design", "low-modal-inner-reserve-design", "loading");
+    try {
+        const responseData = await api.reserveDesign(token);
+        console.log(responseData);
+        closeLowModal("low-modal-reserve-design", "low-modal-inner-reserve-design");
+        cookies.updateDesignDone();
+        move("forward");
+    } catch (error) {
+        console.log(error);
+        openLowModal("low-modal-reserve-design", "low-modal-inner-reserve-design", "error");
+    }
+}
+
 const updatePersonality = () => {
     const order = cookies.getOrder();
     const personality = order.personalities[cookies.getCurrentPersonality()];
@@ -457,7 +529,7 @@ const updateDesigns = () => {
             buttonElement.value = token;
 
             buttonElement.addEventListener("click", () => {
-                cookies.updateSelectedDesign(token);
+                cookies.updateSelectedDesign(designs[index]);
                 selectDesignButton.classList.remove("disabled");
                 const allButtons = document.querySelectorAll(".design-button");
                 allButtons.forEach((button) => {
@@ -482,10 +554,9 @@ const updateDesigns = () => {
 const updateSelectedDesign = () => {
     const selectedDesign = cookies.getSelectedDesign();
     const allDesignButtons = document.querySelectorAll(".design-button");
-
-    if (selectedDesign) {
+    if (selectedDesign.token) {
         allDesignButtons.forEach((button) => {
-            if (button.value === selectedDesign) {
+            if (button.value === selectedDesign.token) {
                 button.classList.add("selected");
                 button.innerHTML = "SELECTED";
                 const nearestDesignContainer = button.closest('.design-container')
@@ -539,9 +610,26 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     selectDesignButton.addEventListener("click", () => {
-        move("forward");
+        openLowModal("low-modal-reserve-design", "low-modal-inner-reserve-design", "standard");
         
     });
+
+    confirmDesignButton.addEventListener("click", () => {
+        const selectedDesign = cookies.getSelectedDesign();
+        reserveDesign(selectedDesign.token);
+    });
+
+    confirmDesignButtonError.addEventListener("click", () => {
+        reserveDesign(selectedDesign.token);
+    });
+
+    editDesignButton.addEventListener("click", () => {
+        closeLowModal("low-modal-reserve-design", "low-modal-inner-reserve-design");
+    });
+
+    editDesignButtonError.addEventListener("click", () => {
+        closeLowModal("low-modal-reserve-design", "low-modal-inner-reserve-design");
+    })
 
     selectSizeBackButton.addEventListener("click", () => {
         move("backward");

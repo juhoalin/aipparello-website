@@ -44,13 +44,17 @@ let configurationStatus = {
     sizeDone: false,
 };
 
+const updateDesignDone = () => {
+    configurationStatus.designDone = true;
+    saveconfigurationStatusToCookie(configurationStatus);
+};
+
 const getSelectedDesign = () => {
     return order.personalities[currentPersonality].products[0].selectedDesign;
 };
 
-const updateSelectedDesign = (token) => {
-    order.personalities[currentPersonality].products[0].selectedDesign = token;
-    configurationStatus.designDone = true;
+const updateSelectedDesign = (design) => {
+    order.personalities[currentPersonality].products[0].selectedDesign = design;
     configurationStatus.phases[3].completed = true;
     configurationStatus.phases[3].progress = 1;
     saveOrderToCookie(order);
@@ -385,5 +389,6 @@ module.exports = {
     getOptions,
     updateSelectedDesign,
     getSelectedDesign,
-    designDone
+    designDone,
+    updateDesignDone,
 };
