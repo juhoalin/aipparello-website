@@ -3,6 +3,11 @@
     <div class="radient-wrapper"></div>
     <div class="content">
         <div class="quiz-upper-nav">
+            <button class="current-product">
+                <div class="product-dot"></div>
+                <span class="buttontext">Personalized T-Shirt</span>
+                <img class="product-arrow" src="https://uploads-ssl.webflow.com/649a7177573e38f6a02e440d/65c0099e177d6f6b0eeddb9f_Arrow.svg">
+            </button>
             <button class="quiz-close">CLOSE</button>
         </div>
         <div class="quiz">
@@ -1649,6 +1654,13 @@
                             </div>
                         </div>
                     </div>
+                    <div class="indicator-container">
+                        <div class="dot visible"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                    </div>
                 </div>
                 <div class="quiz-phase select-fit">
                     <div
@@ -1656,179 +1668,164 @@
                         id="phase-step-new-fit-container"
                     ></div>
                 </div>
-                <div
-                    class="loading-screen personality"
-                    id="loading-screen-personality"
-                >
-                    <p class="loading-text">Analyzing your personality</p>
-                    <div class="blob"></div>
-                </div>
-                <div
-                    class="low-modal reserve-design"
-                    id="low-modal-reserve-design"
-                >
-                    <div
-                        class="low-modal-inner"
-                        id="low-modal-inner-reserve-design"
-                    >
-                        <h3 class="heading-3">Confirm selection</h3>
-                        <div class="low-modal-inner-content standard">
-                            <p class="bodytext">
-                                After confirmation, you are not able edit your
-                                design selection.
-                            </p>
-                            <button
-                                class="quiz-button"
-                                id="confirm-design-button"
-                                type="button"
-                                onclick=""
-                            >
-                                CONTINUE →
-                            </button>
-                            <button
-                                class="quiz-button secondary center"
-                                id="edit-design-button"
-                                type="button"
-                                onclick=""
-                            >
-                                EDIT
-                            </button>
-                        </div>
-                        <div class="low-modal-inner-content error">
-                            <p class="bodytext error">
-                                Something went wrong. Please try again.
-                            </p>
-                            <button
-                                class="quiz-button"
-                                id="confirm-design-button-error"
-                                type="button"
-                                onclick=""
-                            >
-                                CONTINUE →
-                            </button>
-                            <button
-                                class="quiz-button secondary center"
-                                id="edit-design-button-error"
-                                type="button"
-                                onclick=""
-                            >
-                                EDIT
-                            </button>
-                        </div>
-                        <div class="low-modal-inner-content loading-modal">
-                            <div class="blob hidden"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="navigation">
-                    <div class="nav-content">
-                        <div class="progress-container" id="progress-container">
-                            <p class="progress-text" id="progress-text">0%</p>
-                            <div class="progress-bar-quiz">
-                                <div class="progress" id="progress-bar"></div>
-                            </div>
-                        </div>
-                        <div
-                            class="button-container"
-                            id="start-quiz-button-container"
-                        >
-                            <button
-                                class="quiz-button disabled"
-                                type="button"
-                                onclick=""
-                                id="start-quiz-button"
-                            >
-                                START PERSONALITY QUIZ
-                            </button>
-                        </div>
-                        <div
-                            class="button-container hidden"
-                            id="quiz-button-container"
-                        >
-                            <button
-                                class="quiz-button secondary"
-                                type="button"
-                                onclick=""
-                                id="quiz-previous-button"
-                            >
-                                ← BACK
-                            </button>
-                            <button
-                                class="quiz-button"
-                                type="button"
-                                onclick=""
-                                id="quiz-next-button"
-                            >
-                                NEXT →
-                            </button>
-                        </div>
-                        <div
-                            class="button-container column hidden"
-                            id="show-designs-button-container"
-                        >
-                            <button
-                                class="quiz-button secondary center"
-                                type="button"
-                                onclick=""
-                                id="show-designs-back-button"
-                            >
-                                BACK
-                            </button>
-                            <button
-                                class="quiz-button"
-                                type="button"
-                                onclick=""
-                                id="show-designs-button"
-                            >
-                                SELECT YOUR DESIGN →
-                            </button>
-                        </div>
-
-                        <div
-                            class="button-container column hidden"
-                            id="select-design-button-container"
-                        >
-                            <button
-                                class="quiz-button secondary center"
-                                type="button"
-                                onclick=""
-                                id="select-design-back-button"
-                            >
-                                BACK
-                            </button>
-                            <button
-                                class="quiz-button disabled"
-                                type="button"
-                                onclick=""
-                                id="select-design-button"
-                            >
-                                SELECT SIZE →
-                            </button>
-                        </div>
-                        <div
-                            class="button-container column hidden"
-                            id="select-size-button-container"
-                        >
-                            <button
-                                class="quiz-button secondary center"
-                                type="button"
-                                onclick=""
-                                id="select-size-back-button"
-                            >
-                                BACK
-                            </button>
-                            <button
-                                class="quiz-button"
-                                type="button"
-                                onclick=""
-                                id="select-size-button"
-                            >
-                                ADD TO CART
-                            </button>
-                        </div>
-                    </div>
-                </div>
             </form>
+        </div>
+        <div class="loading-screen personality" id="loading-screen-personality">
+            <p class="loading-text">Analyzing your personality</p>
+            <div class="blob"></div>
+        </div>
+        <div class="low-modal reserve-design" id="low-modal-reserve-design">
+            <div class="low-modal-inner" id="low-modal-inner-reserve-design">
+                <h3 class="heading-3">Confirm selection</h3>
+                <div class="low-modal-inner-content standard">
+                    <p class="bodytext">
+                        After confirmation, you are not able edit your design
+                        selection.
+                    </p>
+                    <button
+                        class="quiz-button"
+                        id="confirm-design-button"
+                        type="button"
+                        onclick=""
+                    >
+                        CONTINUE →
+                    </button>
+                    <button
+                        class="quiz-button secondary center"
+                        id="edit-design-button"
+                        type="button"
+                        onclick=""
+                    >
+                        EDIT
+                    </button>
+                </div>
+                <div class="low-modal-inner-content error">
+                    <p class="bodytext error">
+                        Something went wrong. Please try again.
+                    </p>
+                    <button
+                        class="quiz-button"
+                        id="confirm-design-button-error"
+                        type="button"
+                        onclick=""
+                    >
+                        CONTINUE →
+                    </button>
+                    <button
+                        class="quiz-button secondary center"
+                        id="edit-design-button-error"
+                        type="button"
+                        onclick=""
+                    >
+                        EDIT
+                    </button>
+                </div>
+                <div class="low-modal-inner-content loading-modal">
+                    <div class="blob hidden"></div>
+                </div>
+            </div>
+        </div>
+        <div class="navigation">
+            <div class="nav-content">
+                <div class="progress-container" id="progress-container">
+                    <p class="progress-text" id="progress-text">0%</p>
+                    <div class="progress-bar-quiz">
+                        <div class="progress" id="progress-bar"></div>
+                    </div>
+                </div>
+                <div class="button-container" id="start-quiz-button-container">
+                    <button
+                        class="quiz-button disabled"
+                        type="button"
+                        onclick=""
+                        id="start-quiz-button"
+                    >
+                        START PERSONALITY QUIZ
+                    </button>
+                </div>
+                <div class="button-container hidden" id="quiz-button-container">
+                    <button
+                        class="quiz-button secondary"
+                        type="button"
+                        onclick=""
+                        id="quiz-previous-button"
+                    >
+                        ← BACK
+                    </button>
+                    <button
+                        class="quiz-button"
+                        type="button"
+                        onclick=""
+                        id="quiz-next-button"
+                    >
+                        NEXT →
+                    </button>
+                </div>
+                <div
+                    class="button-container column hidden"
+                    id="show-designs-button-container"
+                >
+                    <button
+                        class="quiz-button secondary center"
+                        type="button"
+                        onclick=""
+                        id="show-designs-back-button"
+                    >
+                        BACK
+                    </button>
+                    <button
+                        class="quiz-button"
+                        type="button"
+                        onclick=""
+                        id="show-designs-button"
+                    >
+                        SELECT YOUR DESIGN →
+                    </button>
+                </div>
+
+                <div
+                    class="button-container column hidden"
+                    id="select-design-button-container"
+                >
+                    <button
+                        class="quiz-button secondary center"
+                        type="button"
+                        onclick=""
+                        id="select-design-back-button"
+                    >
+                        BACK
+                    </button>
+                    <button
+                        class="quiz-button disabled"
+                        type="button"
+                        onclick=""
+                        id="select-design-button"
+                    >
+                        SELECT SIZE →
+                    </button>
+                </div>
+                <div
+                    class="button-container column hidden"
+                    id="select-size-button-container"
+                >
+                    <button
+                        class="quiz-button secondary center"
+                        type="button"
+                        onclick=""
+                        id="select-size-back-button"
+                    >
+                        BACK
+                    </button>
+                    <button
+                        class="quiz-button"
+                        type="button"
+                        onclick=""
+                        id="select-size-button"
+                    >
+                        ADD TO CART
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 </div>

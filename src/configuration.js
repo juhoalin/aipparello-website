@@ -22,10 +22,16 @@ const addToCartTarget = document.getElementById("phase-step-new-fit-container");
 
 const loadingScreen = document.getElementById("loading-screen-personality");
 const confirmDesignButton = document.getElementById("confirm-design-button");
-const confirmDesignButtonError = document.getElementById("confirm-design-button-error");
+const confirmDesignButtonError = document.getElementById(
+    "confirm-design-button-error"
+);
 const editDesignButton = document.getElementById("edit-design-button");
-const editDesignButtonError = document.getElementById("edit-design-button-error");
-const lowModalReserveDesign = document.getElementById( "loading-screen-reserve-design");
+const editDesignButtonError = document.getElementById(
+    "edit-design-button-error"
+);
+const lowModalReserveDesign = document.getElementById(
+    "loading-screen-reserve-design"
+);
 const allPhases = document.querySelectorAll(".quiz-phase");
 const createYoursButton = document.querySelector(".create-yours");
 const quizOverlay = document.querySelector(".quiz-overlay");
@@ -93,7 +99,9 @@ const setInitialProperties = () => {
     createYoursButton.addEventListener("click", openQuizOverlay);
     quizCloseButton.addEventListener("click", closeQuizOverlay);
     addToCartTarget.appendChild(addToCartHTML);
-    const cartOuterDiv = addToCartHTML.querySelector(".w-commerce-commercecartwrapper");
+    const cartOuterDiv = addToCartHTML.querySelector(
+        ".w-commerce-commercecartwrapper"
+    );
     cartOuterDiv.setAttribute("id", "cart-outer-div");
     console.log("add-to-cart-element", addToCartTarget);
 };
@@ -133,24 +141,19 @@ function closeQuizOverlay() {
     quizContainer.style.right = "-125vh";
 }
 
-function openLowModal(outerID, innerID, state) {   
+function openLowModal(outerID, innerID, state) {
     const outer = document.getElementById(outerID);
     const inner = document.getElementById(innerID);
 
     outer.classList.add("active");
     inner.classList.add("active");
-    
 
     setTimeout(() => {
         outer.style.opacity = "1";
         inner.style.marginBottom = "0";
-    },10)
+    }, 10);
 
-
-    setTimeout(() => {
-    
-    },600)
-
+    setTimeout(() => {}, 600);
 
     const standard = inner.querySelector(".standard");
     const error = inner.querySelector(".error");
@@ -159,7 +162,7 @@ function openLowModal(outerID, innerID, state) {
     if (state === "standard") {
         standard.classList.add("active");
         error.classList.remove("active");
-        loading.classList.remove("active");       
+        loading.classList.remove("active");
     } else if (state === "error") {
         error.classList.add("active");
         standard.classList.remove("active");
@@ -167,7 +170,7 @@ function openLowModal(outerID, innerID, state) {
     } else if (state === "loading") {
         loading.classList.add("active");
         standard.classList.remove("active");
-        error.classList.remove("active"); 
+        error.classList.remove("active");
     }
 }
 
@@ -182,9 +185,7 @@ function closeLowModal(outerID, innerID) {
         outer.classList.remove("active");
         inner.classList.remove("active");
     }, 300);
-
 }
-
 
 //update quiz progress bar
 const updateProgressBar = () => {
@@ -325,7 +326,10 @@ function updateConfiguration(direction) {
         selectSizeButtonContainer.classList.add("hidden");
     }
 
-    if (cookies.getConfigurationStatus().designDone && cookies.getConfigurationStatus().currentPhase === 4) {
+    if (
+        cookies.getConfigurationStatus().designDone &&
+        cookies.getConfigurationStatus().currentPhase === 4
+    ) {
         showDesignsButtonContainer.classList.add("hidden");
         quizButtonContainer.classList.add("hidden");
         progressContainer.classList.remove("active");
@@ -482,16 +486,27 @@ async function fetchDesigns() {
 }
 
 async function reserveDesign(token) {
-    openLowModal("low-modal-reserve-design", "low-modal-inner-reserve-design", "loading");
+    openLowModal(
+        "low-modal-reserve-design",
+        "low-modal-inner-reserve-design",
+        "loading"
+    );
     try {
         const responseData = await api.reserveDesign(token);
         console.log(responseData);
-        closeLowModal("low-modal-reserve-design", "low-modal-inner-reserve-design");
+        closeLowModal(
+            "low-modal-reserve-design",
+            "low-modal-inner-reserve-design"
+        );
         cookies.updateDesignDone();
         move("forward");
     } catch (error) {
         console.log(error);
-        openLowModal("low-modal-reserve-design", "low-modal-inner-reserve-design", "error");
+        openLowModal(
+            "low-modal-reserve-design",
+            "low-modal-inner-reserve-design",
+            "error"
+        );
     }
 }
 
@@ -499,17 +514,27 @@ const updatePersonality = () => {
     const order = cookies.getOrder();
     const personality = order.personalities[cookies.getCurrentPersonality()];
     const personalityData = personality.personality;
-
-        personaliType.innerHTML = personalityData.personalityRole;
-        extrovesionText.innerHTML = personalityData.extroversionScore * 100 + "%";
-        extroversionBar.style.width = `${personalityData.extroversionScore * 100}%`;
-        sensingText.innerHTML = personalityData.sensingScore * 100 + "%";
-        sensingBar.style.width = `${personalityData.sensingScore * 100}%`;
-        feelingText.innerHTML = personalityData.feelingScore * 100 + "%";
-        feelingBar.style.width = `${personalityData.feelingScore * 100}%`;
-        prospectingText.innerHTML = personalityData.prospectingScore * 100 + "%";
-        prospectingBar.style.width = `${personalityData.prospectingScore * 100}%`;
-
+    personaliType.innerHTML = personalityData.personalityRole;
+    extrovesionText.innerHTML =
+        Math.round(personalityData.extroversionScore * 100) + "%";
+    extroversionBar.style.width = `${Math.round(
+        personalityData.extroversionScore * 100
+    )}%`;
+    sensingText.innerHTML =
+        Math.round(personalityData.sensingScore * 100) + "%";
+    sensingBar.style.width = `${Math.round(
+        personalityData.sensingScore * 100
+    )}%`;
+    feelingText.innerHTML =
+        Math.round(personalityData.feelingScore * 100) + "%";
+    feelingBar.style.width = `${Math.round(
+        personalityData.feelingScore * 100
+    )}%`;
+    prospectingText.innerHTML =
+        Math.round(personalityData.prospectingScore * 100) + "%";
+    prospectingBar.style.width = `${Math.round(
+        personalityData.prospectingScore * 100
+    )}%`;
 };
 
 const updateDesigns = () => {
@@ -535,12 +560,14 @@ const updateDesigns = () => {
                 allButtons.forEach((button) => {
                     button.classList.remove("selected");
                     button.innerHTML = "SELECT";
-                    const nearestDesignContainer = button.closest('.design-container')
+                    const nearestDesignContainer =
+                        button.closest(".design-container");
                     nearestDesignContainer.classList.remove("selected");
                 });
                 buttonElement.classList.add("selected");
                 buttonElement.innerHTML = "SELECTED";
-                const nearestDesignContainer = buttonElement.closest('.design-container')
+                const nearestDesignContainer =
+                    buttonElement.closest(".design-container");
                 nearestDesignContainer.classList.add("selected");
             });
         });
@@ -559,7 +586,8 @@ const updateSelectedDesign = () => {
             if (button.value === selectedDesign.token) {
                 button.classList.add("selected");
                 button.innerHTML = "SELECTED";
-                const nearestDesignContainer = button.closest('.design-container')
+                const nearestDesignContainer =
+                    button.closest(".design-container");
                 nearestDesignContainer.classList.add("selected");
             }
         });
@@ -610,8 +638,11 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     selectDesignButton.addEventListener("click", () => {
-        openLowModal("low-modal-reserve-design", "low-modal-inner-reserve-design", "standard");
-        
+        openLowModal(
+            "low-modal-reserve-design",
+            "low-modal-inner-reserve-design",
+            "standard"
+        );
     });
 
     confirmDesignButton.addEventListener("click", () => {
@@ -624,12 +655,18 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     editDesignButton.addEventListener("click", () => {
-        closeLowModal("low-modal-reserve-design", "low-modal-inner-reserve-design");
+        closeLowModal(
+            "low-modal-reserve-design",
+            "low-modal-inner-reserve-design"
+        );
     });
 
     editDesignButtonError.addEventListener("click", () => {
-        closeLowModal("low-modal-reserve-design", "low-modal-inner-reserve-design");
-    })
+        closeLowModal(
+            "low-modal-reserve-design",
+            "low-modal-inner-reserve-design"
+        );
+    });
 
     selectSizeBackButton.addEventListener("click", () => {
         move("backward");
@@ -637,6 +674,21 @@ document.addEventListener("DOMContentLoaded", function () {
 
     selectSizeButton.addEventListener("click", () => {
         addToCartButton.click();
+    });
+
+    const designCarousel = document.querySelector('.carousel-container');
+    const dots = document.querySelectorAll('.dot');
+
+    designCarousel.addEventListener('scroll', function() {
+        // Calculate the width of a single scroll item
+        const itemWidth = designCarousel.scrollWidth / 5; // Assuming 5 items
+
+        // Calculate the index of the currently visible item
+        const visibleIndex = Math.round(designCarousel.scrollLeft / itemWidth);
+
+        // Update the selected dot
+        dots.forEach(dot => dot.classList.remove('visible'));
+        dots[visibleIndex].classList.add('visible');
     });
 });
 

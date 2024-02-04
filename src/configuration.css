@@ -61,25 +61,62 @@
 
 .content {
     z-index: 10;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    width: 100%;
+    padding-bottom: 0;
 }
 
 .quiz-upper-nav {
     width: 100%;
-    position: absolute;
-    padding: 20px 20px 0px 20px;
+    padding: 24px 24px 24px 24px;
     z-index: 100;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 .quiz-close {
-    padding: 9px 15px 9px 15px;
+    padding: 8px 16px 8px 16px;
     border-radius: 4px;
     background-color: white;
 }
 
+.current-product {
+    padding: 8px 16px 8px 16px;
+    border-radius: 4px;
+    background-color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 12px;
+    justify-content: center;
+    align-items: center;
+    font-family: Neuemontreal Medium, sans-serif;
+    font-weight: 500;
+    max-height: 30px;
+    font-size: 16px;
+}
+
+.product-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: rgb(75, 186, 65);
+}
+
+.product-arrow {
+    width: 10px;
+}
+
 .quiz {
-    min-height: 100vh;
+    flex: 1;
     width: 100%;
-    padding-bottom: 0px;
+    padding: 0px 24px 0px 24px;
+    overflow: scroll;
 }
 
 .quiz-form {
@@ -88,7 +125,7 @@
     justify-content: center;
     align-items: center;
     width: 100%;
-    min-height: 100vh;
+    min-height: 100%;
 }
 
 .heading-1-phase0 {
@@ -118,10 +155,9 @@
     flex-direction: column;
     justify-content: top;
     align-items: top;
-    max-width: 85%;
-    width: 90%;
-    min-height: 100vh;
-    max-height: 100vh;
+    width: 100%;
+    min-height: 100%;
+    max-height: 100%;
     overflow: scroll;
     padding-bottom: 40vh;
     padding-top: 10vh;
@@ -142,7 +178,7 @@
     flex-direction: column;
     gap: 48px;
     opacity: 0;
-    width: 90%;
+    width: 100%;
     justify-content: center;
     align-items: center;
 }
@@ -153,7 +189,7 @@
     flex-direction: column;
     gap: 24x;
     opacity: 0;
-    width: 90%;
+    width: 100%;
     justify-content: top;
     align-items: left;
     background-color: white;
@@ -237,13 +273,13 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
     gap: 48px;
-    padding-bottom: 200px;
+    padding-bottom: 48px;
 }
 
 .quiz-phase.select-design.active h2 {
-    margin-left: 48px;
+
 }
 
 .phase-step.carousel-container {
@@ -251,9 +287,9 @@
     flex-direction: row;
     gap: 32px;
     width: 100%;
-    padding-left: 48px;
-    padding-right: 48px;
+    height: 100%;
     overflow: scroll;
+    scroll-snap-type: x mandatory;
 }
 
 .carousel-container::-webkit-scrollbar {
@@ -273,26 +309,40 @@
     display: flex;
     flex-direction: column;
     gap: 24px;
-    min-width: 58%;
+    min-width: 100%;
     min-height: 100%;
     background-color: white;
+    border: 1px solid white;
     padding: 24px 24px 24px 24px;
     align-items: center;
     justify-content: space-between;
+    border-radius: 8px;
+    scroll-snap-align: start;
+
 }
 
 .design-container.selected {
-    border: 1px solid black;
+    border: 1px solid grey;
+    
 }
 
 .images {
     width: 100%;
+    flex: 1;
     display: flex;
     justify-content: center;
+    align-items: center;
+    background-color: #F5F5F7;
+    border-radius: 4px;
+    overflow: hidden;
+    padding: 24px 24px 24px 24px;
 }
 
 .design-image {
-    width: 100%;
+    width: auto;
+    max-height: 100%;
+    object-fit: scale-down; 
+    margin: 24px 24px 24px 24px;
 }
 
 .design-info-container {
@@ -305,6 +355,16 @@
 
 .design-name {
     align-self: flex-start;
+    font-size: 24px;
+    text-overflow: ellipsis;
+    line-height: 1.2em;
+    display: -webkit-box; /* For Safari, iOS, and Android */
+    -webkit-line-clamp: 3; /* Limit the number of lines to display */
+    -webkit-box-orient: vertical; /* Set the direction of the box */
+    max-height: 3 * 1.2em; /* 3 lines multiplied by the line height */
+    overflow: hidden; /* Hide the overflow content */
+    white-space: normal; /* Allow text to wrap */
+    text-overflow: ellipsis;
 }
 
 .design-button {
@@ -334,6 +394,22 @@
     justify-content: top;
     gap: 24px;
 }
+
+.indicator-container {
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+  }
+  .dot {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color: lightgray;
+    margin: 0 5px; /* Adjust spacing between dots */
+  }
+  .dot.visible {
+    background-color: black;
+  }
 
 .phase-step-new-fit-container {
     display: flex;
@@ -518,7 +594,7 @@ input[type="radio"]:checked + .radio-option {
 }
 
 .navigation {
-    position: absolute;
+    position: relative;
     bottom: 0;
     left: 0;
     max-width: 100%;
@@ -530,7 +606,7 @@ input[type="radio"]:checked + .radio-option {
     align-items: bottom;
     gap: 32px;
     /* border-top: 2px solid #000; */
-    margin: 20 20 20 20;
+
 }
 
 .progress-container {
@@ -574,7 +650,7 @@ input[type="radio"]:checked + .radio-option {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 20px 20px 20px 20px;
+    padding: 24px 24px 24px 24px;
     gap: 32px;
     width: 100%;
     height: 100%;
@@ -585,11 +661,12 @@ input[type="radio"]:checked + .radio-option {
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    gap: 12px;
+    gap: 50%;
 }
 
 .button-container.column {
     flex-direction: column-reverse;
+    gap: 16px;
 }
 
 .button-container.hidden {
@@ -598,7 +675,7 @@ input[type="radio"]:checked + .radio-option {
 
 .quiz-button {
     width: 100%;
-    height: 50px;
+    height: 60px;
     border-radius: 8px;
     color: white;
     background: black;
@@ -616,6 +693,7 @@ input[type="radio"]:checked + .radio-option {
     background: white;
     color: black;
     justify-content: left;
+    max-width: 75px;
 }
 
 .quiz-button.secondary.center {
@@ -674,9 +752,13 @@ input[type="radio"]:checked + .radio-option {
     margin-bottom: -100vh;
     flex-direction: column;
     background-color: white;
-    gap: 16px;
-    padding: 16px 16px 16px 16px;
+    gap: 24px;
+    padding: 24px 24px 24px 24px;
     transition: margin-bottom 0.3s ease-in-out;
+}
+
+.low-modal-inner h3 {
+    font-size: 24px;
 }
 
 .low-modal-inner.active {
@@ -691,9 +773,18 @@ input[type="radio"]:checked + .radio-option {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: left;
+    align-items: center;
     width: 100%;
-    gap: 16px;
+    gap: 8px;
+}
+
+.low-modal-inner-content p {
+    font-size: 24px;
+    line-height: normal;
+    text-align: left;
+    width: 100%;
+    min-width: 100%;
+    margin-bottom: 24px;
 }
 
 .blob {
