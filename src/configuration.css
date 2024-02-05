@@ -99,7 +99,7 @@
     font-weight: 500;
     max-height: 30px;
     font-size: 20px;
-    z-index: 2000;
+    z-index: 600;
     min-width: min-content ;
     transition: width 0.9s ease-in-out;
 }
@@ -495,6 +495,22 @@
     display: none;
 }
 
+.fit-selected {
+    display: none;
+}
+
+.fit-selected.active {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 100%;
+    min-height: 100%;
+    min-width: 100%;
+    ;
+    justify-content: center;
+    align-items: center;
+}
+
 .name h1 {
     min-width: 100%;
     text-align: center;
@@ -660,8 +676,8 @@ input[type="radio"]:checked + .radio-option {
 .progress-text {
     margin-bottom: 0px;
     font-size: 24px;
-    min-width: 50px;
-    max-width: 50px;
+    min-width: 60px;
+    max-width: 60px;
 }
 
 .progress-bar-quiz {
@@ -730,7 +746,7 @@ input[type="radio"]:checked + .radio-option {
     background: white;
     color: black;
     justify-content: left;
-    max-width: 75px;
+    max-width: 125px;
     font-size: 16px;
 }
 

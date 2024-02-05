@@ -87,18 +87,19 @@ const prospectingText = document.getElementById("prospecting-text");
 const prospectingBar = document.getElementById("prospecting-bar");
 
 const currentProductButton = document.getElementById("current-product-button");
+const fitDoneLoadingScreen = document.getElementById("loading-screen-fit-done");
 //Other variables
 
 //Functions
 
 //handle overlay & quiz opening
 const setInitialProperties = () => {
-    quizOverlay.style.opacity = "1";
-    quizOverlay.style.display = "flex";
-    quizContainer.style.right = "0";
-    // quizOverlay.style.opacity = "0";
-    // quizOverlay.style.display = "none";
-    // quizContainer.style.right = "-125vw";
+    // quizOverlay.style.opacity = "1";
+    // quizOverlay.style.display = "flex";
+    // quizContainer.style.right = "0";
+    quizOverlay.style.opacity = "0";
+    quizOverlay.style.display = "none";
+    quizContainer.style.right = "-125vw";
     createYoursButton.addEventListener("click", openQuizOverlay);
     quizCloseButton.addEventListener("click", closeQuizOverlay);
     addToCartTarget.appendChild(addToCartHTML);
@@ -131,6 +132,7 @@ const openQuizOverlay = () => {
     }, 10);
 
     quizContainer.style.right = "0";
+    updateConfiguration("forward");
 };
 
 //function to close the quiz overlay§
@@ -145,15 +147,20 @@ function closeQuizOverlay() {
 }
 
 function updateActiveProductState() {
-    const product = cookies.getOrder().personalities[cookies.getCurrentPersonality()].products[0];
+    const product =
+        cookies.getOrder().personalities[cookies.getCurrentPersonality()]
+            .products[0];
     const name = product.product;
     const collection = product.collection;
     const price = product.price;
     const image = product.image;
     const description = product.description;
-    const size = product.selectedSize
-    const personalityRole = cookies.getOrder().personalities[cookies.getCurrentPersonality()].personality.personalityRole;
-    const personalityName = cookies.getOrder().personalities[cookies.getCurrentPersonality()].name;
+    const size = product.selectedSize;
+    const personalityRole =
+        cookies.getOrder().personalities[cookies.getCurrentPersonality()]
+            .personality.personalityRole;
+    const personalityName =
+        cookies.getOrder().personalities[cookies.getCurrentPersonality()].name;
     const designName = cookies.getSelectedDesign().prompt;
 
     const apName = document.getElementById("ap-name");
@@ -161,7 +168,9 @@ function updateActiveProductState() {
     const apPrice = document.getElementById("ap-price");
     const apImage = document.getElementById("ap-image");
     const apDescription = document.getElementById("ap-desc");
-    const apPersonalityStatus = document.getElementById("ap-personality-status");
+    const apPersonalityStatus = document.getElementById(
+        "ap-personality-status"
+    );
     const apDesignStatus = document.getElementById("ap-design-status");
     const apFitStatus = document.getElementById("ap-fit-status");
 
@@ -172,36 +181,57 @@ function updateActiveProductState() {
     const apStatus2 = document.getElementById("ap-status-2");
     const apStatus3 = document.getElementById("ap-status-3");
 
-
     apName.innerHTML = name;
     apCollection.innerHTML = collection;
     apPrice.innerHTML = price;
     apImage.src = image;
     apDescription.innerHTML = description;
-    
-    if (cookies.getConfigurationStatus().quizDone && cookies.getConfigurationStatus().personalityDone && !cookies.getConfigurationStatus().designDone && !cookies.getConfigurationStatus().sizeDone) {
+
+    if (
+        cookies.getConfigurationStatus().quizDone &&
+        cookies.getConfigurationStatus().personalityDone &&
+        !cookies.getConfigurationStatus().designDone &&
+        !cookies.getConfigurationStatus().sizeDone
+    ) {
         apStatus1.classList.add("active");
-        apPersonalityStatus.innerHTML = personalityName + " / " + personalityRole;
+        apPersonalityStatus.innerHTML =
+            personalityName + " / " + personalityRole;
         apStatus2.classList.add("active");
         apDesignStatus.innerHTML = "Selecting...";
         apStatus3.classList.remove("active");
         apFitStatus.innerHTML = "Unselected";
-    } else if (cookies.getConfigurationStatus().designDone && !cookies.getConfigurationStatus().sizeDone) {
+    } else if (
+        cookies.getConfigurationStatus().designDone &&
+        !cookies.getConfigurationStatus().sizeDone
+    ) {
         apStatus1.classList.add("active");
-        apPersonalityStatus.innerHTML = personalityName + " / " + personalityRole;
+        apPersonalityStatus.innerHTML =
+            personalityName + " / " + personalityRole;
         apStatus2.classList.add("active");
         apDesignStatus.innerHTML = designName;
         apStatus3.classList.add("active");
         apFitStatus.innerHTML = "Selecting...";
     } else if (cookies.getConfigurationStatus().sizeDone) {
         apStatus1.classList.add("active");
-        apPersonalityStatus.innerHTML = personalityName + " / " + personalityRole;
+        apPersonalityStatus.innerHTML =
+            personalityName + " / " + personalityRole;
         apStatus2.classList.add("active");
         apDesignStatus.innerHTML = designName;
         apStatus3.classList.add("active");
         apFitStatus.innerHTML = size;
     }
-    ;
+}
+
+function updateAddToCartState() {
+    const sizeDone =
+        cookies.getOrder().personalities[cookies.getCurrentPersonality()]
+            .products[0].selectedSize;
+
+    if (sizeDone !== "") {
+        selectSizeButton.classList.remove("disabled");
+    } else {
+        selectSizeButton.classList.add("disabled");
+    }
 }
 
 function openHighModal(outerID, innerID, state) {
@@ -447,6 +477,22 @@ function updateConfiguration(direction) {
         quizNextButton.classList.add("disabled");
     }
 
+    quizCloseButton.style.zIndex = "500";
+
+    if (
+        cookies.getConfigurationStatus().currentPhase === 4 &&
+        cookies.getConfigurationStatus().sizeDone
+    ) {
+        addToCartHTML
+            .querySelector(".w-commerce-commercecartwrapper")
+            .setAttribute("data-cart-open", "");
+        const cartWrapper = document.getElementById("cart-wrapper");
+        cartWrapper.style.display = "flex";
+        cartWrapper.style.opacity = "1";
+        quizCloseButton.style.zIndex = "2000";
+        fitDoneLoadingScreen.classList.add("active");
+    }
+
     updateActiveProductState();
 }
 
@@ -572,7 +618,7 @@ async function fetchDesigns() {
             cookies.updateGetDesigns(responseData);
             updatePersonality();
             updateDesigns();
-            updateActiveProductState()
+            updateActiveProductState();
         } catch (error) {
             console.log(error);
         }
@@ -775,6 +821,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     selectSizeButton.addEventListener("click", () => {
         addToCartButton.click();
+        cookies.handleAddToCart(true);
+        fitDoneLoadingScreen.classList.add("active");
+        quizCloseButton.style.zIndex = "2000";
     });
 
     currentProductButton.addEventListener("click", () => {
@@ -785,18 +834,25 @@ document.addEventListener("DOMContentLoaded", function () {
         if (highModal.classList.contains("active")) {
             statusText.innerHTML = "Personalized T-Shirt";
             productArrow.classList.remove("open");
-            closeHighModal("high-modal-active-product", "high-modal-inner-active-product");
+            closeHighModal(
+                "high-modal-active-product",
+                "high-modal-inner-active-product"
+            );
         } else {
             statusText.innerHTML = "In-progress";
             productArrow.classList.add("open");
-            openHighModal("high-modal-active-product", "high-modal-inner-active-product", "standard");
+            openHighModal(
+                "high-modal-active-product",
+                "high-modal-inner-active-product",
+                "standard"
+            );
         }
     });
 
-    const designCarousel = document.querySelector('.carousel-container');
-    const dots = document.querySelectorAll('.dot');
+    const designCarousel = document.querySelector(".carousel-container");
+    const dots = document.querySelectorAll(".dot");
 
-    designCarousel.addEventListener('scroll', function() {
+    designCarousel.addEventListener("scroll", function () {
         // Calculate the width of a single scroll item
         const itemWidth = designCarousel.scrollWidth / 5; // Assuming 5 items
 
@@ -804,26 +860,77 @@ document.addEventListener("DOMContentLoaded", function () {
         const visibleIndex = Math.round(designCarousel.scrollLeft / itemWidth);
 
         // Update the selected dot
-        dots.forEach(dot => dot.classList.remove('visible'));
-        dots[visibleIndex].classList.add('visible');
+        dots.forEach((dot) => dot.classList.remove("visible"));
+        dots[visibleIndex].classList.add("visible");
     });
 
-    document.getElementById('close-active-product').addEventListener('click', function() {
-        const statusText = document.getElementById("status-text");
-        const productArrow = document.getElementById("product-arrow");
-        statusText.innerHTML = "Personalized T-Shirt";
-        productArrow.classList.remove("open");
-        closeHighModal("high-modal-active-product", "high-modal-inner-active-product");
-    });
+    document
+        .getElementById("close-active-product")
+        .addEventListener("click", function () {
+            const statusText = document.getElementById("status-text");
+            const productArrow = document.getElementById("product-arrow");
+            statusText.innerHTML = "Personalized T-Shirt";
+            productArrow.classList.remove("open");
+            closeHighModal(
+                "high-modal-active-product",
+                "high-modal-inner-active-product"
+            );
+        });
 
     sizeSelect.addEventListener("change", function () {
         const value = sizeSelect.options[sizeSelect.selectedIndex].innerHTML;
 
         cookies.updateSelectedSize(value);
-        
+        updateAddToCartState();
     });
 
+    const targetElement = document.querySelector(
+        ".w-commerce-commercecartlist"
+    );
+
+    const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+            if (mutation.type === "childList") {
+                if (targetElement.hasChildNodes()) {
+                } else {
+                    console.log("cart empty");
+                    cookies.updateSelectedSize("Select Size");
+                    cookies.handleAddToCart(false);
+                    addToCartHTML
+                        .querySelector(".w-commerce-commercecartwrapper")
+                        .removeAttribute("data-cart-open", "");
+                    const cartWrapper = document.getElementById("cart-wrapper");
+                    cartWrapper.style.display = "none";
+                    cartWrapper.style.opacity = "0";
+                    quizCloseButton.style.zIndex = "500";
+                    fitDoneLoadingScreen.classList.remove("active");
+                }
+            }
+        });
+    });
+
+    observer.observe(targetElement, { childList: true });
+
     console.log("sizeSelect", sizeSelect);
+
+   document.getElementById('cart-wrapper').addEventListener('click', function(event) {
+        // Prevent the default behavior of hiding the cartWrapper
+        event.preventDefault();
+        event.stopPropagation();
+    });
+
+    window.addEventListener('wf-change-cart-state', function(event) {
+        // Check if the click target is outside the cartWrapper
+            // Prevent the default behavior of hiding the cartWrapper
+            const cartWrapper = document.getElementById("cart-wrapper");
+            cartWrapper.style.display = "flex";
+            cartWrapper.style.opacity = "1";
+            console.log("event", event);
+            event.preventDefault();
+            event.stopPropagation();
+            event.stopImmediatePropagation();
+    }, true);
+
 });
 
 window.addEventListener("unload", function () {});

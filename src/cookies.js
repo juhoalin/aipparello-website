@@ -1,5 +1,6 @@
 //Saved cookies structure
 
+
 const quizLength = 16;
 
 // Now always zero – used in the future to handle multiple personalities during the same session
@@ -48,18 +49,26 @@ let configurationStatus = {
     sizeDone: false,
 };
 
+const handleAddToCart = (add) => {
+    if (add && order.personalities[currentPersonality].products[0].selectedSize !== "") {
+        configurationStatus.phases[4].completed = true;
+        configurationStatus.phases[4].progress = 1;
+        configurationStatus.sizeDone = true;
+        saveconfigurationStatusToCookie(configurationStatus);
+    } else {
+        configurationStatus.phases[4].progress = 0;
+        configurationStatus.phases[4].completed = false;
+        configurationStatus.sizeDone = false;
+        saveconfigurationStatusToCookie(configurationStatus);
+    }
+}
+
 const updateSelectedSize = (size) => {
 
     if (size !== "Select Size") {
-        configurationStatus.sizeDone = true;
-        saveconfigurationStatusToCookie(configurationStatus);
-    
         order.personalities[currentPersonality].products[0].selectedSize = size;
         saveOrderToCookie(order);
     } else {
-        configurationStatus.sizeDone = false;
-        saveconfigurationStatusToCookie(configurationStatus);
-
         order.personalities[currentPersonality].products[0].selectedSize = "";
         saveOrderToCookie(order);
     }
@@ -418,4 +427,5 @@ module.exports = {
     updateDesignDone,
     updateSelectedSize,
     personalityDone,
+    handleAddToCart
 };
