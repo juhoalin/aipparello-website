@@ -21,8 +21,12 @@ let order = {
             },
             products: [
                 {
-                    product: "",
-                    collection: "",
+                    product: "Personalized T-shirt",
+                    collection: "Nature",
+                    price: "29.90",
+                    image:  "https://uploads-ssl.webflow.com/649a7177573e38f6a02e440d/65a3cde9c0d90b9719d405fd_woman-owl.webp",
+                    selectedSize: "",
+                    description: "Premium crew neck T-Shirt with custom 001 Nature collection design based on your personality",
                     options: [],
                     selectedDesign: "",
                 },
@@ -43,6 +47,23 @@ let configurationStatus = {
     designDone: false,
     sizeDone: false,
 };
+
+const updateSelectedSize = (size) => {
+
+    if (size !== "Select Size") {
+        configurationStatus.sizeDone = true;
+        saveconfigurationStatusToCookie(configurationStatus);
+    
+        order.personalities[currentPersonality].products[0].selectedSize = size;
+        saveOrderToCookie(order);
+    } else {
+        configurationStatus.sizeDone = false;
+        saveconfigurationStatusToCookie(configurationStatus);
+
+        order.personalities[currentPersonality].products[0].selectedSize = "";
+        saveOrderToCookie(order);
+    }
+}
 
 const updateDesignDone = () => {
     configurationStatus.designDone = true;
@@ -150,6 +171,10 @@ const getOrder = () => {
 const getConfigurationStatus = () => {
     return configurationStatus;
 };
+
+const personalityDone = () => {
+    return configurationStatus.personalityDone;
+}
 
 //retrieve the current personality
 const getCurrentPersonality = () => {
@@ -391,4 +416,6 @@ module.exports = {
     getSelectedDesign,
     designDone,
     updateDesignDone,
+    updateSelectedSize,
+    personalityDone,
 };

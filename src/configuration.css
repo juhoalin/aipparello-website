@@ -72,7 +72,6 @@
 .quiz-upper-nav {
     width: 100%;
     padding: 24px 24px 24px 24px;
-    z-index: 100;
     position: relative;
     display: flex;
     flex-direction: row;
@@ -82,13 +81,14 @@
 .quiz-close {
     padding: 8px 16px 8px 16px;
     border-radius: 4px;
-    background-color: white;
+    background-color: #F5F5F7;
+    font-size: 16px;
 }
 
 .current-product {
     padding: 8px 16px 8px 16px;
     border-radius: 4px;
-    background-color: white;
+    background-color: #F5F5F7;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -98,7 +98,10 @@
     font-family: Neuemontreal Medium, sans-serif;
     font-weight: 500;
     max-height: 30px;
-    font-size: 16px;
+    font-size: 20px;
+    z-index: 2000;
+    min-width: min-content ;
+    transition: width 0.9s ease-in-out;
 }
 
 .product-dot {
@@ -110,6 +113,11 @@
 
 .product-arrow {
     width: 10px;
+    transition: rotate 0.3s ease-in-out;
+}
+
+.product-arrow.open {
+    transform: rotate(90deg);
 }
 
 .quiz {
@@ -187,43 +195,55 @@
     padding-top: 0;
     display: flex;
     flex-direction: column;
-    gap: 24x;
+    gap: 100px;
     opacity: 0;
     width: 100%;
-    justify-content: top;
+    justify-content: center;
     align-items: left;
     background-color: white;
-    padding: 50px 50px 50px 50px;
-    margin-bottom: 125px;
+    padding: 36px 36px 36px 36px;
+    border-radius: 8px;
 }
 
 .phase-step.personality {
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 36px;
     width: 100%;
 }
 
 .personality-header {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 24px;
     width: 100%;
 }
+
+#personality-name {
+    font-size: 20px;
+}
+
 #personality-type {
     text-transform: uppercase;
+    font-size: 42px;
 }
 
 #personality-description {
-    width: 100%;
+    min-width: 100%;
+    font-size: 24px;
+    line-height: normal;
 }
 
 .personality-metric {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 24px;
     width: 100%;
     margin-top: 24px;
+}
+
+.personality-netric-label {
+    font-size: 24px;
 }
 
 .personality-metric-data-container {
@@ -250,6 +270,10 @@
     border-radius: 50px;
 }
 
+.progress-text {
+    font-size: 24px;
+}
+
 #save-to-email-container {
     display: flex;
     gap: 16px;
@@ -258,15 +282,26 @@
     align-items: center;
     justify-content: space-between;
     border-top: 2px solid #000;
-    padding-top: 24px;
+    padding-top: 36px;
 }
 
 #save-to-email-button {
     background: transparent;
     border: none;
-    font-size: 16px;
-    font-weight: 800;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
 }
+
+#save-to-email-button p {
+    font-size: 24px;
+    font-weight: 900;
+    width: 100%;
+    text-align: left;
+    font-family: Neuemontreal Medium, sans-serif;
+    font-weight: 500;
+}
+
 
 .quiz-phase.select-design.active {
     width: 100%;
@@ -277,6 +312,7 @@
     gap: 48px;
     padding-bottom: 48px;
 }
+
 
 .quiz-phase.select-design.active h2 {
 
@@ -623,7 +659,7 @@ input[type="radio"]:checked + .radio-option {
 
 .progress-text {
     margin-bottom: 0px;
-    font-size: 20px;
+    font-size: 24px;
     min-width: 50px;
     max-width: 50px;
 }
@@ -682,6 +718,7 @@ input[type="radio"]:checked + .radio-option {
     display: flex;
     justify-content: center;
     align-items: center;
+    font-size: 16px;
 }
 
 .quiz-button.disabled {
@@ -694,6 +731,7 @@ input[type="radio"]:checked + .radio-option {
     color: black;
     justify-content: left;
     max-width: 75px;
+    font-size: 16px;
 }
 
 .quiz-button.secondary.center {
@@ -785,6 +823,169 @@ input[type="radio"]:checked + .radio-option {
     width: 100%;
     min-width: 100%;
     margin-bottom: 24px;
+}
+
+.high-modal {
+    display: none;
+    flex-direction: column;
+    background: rgba(94, 94, 94, 0.6);
+    position: absolute;
+    left: 0;
+    justify-content: flex-start;
+    align-items: center;
+    transition: opacity 0.3s ease-in-out;
+    width: 100%;
+    height: 100%;
+    z-index: 500;
+    opacity: 0;
+}
+
+.high-modal.active {
+    display: flex;
+}
+
+.high-modal-inner {
+    width: 100%;
+    display: none;
+    margin-top: -100vh;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+    gap: 24px;
+    padding: 96px 24px 24px 24px;
+    transition: margin-top 0.3s ease-in-out;
+}
+
+.high-modal-inner h3 {
+    font-size: 24px;
+}
+
+.high-modal-inner.active {
+    display: flex;
+}
+
+.high-modal-inner-content{
+    display: none;
+}
+
+.high-modal-inner-content.active {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    gap: 24px;
+}
+
+.high-modal-inner-content p {
+    font-size: 24px;
+    line-height: normal;
+
+}
+
+.active-product-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    width: 100%;
+}
+
+.active-product-header p {
+    font-size: 24px;
+    line-height: normal;
+}
+
+.active-product-header h3 {
+    font-size: 24px;
+    line-height: normal;
+}
+
+.active-product-header.left {
+    flex: 0.7;
+    min-width: 30%;
+}
+
+.active-product-header.right {
+    flex: 0.3;
+    width: 65%;
+}
+
+
+
+.product-image-description-container {
+    display: flex;
+    gap: 5%;
+}
+
+.product-image {
+    flex: 0.5;
+    max-width: 40%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+}
+
+.product-description {
+    width: 65%;
+}
+
+.product-description p {
+    width: 100%;
+}
+
+.color-fit-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.color-fit-container p {
+    max-width: 50%;
+    min-width: none;
+    text-align: right;
+}
+
+.color-container {
+    display: flex;
+    gap: 24px;
+}
+
+.color-dot {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: white;
+    border: 2px solid black;
+}
+
+
+.status-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.single-status {
+    display: flex;
+    gap: 24px;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding-top: 36px;
+    padding-bottom: 36px;
+    border-bottom: 2px solid #000;
+    opacity: 0.5;
+}
+
+.single-status.active {
+    opacity: 1;
+}
+
+.single-status.first {
+    border-top: 2px solid #000;
+}
+
+.status-text {
+    text-align: right;
 }
 
 .blob {

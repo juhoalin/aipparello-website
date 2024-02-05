@@ -3,10 +3,14 @@
     <div class="radient-wrapper"></div>
     <div class="content">
         <div class="quiz-upper-nav">
-            <button class="current-product">
+            <button class="current-product" id="current-product-button">
                 <div class="product-dot"></div>
-                <span class="buttontext">Personalized T-Shirt</span>
-                <img class="product-arrow" src="https://uploads-ssl.webflow.com/649a7177573e38f6a02e440d/65c0099e177d6f6b0eeddb9f_Arrow.svg">
+                <span class="buttontext" id="status-text">Personalized T-Shirt</span>
+                <img
+                id="product-arrow"
+                    class="product-arrow"
+                    src="https://uploads-ssl.webflow.com/649a7177573e38f6a02e440d/65c0099e177d6f6b0eeddb9f_Arrow.svg"
+                />
             </button>
             <button class="quiz-close">CLOSE</button>
         </div>
@@ -1528,20 +1532,23 @@
                         </div>
                         <div id="save-to-email-container">
                             <button id="save-to-email-button">
-                                <p class="">SAVE PERSONALITY TO EMAIL</p>
+                                <p class="bodytext">
+                                    SAVE PERSONALITY TO EMAIL
+                                </p>
+                                <svg
+                                    class="plus"
+                                    width="20"
+                                    height="22"
+                                    viewBox="0 0 14 16"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path
+                                        d="M5.52155 9.95037H0V6.86213H5.52155V0.90625H8.47845V6.86213H14V9.95037H8.47845V15.9062H5.52155V9.95037Z"
+                                        fill="#1D1D1F"
+                                    />
+                                </svg>
                             </button>
-                            <svg
-                                width="14"
-                                height="16"
-                                viewBox="0 0 14 16"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                            >
-                                <path
-                                    d="M5.52155 9.95037H0V6.86213H5.52155V0.90625H8.47845V6.86213H14V9.95037H8.47845V15.9062H5.52155V9.95037Z"
-                                    fill="#1D1D1F"
-                                />
-                            </svg>
                         </div>
                     </div>
                 </div>
@@ -1725,105 +1732,161 @@
                 </div>
             </div>
         </div>
-        <div class="navigation">
-            <div class="nav-content">
-                <div class="progress-container" id="progress-container">
-                    <p class="progress-text" id="progress-text">0%</p>
-                    <div class="progress-bar-quiz">
-                        <div class="progress" id="progress-bar"></div>
+
+        <div class="high-modal active-product" id="high-modal-active-product">
+            <div class="high-modal-inner" id="high-modal-inner-active-product">
+                <div class="active-product-header">
+                <div class="left">
+                    <h3 class="heading-3" id="ap-name">Personalized T-Shirt</h3>
+                    <p class="bodytext" id="ap-collection">Nature</p>
+                </div>
+                <div class="right">
+                    <p class="bodytext" id="ap-price">19.90</p>
+                </div>
+                </div>
+                <div class="high-modal-inner-content standard">
+                    <div class="product-image-description-container">
+                        <img
+                            class="product-image"
+                            id="ap-image"
+                            src="https://uploads-ssl.webflow.com/649a7177573e38f6a02e440d/65a3cde9c0d90b9719d405fd_woman-owl.webp"
+                        />
+                        <div class="product-description">
+                            <p class="bodytext" id="ap-desc">
+                                Description
+                            </p>
+                        </div>
+                    </div>
+                    <div class="color-fit-container">
+                        <div class="color-container">
+                            <div class="color-dot"></div>
+                        </div>
+                        <p class="bodytext">UNISEX</p>
+                    </div>
+                    <div class="status-container">
+                        <div class="single-status active first" id="ap-status-1">
+                            <p class="bodytext">Personality</p>
+                            <p class="bodytext status-text" id="ap-personality-status">Respoding...</p>
+                        </div>
+                        <div class="single-status" id="ap-status-2">
+                            <p class="bodytext">Design</p>
+                            <p class="bodytext status-text" id="ap-design-status">Unselected.</p>
+                        </div>
+                        <div class="single-status" id="ap-status-3">
+                            <p class="bodytext">Size</p>
+                            <p class="bodytext status-text" id="ap-fit-status">Unselected</p>
+                        </div>
                     </div>
                 </div>
-                <div class="button-container" id="start-quiz-button-container">
-                    <button
-                        class="quiz-button disabled"
-                        type="button"
-                        onclick=""
-                        id="start-quiz-button"
+                <button class="quiz-button secondary" id="close-active-product">CONTINUE</button>
+            </div>
+        </div>
+            <div class="navigation">
+                <div class="nav-content">
+                    <div class="progress-container" id="progress-container">
+                        <p class="progress-text" id="progress-text">0%</p>
+                        <div class="progress-bar-quiz">
+                            <div class="progress" id="progress-bar"></div>
+                        </div>
+                    </div>
+                    <div
+                        class="button-container"
+                        id="start-quiz-button-container"
                     >
-                        START PERSONALITY QUIZ
-                    </button>
-                </div>
-                <div class="button-container hidden" id="quiz-button-container">
-                    <button
-                        class="quiz-button secondary"
-                        type="button"
-                        onclick=""
-                        id="quiz-previous-button"
+                        <button
+                            class="quiz-button disabled"
+                            type="button"
+                            onclick=""
+                            id="start-quiz-button"
+                        >
+                            START PERSONALITY QUIZ
+                        </button>
+                    </div>
+                    <div
+                        class="button-container hidden"
+                        id="quiz-button-container"
                     >
-                        ← BACK
-                    </button>
-                    <button
-                        class="quiz-button"
-                        type="button"
-                        onclick=""
-                        id="quiz-next-button"
+                        <button
+                            class="quiz-button secondary"
+                            type="button"
+                            onclick=""
+                            id="quiz-previous-button"
+                        >
+                            ← BACK
+                        </button>
+                        <button
+                            class="quiz-button"
+                            type="button"
+                            onclick=""
+                            id="quiz-next-button"
+                        >
+                            NEXT →
+                        </button>
+                    </div>
+                    <div
+                        class="button-container column hidden"
+                        id="show-designs-button-container"
                     >
-                        NEXT →
-                    </button>
-                </div>
-                <div
-                    class="button-container column hidden"
-                    id="show-designs-button-container"
-                >
-                    <button
-                        class="quiz-button secondary center"
-                        type="button"
-                        onclick=""
-                        id="show-designs-back-button"
-                    >
-                        BACK
-                    </button>
-                    <button
-                        class="quiz-button"
-                        type="button"
-                        onclick=""
-                        id="show-designs-button"
-                    >
-                        SELECT YOUR DESIGN →
-                    </button>
-                </div>
+                        <button
+                            class="quiz-button secondary center"
+                            type="button"
+                            onclick=""
+                            id="show-designs-back-button"
+                        >
+                            BACK
+                        </button>
+                        <button
+                            class="quiz-button"
+                            type="button"
+                            onclick=""
+                            id="show-designs-button"
+                        >
+                            SELECT YOUR DESIGN →
+                        </button>
+                    </div>
 
-                <div
-                    class="button-container column hidden"
-                    id="select-design-button-container"
-                >
-                    <button
-                        class="quiz-button secondary center"
-                        type="button"
-                        onclick=""
-                        id="select-design-back-button"
+                    <div
+                        class="button-container column hidden"
+                        id="select-design-button-container"
                     >
-                        BACK
-                    </button>
-                    <button
-                        class="quiz-button disabled"
-                        type="button"
-                        onclick=""
-                        id="select-design-button"
+                        <button
+                            class="quiz-button secondary center"
+                            type="button"
+                            onclick=""
+                            id="select-design-back-button"
+                        >
+                            BACK
+                        </button>
+                        <button
+                            class="quiz-button disabled"
+                            type="button"
+                            onclick=""
+                            id="select-design-button"
+                        >
+                            SELECT SIZE →
+                        </button>
+                    </div>
+                    <div
+                        class="button-container column hidden"
+                        id="select-size-button-container"
                     >
-                        SELECT SIZE →
-                    </button>
-                </div>
-                <div
-                    class="button-container column hidden"
-                    id="select-size-button-container"
-                >
-                    <button
-                        class="quiz-button secondary center"
-                        type="button"
-                        onclick=""
-                        id="select-size-back-button"
-                    >
-                        BACK
-                    </button>
-                    <button
-                        class="quiz-button"
-                        type="button"
-                        onclick=""
-                        id="select-size-button"
-                    >
-                        ADD TO CART
-                    </button>
+                        <button
+                            class="quiz-button secondary center"
+                            type="button"
+                            onclick=""
+                            id="select-size-back-button"
+                        >
+                            BACK
+                        </button>
+                        <button
+                            class="quiz-button"
+                            type="button"
+                            onclick=""
+                            id="select-size-button"
+                        >
+                            ADD TO CART
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
