@@ -475,16 +475,24 @@
 
 #cart-wrapper {
     position: absolute;
+    display: none !important;
+    opacity: 0 !important;
 }
 
 #cart-container {
     min-width: 100%;
     max-width: none;
     height: 100%;
+    transform: none !important;
 }
 
 .w-dyn-list {
     width: 100%;
+}
+
+#cart-wrapper.dominate {
+    display: flex !important;
+    opacity: 1 !important;
 }
 
 #add-to-cart-button {

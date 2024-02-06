@@ -10,6 +10,7 @@ const quizContent = document.getElementById("quiz-content");
 
 // Require the quiz.html file
 const quizHTML = require("./configuration.html");
+const { getEventListeners } = require("events");
 
 // Inject the HTML into the quiz-content element
 quizContent.innerHTML = quizHTML.default;
@@ -487,8 +488,7 @@ function updateConfiguration(direction) {
             .querySelector(".w-commerce-commercecartwrapper")
             .setAttribute("data-cart-open", "");
         const cartWrapper = document.getElementById("cart-wrapper");
-        cartWrapper.style.display = "flex";
-        cartWrapper.style.opacity = "1";
+        cartWrapper.classList.add("dominate");
         quizCloseButton.style.zIndex = "2000";
         fitDoneLoadingScreen.classList.add("active");
     }
@@ -892,6 +892,8 @@ document.addEventListener("DOMContentLoaded", function () {
         mutations.forEach((mutation) => {
             if (mutation.type === "childList") {
                 if (targetElement.hasChildNodes()) {
+                    const cartWrapper = document.getElementById("cart-wrapper");
+                    cartWrapper.classList.add("dominate");
                 } else {
                     console.log("cart empty");
                     cookies.updateSelectedSize("Select Size");
@@ -900,8 +902,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         .querySelector(".w-commerce-commercecartwrapper")
                         .removeAttribute("data-cart-open", "");
                     const cartWrapper = document.getElementById("cart-wrapper");
-                    cartWrapper.style.display = "none";
-                    cartWrapper.style.opacity = "0";
+                    cartWrapper.classList.remove("dominate");
                     quizCloseButton.style.zIndex = "500";
                     fitDoneLoadingScreen.classList.remove("active");
                 }
@@ -913,23 +914,27 @@ document.addEventListener("DOMContentLoaded", function () {
 
     console.log("sizeSelect", sizeSelect);
 
-   document.getElementById('cart-wrapper').addEventListener('click', function(event) {
-        // Prevent the default behavior of hiding the cartWrapper
-        event.preventDefault();
-        event.stopPropagation();
-    });
+//    document.getElementById('cart-wrapper').addEventListener('click', function(event) {
+//         // Prevent the default behavior of hiding the cartWrapper
+//         event.preventDefault();
+//         event.stopPropagation();
+//     });
 
-    window.addEventListener('wf-change-cart-state', function(event) {
+    window.addEventListener('click', function(event) {
         // Check if the click target is outside the cartWrapper
             // Prevent the default behavior of hiding the cartWrapper
             const cartWrapper = document.getElementById("cart-wrapper");
-            cartWrapper.style.display = "flex";
-            cartWrapper.style.opacity = "1";
-            console.log("event", event);
-            event.preventDefault();
-            event.stopPropagation();
-            event.stopImmediatePropagation();
-    }, true);
+
+            // this.setTimeout(() => {
+            //     cartWrapper.style.display = "flex";
+            //     cartWrapper.style.opacity = "1";
+            // }, 900);
+    });
+
+    window.removeEventListener('wf-change-cart-state', handler);
+
+
+    console.log('i=>{let o=r(i),a=o instanceof Element?Mce(i,o):i;o&&n(a,this.apolloClient,this.stripeStore)}')
 
 });
 
