@@ -134,6 +134,7 @@ const openQuizOverlay = () => {
 
     quizContainer.style.right = "0";
     updateConfiguration("forward");
+    scrollToActiveQuestion();
 };
 
 //function to close the quiz overlay§
@@ -380,6 +381,9 @@ function updateQuestionState(currentQuestion, nextQuestion, phase) {
     quizPhase.style.overflow = "scroll";
     if (nextQuestion) {
         nextQuestion.classList.add("active");
+        nextQuestion.querySelectorAll(".radio-input").forEach((input) => {
+            input.removeAttribute("disabled", '');
+        });
     }
 
     if (!phaseDone) {
@@ -480,6 +484,7 @@ function updateConfiguration(direction) {
 
     quizCloseButton.style.zIndex = "500";
 
+
     if (
         cookies.getConfigurationStatus().currentPhase === 4 &&
         cookies.getConfigurationStatus().sizeDone
@@ -494,6 +499,42 @@ function updateConfiguration(direction) {
     }
 
     updateActiveProductState();
+}
+
+function scrollToActiveQuestion() {
+    console.log("scrollToActiveQuestion");
+    // Find the phase1 div
+    var phase1Div = document.getElementById("phase1");
+
+    // Find the active child element within phase1
+    var activeChild = phase1Div.querySelector(
+        ".radio-question.phase-step.active"
+    );
+
+    if (activeChild) {
+        // Get the bounding rectangle of the active child and phase1 div
+        var questionRect = activeChild.getBoundingClientRect();
+        var containerRect = phase1Div.getBoundingClientRect();
+
+        // Calculate the current scroll position
+        var scrollTop =
+            phase1Div.scrollTop ||
+            phase1Div.pageYOffset ||
+            document.documentElement.scrollTop;
+
+        // Calculate the target position to center the active child
+        var targetPosition =
+            questionRect.top +
+            scrollTop -
+            containerRect.top -
+            (containerRect.height - questionRect.height) / 2;
+
+        // Scroll the phase1 div to the target positionJuhi
+        phase1Div.scrollTo({
+            top: targetPosition,
+            behavior: "instant",
+        });
+    }
 }
 
 //function to update the state of the radio buttons based on the cookies. Called on page load and when moving forward in the process
@@ -516,12 +557,19 @@ function updateQuestionButtons() {
         const parentPhaseIndex = Array.from(allPhases).indexOf(parentPhase);
         const parentPhaseStatus =
             cookies.getConfigurationStatus().phases[parentPhaseIndex];
+            console.log(question.querySelector(".radio-input", "input"));
+            question.querySelectorAll(".radio-input").forEach((input) => {
+                input.setAttribute("disabled", "");
+            });
 
         if (
             questionIndex - totalprogress === parentPhaseStatus.progress &&
             !parentPhaseStatus.completed
         ) {
             question.classList.add("active");
+            question.querySelectorAll(".radio-input").forEach((input) => {
+                input.removeAttribute("disabled", '');
+            });
         } else if (!parentPhaseStatus.completed) {
             question.classList.remove("active");
         } else {
@@ -566,6 +614,7 @@ function updateQuestionButtons() {
                     cookies.getConfigurationStatus().currentPhase;
                 const currentQuestion = question;
                 const nextQuestion = radioQuestions[questionIndex + 1];
+                
                 if (
                     !cookies.phaseDone() &&
                     wasAnswered == undefined &&
@@ -750,6 +799,7 @@ document.addEventListener("DOMContentLoaded", function () {
         cookies.getOrder().personalities[cookies.getCurrentPersonality()].name;
     inputElement.addEventListener("input", checknameFilled);
     startQuizButton.addEventListener("click", () => {
+        scrollToActiveQuestion();
         if (!cookies.getConfigurationStatus().nameDone) {
             move("forward");
         } else {
@@ -758,6 +808,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
     updateConfiguration("forward");
     updateQuestionButtons();
+    scrollToActiveQuestion();
     quizPreviousButton.addEventListener("click", () => {
         move("backward");
     });
@@ -914,28 +965,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
     console.log("sizeSelect", sizeSelect);
 
-//    document.getElementById('cart-wrapper').addEventListener('click', function(event) {
-//         // Prevent the default behavior of hiding the cartWrapper
-//         event.preventDefault();
-//         event.stopPropagation();
-//     });
+    document.getElementById("phase1").addEventListener("scroll", () => {});
 
-    window.addEventListener('click', function(event) {
-        // Check if the click target is outside the cartWrapper
-            // Prevent the default behavior of hiding the cartWrapper
-            const cartWrapper = document.getElementById("cart-wrapper");
-
-            // this.setTimeout(() => {
-            //     cartWrapper.style.display = "flex";
-            //     cartWrapper.style.opacity = "1";
-            // }, 900);
+    // Save the scroll position of the phase1 div when it's scrolled
+    document.getElementById("phase1").addEventListener("scroll", function () {
+        localStorage.setItem("phase1ScrollPosition", this.scrollTop);
     });
-
-    window.removeEventListener('wf-change-cart-state', handler);
-
-
-    console.log('i=>{let o=r(i),a=o instanceof Element?Mce(i,o):i;o&&n(a,this.apolloClient,this.stripeStore)}')
-
 });
 
 window.addEventListener("unload", function () {});
