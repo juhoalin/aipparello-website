@@ -95,12 +95,12 @@ const fitDoneLoadingScreen = document.getElementById("loading-screen-fit-done");
 
 //handle overlay & quiz opening
 const setInitialProperties = () => {
-    // quizOverlay.style.opacity = "1";
-    // quizOverlay.style.display = "flex";
-    // quizContainer.style.right = "0";
-    quizOverlay.style.opacity = "0";
-    quizOverlay.style.display = "none";
-    quizContainer.style.right = "-125vw";
+    quizOverlay.style.opacity = "1";
+    quizOverlay.style.display = "flex";
+    quizContainer.style.right = "0";
+    // quizOverlay.style.opacity = "0";
+    // quizOverlay.style.display = "none";
+    // quizContainer.style.right = "-125vw";
     createYoursButton.addEventListener("click", openQuizOverlay);
     quizCloseButton.addEventListener("click", closeQuizOverlay);
     addToCartTarget.appendChild(addToCartHTML);
@@ -791,6 +791,31 @@ const updateSelectedDesign = () => {
     }
 };
 
+const switchDesignImage = (index) => {
+    console.log("switchDesignImage", index);
+    const indexToNumber = parseInt(index);
+
+    const imageContainer = document.querySelectorAll(".design-container")[indexToNumber];
+    const designImage = imageContainer.querySelector(".design-image");
+    const productImage = imageContainer.querySelector(".product-image");
+    const designButton = imageContainer.querySelector(".image-button");
+    const productButton = imageContainer.querySelector(".product-button");
+
+    if (designImage.classList.contains("active")) {
+        designImage.classList.remove("active");
+        productImage.classList.add("active");
+        productButton.classList.add("active");
+        designButton.classList.remove("active");
+    } else {
+        designImage.classList.add("active");
+        productImage.classList.remove("active");
+        productButton.classList.remove("active");
+        designButton.classList.add("active");
+    }
+
+    console.log("designImage", index);
+};
+
 //Event listeners
 document.addEventListener("DOMContentLoaded", function () {
     setInitialProperties();
@@ -971,6 +996,12 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("phase1").addEventListener("scroll", function () {
         localStorage.setItem("phase1ScrollPosition", this.scrollTop);
     });
+
+    document.querySelectorAll(".switch-image-button").forEach((button) => {
+        button.addEventListener("click", () => {
+            switchDesignImage(button.value);
+        });
+    })
 });
 
 window.addEventListener("unload", function () {});

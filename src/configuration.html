@@ -1555,12 +1555,22 @@
                 <div class="quiz-phase select-design">
                     <h2 class="heading-2">SELECT YOUR DESIGN</h2>
                     <div class="phase-step carousel-container">
-                        <div class="design-container">
+                        <div class="design-container"> 
                             <div class="images">
-                                <img
-                                    class="design-image"
+                                <div class="product-image" id="product-image">
+                                    <img
+                                    class="product-image-layer"
                                     src="https://uploads-ssl.webflow.com/649a7177573e38f6a02e440d/65a3cde9c0d90b9719d405fd_woman-owl.webp"
                                 />
+                                </div>
+                                <img
+                                    class="design-image active"
+                                    src="https://uploads-ssl.webflow.com/649a7177573e38f6a02e440d/65a3cde9c0d90b9719d405fd_woman-owl.webp"
+                                />
+                            </div>
+                            <div class="switch-image">
+                                <button class="switch-image-button product-button" type="button" onclick="" value="0">PRODUCT</button>
+                                <button class="switch-image-button image-button active" type="button" onclick="" value="0">DESIGN</button>
                             </div>
                             <div class="design-info-container">
                                 <p class="bodytext design-name">

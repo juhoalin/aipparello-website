@@ -344,7 +344,7 @@
 .design-container {
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 36px;
     min-width: 100%;
     min-height: 100%;
     background-color: white;
@@ -379,6 +379,27 @@
     max-height: 100%;
     object-fit: scale-down; 
     margin: 24px 24px 24px 24px;
+    display: none;
+}
+
+.design-image.active {
+    display: initial;
+}
+
+.product-image {
+    min-width: 100%;
+    min-height: 100%;
+    display: none; 
+}
+
+.product-image.active {
+    display: flex;
+}
+
+.product-image-layer {
+    width: 100%;
+    height: auto;
+    object-fit: cover; 
 }
 
 .design-info-container {
@@ -403,6 +424,26 @@
     text-overflow: ellipsis;
 }
 
+.switch-image {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 24px;
+}
+
+.switch-image-button {
+    font-family: Neue Montreal, sans-serif;
+    font-weight: 400;
+    font-size: 24px;
+    background-color: transparent;
+    opacity: 0.5;
+}
+
+.switch-image-button.active {
+    opacity: 1;
+}
+
 .design-button {
     padding: 8px 16px 8px 16px;
     height: max-content;
@@ -412,9 +453,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 12px;
+    font-size: 16px;
     border: #000 1.5px solid;
     min-width: 75px;
+    font-family: Neue Montreal, sans-serif;
 }
 
 .design-button.selected {
