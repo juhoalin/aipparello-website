@@ -739,12 +739,14 @@ const updateDesigns = () => {
         const designs = cookies.getOptions();
 
         designContainers.forEach((container, index) => {
+            const productImageElement = container.querySelector(".product-image-preview").querySelector(".product-layer");
             const designImageElement = container.querySelector(".design-image");
             const designNameElement = container.querySelector(".design-name");
             const buttonElement = container.querySelector(".design-button");
             const design = designs[index].url;
             const prompt = designs[index].prompt;
             const token = designs[index].token;
+            productImageElement.src = design;
             designImageElement.src = design;
             designNameElement.innerHTML = prompt;
             buttonElement.value = token;
@@ -797,20 +799,23 @@ const switchDesignImage = (index) => {
 
     const imageContainer = document.querySelectorAll(".design-container")[indexToNumber];
     const designImage = imageContainer.querySelector(".design-image");
-    const productImage = imageContainer.querySelector(".product-image");
+    const productImage = imageContainer.querySelector(".product-image-preview");
     const designButton = imageContainer.querySelector(".image-button");
     const productButton = imageContainer.querySelector(".product-button");
+    const imageSelectorContainer = imageContainer.querySelector(".images");
 
     if (designImage.classList.contains("active")) {
         designImage.classList.remove("active");
         productImage.classList.add("active");
         productButton.classList.add("active");
         designButton.classList.remove("active");
+        imageSelectorContainer.classList.remove("design-active");
     } else {
         designImage.classList.add("active");
         productImage.classList.remove("active");
         productButton.classList.remove("active");
         designButton.classList.add("active");
+        imageSelectorContainer.classList.add("design-active");
     }
 
     console.log("designImage", index);
@@ -1002,6 +1007,15 @@ document.addEventListener("DOMContentLoaded", function () {
             switchDesignImage(button.value);
         });
     })
+
+    document.getElementById('size-guide-button').addEventListener('click', () => {
+        console.log('size guide button clicked')
+        openLowModal('low-modal-size-guide', 'low-modal-inner-size-guide', 'standard');
+    });
+
+    document.getElementById('continue-size-button').addEventListener('click', () => {
+        closeLowModal('low-modal-size-guide', 'low-modal-inner-size-guide');
+    });
 });
 
 window.addEventListener("unload", function () {});
