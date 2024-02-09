@@ -119,6 +119,7 @@ function setConfiguration() {
         updatePersonality();
         updateDesigns();
     }
+    updateReadyProductImages();
 }
 
 //function to open the quiz overlay
@@ -164,6 +165,7 @@ function updateActiveProductState() {
     const personalityName =
         cookies.getOrder().personalities[cookies.getCurrentPersonality()].name;
     const designName = cookies.getSelectedDesign().prompt;
+    const designSelected = cookies.getSelectedDesign().url;
 
     const apName = document.getElementById("ap-name");
     const apCollection = document.getElementById("ap-collection");
@@ -175,6 +177,7 @@ function updateActiveProductState() {
     );
     const apDesignStatus = document.getElementById("ap-design-status");
     const apFitStatus = document.getElementById("ap-fit-status");
+    const apDesignSelected = document.getElementById("ap-design-selected");
 
     const quizDone = cookies.getConfigurationStatus().quizDone;
     const sizeDone = cookies.getConfigurationStatus().sizeDone;
@@ -211,7 +214,10 @@ function updateActiveProductState() {
             personalityName + " / " + personalityRole;
         apStatus2.classList.add("active");
         apDesignStatus.innerHTML = designName;
+        apDesignStatus.classList.add("hidden");
         apStatus3.classList.add("active");
+        apDesignSelected.src = designSelected;
+        apDesignSelected.classList.remove("hidden");
         apFitStatus.innerHTML = "Selecting...";
     } else if (cookies.getConfigurationStatus().sizeDone) {
         apStatus1.classList.add("active");
@@ -680,6 +686,23 @@ async function fetchDesigns() {
     }
 }
 
+const updateReadyProductImages = () => {
+    const currentImage = cookies.getSelectedDesign().url;
+    const readyProduct = document.getElementById("ready-image-layer-mid");
+    const cartPersonality = document.getElementById("cart-personality");
+    const cartDesignSelected = document.getElementById("cart-design-selected");
+
+    const currentName = cookies.getOrder().personalities[ cookies.getCurrentPersonality()].name;
+    const currentPersonality = cookies.getOrder().personalities[ cookies.getCurrentPersonality()].personality.personalityRole;
+
+    if (currentImage !== "") {
+        console.log("updateReadyProductImages", currentImage);
+        readyProduct.src = currentImage;
+        cartDesignSelected.src = currentImage;
+        cartPersonality.innerHTML = currentName + " / " + currentPersonality;
+    };
+};
+
 async function reserveDesign(token) {
     openLowModal(
         "low-modal-reserve-design",
@@ -696,6 +719,7 @@ async function reserveDesign(token) {
         cookies.updateDesignDone();
         move("forward");
         updateActiveProductState();
+        updateReadyProductImages();
     } catch (error) {
         console.log(error);
         openLowModal(
@@ -975,6 +999,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (targetElement.hasChildNodes()) {
                     const cartWrapper = document.getElementById("cart-wrapper");
                     cartWrapper.classList.add("dominate");
+                    updateReadyProductImages();
                 } else {
                     console.log("cart empty");
                     cookies.updateSelectedSize("Select Size");
@@ -986,6 +1011,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     cartWrapper.classList.remove("dominate");
                     quizCloseButton.style.zIndex = "500";
                     fitDoneLoadingScreen.classList.remove("active");
+                   
                 }
             }
         });
