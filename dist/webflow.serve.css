@@ -607,12 +607,41 @@
     gap: 24px;
 }
 
+.fit-attribute {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    align-items: flex-start;
+}
+
+.fit-attribute.right {
+    margin-left: 10%;
+}
+
+.fit-title {
+    font-size: 24px;
+    font-weight: 500;
+    text-align: left;
+    font-family: Neue Montreal, sans-serif;
+}
+
+.fit-value {
+    font-size: 24px;
+    font-weight: 400;
+    text-align: left;
+    font-family: Neue Montreal, sans-serif;
+}
+
 .fit-selection-container {
     display: flex;
     width: 100%;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
-    justify-content: center;
+}
+
+.fit-selection-container.size {
+    border-top: 2px solid #000;
+    padding-top: 16px;
 }
 
 .phase-step.new-fit-container {
