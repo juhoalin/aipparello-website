@@ -9,6 +9,7 @@ async function getDesigns(quizData) {
 
     try {
         const response = await fetch(
+            // "https://example.com/invalid-url",
             "https://evhmif8p8c.execute-api.ap-southeast-1.amazonaws.com/prod/designs/get-options",
             {
                 method: "POST",
@@ -42,6 +43,7 @@ async function reserveDesign(token) {
 
     try {
         const response = await fetch(
+            // "https://example.com/invalid-url",
             "https://evhmif8p8c.execute-api.ap-southeast-1.amazonaws.com/prod/designs/reserve-design",
             {
                 method: "POST",

@@ -306,6 +306,8 @@ function updateTotalProgress() {
 function updateNameDone() {
     if (order.personalities[currentPersonality].name === "") {
         configurationStatus.nameDone = false;
+        configurationStatus.phases[0].completed = false;
+        configurationStatus.phases[0].progress = 0;
     } else {
         configurationStatus.phases[0].completed = true;
         configurationStatus.phases[0].progress = 1;

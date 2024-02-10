@@ -89,6 +89,9 @@ const prospectingBar = document.getElementById("prospecting-bar");
 
 const currentProductButton = document.getElementById("current-product-button");
 const fitDoneLoadingScreen = document.getElementById("loading-screen-fit-done");
+
+const toggle = document.getElementById("toggle");
+const toggleText = document.getElementById("toggle-text");
 //Other variables
 
 //Functions
@@ -199,8 +202,12 @@ function updateActiveProductState() {
         !cookies.getConfigurationStatus().sizeDone
     ) {
         apStatus1.classList.add("active");
-        apPersonalityStatus.innerHTML =
-            personalityName + " / " + personalityRole;
+        if (personalityName === "anonymous") {
+            apPersonalityStatus.innerHTML = personalityRole;
+        } else {
+            apPersonalityStatus.innerHTML =
+                personalityName + " / " + personalityRole;
+        }
         apStatus2.classList.add("active");
         apDesignStatus.innerHTML = "Selecting...";
         apStatus3.classList.remove("active");
@@ -210,8 +217,12 @@ function updateActiveProductState() {
         !cookies.getConfigurationStatus().sizeDone
     ) {
         apStatus1.classList.add("active");
-        apPersonalityStatus.innerHTML =
-            personalityName + " / " + personalityRole;
+        if (personalityName === "anonymous") {
+            apPersonalityStatus.innerHTML = personalityRole;
+        } else {
+            apPersonalityStatus.innerHTML =
+                personalityName + " / " + personalityRole;
+        }
         apStatus2.classList.add("active");
         apDesignStatus.innerHTML = designName;
         apDesignStatus.classList.add("hidden");
@@ -221,8 +232,12 @@ function updateActiveProductState() {
         apFitStatus.innerHTML = "Selecting...";
     } else if (cookies.getConfigurationStatus().sizeDone) {
         apStatus1.classList.add("active");
-        apPersonalityStatus.innerHTML =
-            personalityName + " / " + personalityRole;
+        if (personalityName === "anonymous") {
+            apPersonalityStatus.innerHTML = personalityRole;
+        } else {
+            apPersonalityStatus.innerHTML =
+                personalityName + " / " + personalityRole;
+        }
         apStatus2.classList.add("active");
         apDesignStatus.innerHTML = designName;
         apStatus3.classList.add("active");
@@ -335,8 +350,12 @@ const updateProgressBar = () => {
 
 //function to check if name is filled and enable start quiz button
 function checknameFilled() {
-    cookies.updateName(inputElement.value);
-    cookies.updateNameDone();
+    const currentName =
+        cookies.getOrder().personalities[cookies.getCurrentPersonality()].name;
+    if (currentName !== "anonymous") {
+        cookies.updateName(inputElement.value);
+        cookies.updateNameDone();
+    }
     if (cookies.getConfigurationStatus().nameDone) {
         startQuizButton.classList.remove("disabled");
     } else {
@@ -344,8 +363,29 @@ function checknameFilled() {
     }
 }
 
+function stayAnonymous(yes) {
+    if (yes) {
+        cookies.updateName("anonymous");
+        cookies.updateNameDone();
+        if (cookies.getConfigurationStatus().nameDone) {
+            startQuizButton.classList.remove("disabled");
+        }
+    } else {
+        cookies.updateName("");
+        cookies.updateNameDone();
+        startQuizButton.classList.add("disabled");
+    }
+}
+
 //used to change phases with delay and smooth opacity change
 function changePhasesWithDelay(newPhase, oldPhase, delay) {
+    const navigation = document.getElementById("navigation");
+
+    navigation.classList.add("change");
+    setTimeout(() => {
+        navigation.classList.remove("change");
+    }, delay);
+
     if (oldPhase) {
         oldPhase.style.opacity = "0";
     }
@@ -388,7 +428,7 @@ function updateQuestionState(currentQuestion, nextQuestion, phase) {
     if (nextQuestion) {
         nextQuestion.classList.add("active");
         nextQuestion.querySelectorAll(".radio-input").forEach((input) => {
-            input.removeAttribute("disabled", '');
+            input.removeAttribute("disabled", "");
         });
     }
 
@@ -440,71 +480,79 @@ function updateConfiguration(direction) {
 
     changePhasesWithDelay(newPhase, oldPhase, 300);
 
-    if (cookies.getConfigurationStatus().nameDone) {
-        startQuizButtonContainer.classList.add("hidden");
-        quizButtonContainer.classList.remove("hidden");
-        progressContainer.classList.add("active");
-        showDesignsButtonContainer.classList.add("hidden");
-        selectDesignButtonContainer.classList.add("hidden");
-    }
+    setTimeout(() => {
+        if (
+            cookies.getConfigurationStatus().currentPhase === 0 &&
+            !cookies.getConfigurationStatus().nameDone
+        ) {
+            document.getElementById("nickname").focus();
+        }
 
-    if (
-        cookies.getConfigurationStatus().quizDone &&
-        cookies.getConfigurationStatus().currentPhase === 2
-    ) {
-        showDesignsButtonContainer.classList.remove("hidden");
-        quizButtonContainer.classList.add("hidden");
-        progressContainer.classList.remove("active");
-    }
-    if (cookies.getConfigurationStatus().currentPhase === 3) {
-        showDesignsButtonContainer.classList.add("hidden");
-        quizButtonContainer.classList.add("hidden");
-        progressContainer.classList.remove("active");
-        selectDesignButtonContainer.classList.remove("hidden");
-        selectSizeButtonContainer.classList.add("hidden");
-    }
+        if (cookies.getConfigurationStatus().nameDone) {
+            startQuizButtonContainer.classList.add("hidden");
+            quizButtonContainer.classList.remove("hidden");
+            progressContainer.classList.add("active");
+            showDesignsButtonContainer.classList.add("hidden");
+            selectDesignButtonContainer.classList.add("hidden");
+        }
 
-    if (
-        cookies.getConfigurationStatus().designDone &&
-        cookies.getConfigurationStatus().currentPhase === 4
-    ) {
-        showDesignsButtonContainer.classList.add("hidden");
-        quizButtonContainer.classList.add("hidden");
-        progressContainer.classList.remove("active");
-        selectDesignButtonContainer.classList.add("hidden");
-        selectSizeButtonContainer.classList.remove("hidden");
-    }
+        if (
+            cookies.getConfigurationStatus().quizDone &&
+            cookies.getConfigurationStatus().currentPhase === 2
+        ) {
+            showDesignsButtonContainer.classList.remove("hidden");
+            quizButtonContainer.classList.add("hidden");
+            progressContainer.classList.remove("active");
+        }
+        if (cookies.getConfigurationStatus().currentPhase === 3) {
+            showDesignsButtonContainer.classList.add("hidden");
+            quizButtonContainer.classList.add("hidden");
+            progressContainer.classList.remove("active");
+            selectDesignButtonContainer.classList.remove("hidden");
+            selectSizeButtonContainer.classList.add("hidden");
+        }
 
-    if (cookies.getConfigurationStatus().currentPhase === 0) {
-        progressContainer.classList.remove("active");
-        quizButtonContainer.classList.add("hidden");
-        startQuizButtonContainer.classList.remove("hidden");
-        checknameFilled();
-    }
+        if (
+            cookies.getConfigurationStatus().designDone &&
+            cookies.getConfigurationStatus().currentPhase === 4
+        ) {
+            showDesignsButtonContainer.classList.add("hidden");
+            quizButtonContainer.classList.add("hidden");
+            progressContainer.classList.remove("active");
+            selectDesignButtonContainer.classList.add("hidden");
+            selectSizeButtonContainer.classList.remove("hidden");
+        }
 
-    if (cookies.phaseDone()) {
-        quizNextButton.classList.remove("disabled");
-    } else {
-        quizNextButton.classList.add("disabled");
-    }
+        if (cookies.getConfigurationStatus().currentPhase === 0) {
+            progressContainer.classList.remove("active");
+            quizButtonContainer.classList.add("hidden");
+            startQuizButtonContainer.classList.remove("hidden");
+            checknameFilled();
+        }
 
-    quizCloseButton.style.zIndex = "500";
+        if (cookies.phaseDone()) {
+            quizNextButton.classList.remove("disabled");
+        } else {
+            quizNextButton.classList.add("disabled");
+        }
 
+        quizCloseButton.style.zIndex = "500";
 
-    if (
-        cookies.getConfigurationStatus().currentPhase === 4 &&
-        cookies.getConfigurationStatus().sizeDone
-    ) {
-        addToCartHTML
-            .querySelector(".w-commerce-commercecartwrapper")
-            .setAttribute("data-cart-open", "");
-        const cartWrapper = document.getElementById("cart-wrapper");
-        cartWrapper.classList.add("dominate");
-        quizCloseButton.style.zIndex = "2000";
-        fitDoneLoadingScreen.classList.add("active");
-    }
+        if (
+            cookies.getConfigurationStatus().currentPhase === 4 &&
+            cookies.getConfigurationStatus().sizeDone
+        ) {
+            addToCartHTML
+                .querySelector(".w-commerce-commercecartwrapper")
+                .setAttribute("data-cart-open", "");
+            const cartWrapper = document.getElementById("cart-wrapper");
+            cartWrapper.classList.add("dominate");
+            quizCloseButton.style.zIndex = "2000";
+            fitDoneLoadingScreen.classList.add("active");
+        }
 
-    updateActiveProductState();
+        updateActiveProductState();
+    }, 300);
 }
 
 function scrollToActiveQuestion() {
@@ -563,10 +611,10 @@ function updateQuestionButtons() {
         const parentPhaseIndex = Array.from(allPhases).indexOf(parentPhase);
         const parentPhaseStatus =
             cookies.getConfigurationStatus().phases[parentPhaseIndex];
-            console.log(question.querySelector(".radio-input", "input"));
-            question.querySelectorAll(".radio-input").forEach((input) => {
-                input.setAttribute("disabled", "");
-            });
+        console.log(question.querySelector(".radio-input", "input"));
+        question.querySelectorAll(".radio-input").forEach((input) => {
+            input.setAttribute("disabled", "");
+        });
 
         if (
             questionIndex - totalprogress === parentPhaseStatus.progress &&
@@ -574,7 +622,7 @@ function updateQuestionButtons() {
         ) {
             question.classList.add("active");
             question.querySelectorAll(".radio-input").forEach((input) => {
-                input.removeAttribute("disabled", '');
+                input.removeAttribute("disabled", "");
             });
         } else if (!parentPhaseStatus.completed) {
             question.classList.remove("active");
@@ -620,20 +668,20 @@ function updateQuestionButtons() {
                     cookies.getConfigurationStatus().currentPhase;
                 const currentQuestion = question;
                 const nextQuestion = radioQuestions[questionIndex + 1];
-                
+
                 if (
                     !cookies.phaseDone() &&
                     wasAnswered == undefined &&
                     !isLastQuestion
                 ) {
-                    move("forward");
+                    move("question-forward");
                     updateQuestionState(
                         currentQuestion,
                         nextQuestion,
                         currentPhase
                     );
                 } else if (wasAnswered == undefined && isLastQuestion) {
-                    move("forward");
+                    move("question-forward");
                 }
             });
         });
@@ -643,25 +691,45 @@ function updateQuestionButtons() {
 //function to move forward or backward in the process. Updates cookies and frontend based on cookies
 const move = (direction) => {
     if (direction == "forward") {
+        console.log("forward");
         cookies.moveForward();
         cookies.updateQuizDone();
         updateProgressBar();
         updateConfiguration("forward");
     } else if (direction === "backward") {
+        console.log("backward");
         cookies.moveBackward();
         updateProgressBar();
         updateConfiguration("backward");
-    } else if ("forward-skip") {
+    } else if (direction == "forward-skip") {
+        console.log("forward-skip");
         cookies.skipPhases();
         updateProgressBar();
         updateConfiguration("forward");
+    } else if (direction == "question-forward") {
+        console.log("question-forward");
+        cookies.moveForward();
+        cookies.updateQuizDone();
+        updateProgressBar();
+        if (cookies.phaseDone()) {
+            quizNextButton.classList.remove("disabled");
+        } else {
+            quizNextButton.classList.add("disabled");
+        }
     }
 };
 
 // function to fetch designs from the API
 async function fetchDesigns() {
+    const innerFirst = loadingScreen.querySelector(".first");
+    const innerSecond = loadingScreen.querySelector(".second");
+    const errorMessage = loadingScreen.querySelector(".error");
+    const innerThird = loadingScreen.querySelector(".third");
+
     loadingScreen.classList.add("active");
+    innerFirst.classList.add("active");
     loadingScreen.style.opacity = "1";
+    innerFirst.style.opacity = "1";
 
     if (!cookies.designsFetched()) {
         try {
@@ -670,19 +738,40 @@ async function fetchDesigns() {
                     cookies.getCurrentPersonality()
                 ].quiz;
             const responseData = await api.getDesigns(quizData);
+            move("forward");
             cookies.updateGetDesigns(responseData);
-            updatePersonality();
             updateDesigns();
             updateActiveProductState();
+
+            setTimeout(() => {
+                innerFirst.classList.remove("active");
+                innerSecond.classList.add("active");
+                setTimeout(() => {
+                    innerSecond.classList.remove("active");
+                    innerThird.classList.add("active");
+                    setTimeout(() => {
+                        updatePersonality();
+                        loadingScreen.style.opacity = "0";
+                        setTimeout(() => {
+                            loadingScreen.classList.remove("active");
+                            innerThird.classList.remove("active");
+                        }, 300);
+                    }, 1500);
+                }, 3000);
+            }, 750);
         } catch (error) {
+            innerFirst.style.opacity = "0";
+            innerFirst.classList.remove("active");
+            errorMessage.classList.add("active");
+            setTimeout(() => {
+                errorMessage.classList.remove("active");
+                loadingScreen.style.opacity = "0";
+                setTimeout(() => {
+                    loadingScreen.classList.remove("active");
+                }, 300);
+            }, 3000);
             console.log(error);
         }
-        setTimeout(() => {
-            loadingScreen.style.opacity = "0";
-            setTimeout(() => {
-                loadingScreen.classList.remove("active");
-            }, 300);
-        }, 3000);
     }
 }
 
@@ -692,15 +781,25 @@ const updateReadyProductImages = () => {
     const cartPersonality = document.getElementById("cart-personality");
     const cartDesignSelected = document.getElementById("cart-design-selected");
 
-    const currentName = cookies.getOrder().personalities[ cookies.getCurrentPersonality()].name;
-    const currentPersonality = cookies.getOrder().personalities[ cookies.getCurrentPersonality()].personality.personalityRole;
+    const currentName =
+        cookies.getOrder().personalities[cookies.getCurrentPersonality()].name;
+    const currentPersonality =
+        cookies.getOrder().personalities[cookies.getCurrentPersonality()]
+            .personality.personalityRole;
 
     if (currentImage !== "") {
         console.log("updateReadyProductImages", currentImage);
         readyProduct.src = currentImage;
-        cartDesignSelected.src = currentImage;
-        cartPersonality.innerHTML = currentName + " / " + currentPersonality;
-    };
+        if (cartDesignSelected && cartPersonality) {
+            cartDesignSelected.src = currentImage;
+            if (currentName === "anonymous") {
+                cartPersonality.innerHTML = currentPersonality;
+            } else {
+                cartPersonality.innerHTML =
+                    currentName + " / " + currentPersonality;
+            }
+        }
+    }
 };
 
 async function reserveDesign(token) {
@@ -731,10 +830,89 @@ async function reserveDesign(token) {
 }
 
 const updatePersonality = () => {
+    const personalityTypes = [
+        {
+            type: "Provider",
+            desc: "Providers are the cornerstone of support, ensuring everyone's needs are met with care and compassion, fostering security and warmth in every interaction",
+        },
+        {
+            type: "Protector",
+            desc: "They're vigilant defenders, shielding loved ones and preserving safety, steadfast guardians like sturdy shields against life's adversities.",
+        },
+        {
+            type: "Supervisor",
+            desc: "Supervisors are skilled leaders who help teams work efficiently, maintaining order like conductors leading a symphony, ensuring harmony and success.",
+        },
+        {
+            type: "Inspector",
+            desc: "Detail-oriented evaluators, identifying flaws, maintaining standards, ensuring precision, meticulous craftsmen refining works to perfection.",
+        },
+        {
+            type: "Performer",
+            desc: "Charismatic entertainers, captivating crowds, spreading joy, igniting passion, radiant stars lighting up the dark night sky.",
+        },
+        {
+            type: "Composer",
+            desc: "Artistic creators, weaving melodies, evoking emotions, crafting beauty, like painters splashing vibrant colors onto the canvas of sound.",
+        },
+        {
+            type: "Promoter",
+            desc: "Enthusiastic advocates, championing causes, fostering connections, inspiring change, beacons guiding ships through tumultuous waters.",
+        },
+        {
+            type: "Crafter",
+            desc: "Skilled artisans, shaping dreams, infusing passion, creating wonders, like sculptors molding life's raw materials into exquisite forms.",
+        },
+        {
+            type: "Champion",
+            desc: "Fearless warriors, fighting for justice, defending the weak, inspiring hope, knights wielding truth's mighty sword.",
+        },
+        {
+            type: "Healer",
+            desc: "Compassionate caregivers, soothing souls, healing wounds, offering comfort, gentle breezes in the sweltering heat of despair.",
+        },
+        {
+            type: "Teacher",
+            desc: "Knowledge sharers, inspiring minds, opening doors, guiding paths, lanterns illuminating the way through darkness.",
+        },
+        {
+            type: "Counselor",
+            desc: "Understanding listeners, offering wisdom, lending support, providing solace, beacons guiding ships to safe harbor.",
+        },
+        {
+            type: "Inventor",
+            desc: "Creative thinkers, sparking innovation, exploring possibilities, shaping the future, pioneers forging new paths in uncharted territories.",
+        },
+        {
+            type: "Architect",
+            desc: "Design visionaries, planning spaces, shaping landscapes, crafting visions, artists painting the tapestry of urban life.",
+        },
+        {
+            type: "Fieldmarshal",
+            desc: "Strategic leaders, charting courses, commanding respect, achieving goals, skilled navigators steering ships through treacherous waters.",
+        },
+        {
+            type: "Mastermind",
+            desc: "Strategic geniuses, planning meticulously, orchestrating solutions, achieving greatness, maestros conducting the symphony of success.",
+        },
+    ];
+
+    console.log(personalityTypes);
+
+
     const order = cookies.getOrder();
     const personality = order.personalities[cookies.getCurrentPersonality()];
-    const personalityData = personality.personality;
+    const personalityData = personality.personality;    
+    const currentDescription = personalityTypes.find( (personalityType) => {
+        if (personalityType.type.toLowerCase() === personalityData.personalityRole.toLowerCase()) {
+            return personalityType;
+        } else {
+            return ""
+        }
+    } );
     personaliType.innerHTML = personalityData.personalityRole;
+    const personalityDescriptionElement = document.getElementById("personality-description");
+    personalityDescriptionElement.innerHTML = currentDescription.desc;
     extrovesionText.innerHTML =
         Math.round(personalityData.extroversionScore * 100) + "%";
     extroversionBar.style.width = `${Math.round(
@@ -755,6 +933,8 @@ const updatePersonality = () => {
     prospectingBar.style.width = `${Math.round(
         personalityData.prospectingScore * 100
     )}%`;
+
+
 };
 
 const updateDesigns = () => {
@@ -763,7 +943,9 @@ const updateDesigns = () => {
         const designs = cookies.getOptions();
 
         designContainers.forEach((container, index) => {
-            const productImageElement = container.querySelector(".product-image-preview").querySelector(".product-layer");
+            const productImageElement = container
+                .querySelector(".product-image-preview")
+                .querySelector(".product-layer");
             const designImageElement = container.querySelector(".design-image");
             const designNameElement = container.querySelector(".design-name");
             const buttonElement = container.querySelector(".design-button");
@@ -821,7 +1003,8 @@ const switchDesignImage = (index) => {
     console.log("switchDesignImage", index);
     const indexToNumber = parseInt(index);
 
-    const imageContainer = document.querySelectorAll(".design-container")[indexToNumber];
+    const imageContainer =
+        document.querySelectorAll(".design-container")[indexToNumber];
     const designImage = imageContainer.querySelector(".design-image");
     const productImage = imageContainer.querySelector(".product-image-preview");
     const designButton = imageContainer.querySelector(".image-button");
@@ -845,13 +1028,57 @@ const switchDesignImage = (index) => {
     console.log("designImage", index);
 };
 
+function updateNameInput() {
+    const name =
+        cookies.getOrder().personalities[cookies.getCurrentPersonality()].name;
+    if (name === "anonymous") {
+        inputElement.value = "";
+        toggle.checked = true;
+        inputElement.classList.add("anonymous");
+        toggleText.classList.add("selected");
+    } else {
+        inputElement.value = name;
+        toggle.checked = false;
+        inputElement.classList.remove("anonymous");
+        toggleText.classList.remove("selected");
+    }
+}
+
+function closeModals() {
+    const lowModals = document.querySelectorAll(".low-modal");
+    const highModals = document.querySelectorAll(".high-modal");
+
+    lowModals.forEach((modal) => {
+        modal.addEventListener("click", (event) => {
+            if (event.target === modal) {
+                closeLowModal('low-modal-reserve-design', 'low-modal-inner-reserve-design');
+                closeLowModal('low-modal-size-guide', 'low-modal-inner-size-guide');
+            }
+        });
+    });
+
+    highModals.forEach((modal) => {
+        modal.addEventListener("click", (event) => {
+            if (event.target === modal) {
+                closeHighModal('high-modal-active-product', 'high-modal-inner-active-product');
+            }
+        });
+    });
+}
+
 //Event listeners
 document.addEventListener("DOMContentLoaded", function () {
     setInitialProperties();
     setConfiguration();
-    inputElement.value =
-        cookies.getOrder().personalities[cookies.getCurrentPersonality()].name;
+    closeModals();
+    updateNameInput();
     inputElement.addEventListener("input", checknameFilled);
+    toggle.addEventListener("click", () => {
+        const checked = toggle.checked;
+        stayAnonymous(checked);
+        updateNameInput();
+    });
+
     startQuizButton.addEventListener("click", () => {
         scrollToActiveQuestion();
         if (!cookies.getConfigurationStatus().nameDone) {
@@ -867,10 +1094,10 @@ document.addEventListener("DOMContentLoaded", function () {
         move("backward");
     });
     quizNextButton.addEventListener("click", () => {
-        move("forward");
         if (!cookies.designsFetched()) {
             fetchDesigns();
         } else {
+            move("forward");
             updatePersonality();
         }
     });
@@ -903,6 +1130,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     confirmDesignButtonError.addEventListener("click", () => {
+        const selectedDesign = cookies.getSelectedDesign();
         reserveDesign(selectedDesign.token);
     });
 
@@ -999,7 +1227,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (targetElement.hasChildNodes()) {
                     const cartWrapper = document.getElementById("cart-wrapper");
                     cartWrapper.classList.add("dominate");
+                    const value = sizeSelect.options[sizeSelect.selectedIndex].innerHTML;
+                    cookies.updateSelectedSize(value);
                     updateReadyProductImages();
+                    cookies.handleAddToCart(true);
                 } else {
                     console.log("cart empty");
                     cookies.updateSelectedSize("Select Size");
@@ -1011,7 +1242,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     cartWrapper.classList.remove("dominate");
                     quizCloseButton.style.zIndex = "500";
                     fitDoneLoadingScreen.classList.remove("active");
-                   
                 }
             }
         });
@@ -1032,16 +1262,24 @@ document.addEventListener("DOMContentLoaded", function () {
         button.addEventListener("click", () => {
             switchDesignImage(button.value);
         });
-    })
-
-    document.getElementById('size-guide-button').addEventListener('click', () => {
-        console.log('size guide button clicked')
-        openLowModal('low-modal-size-guide', 'low-modal-inner-size-guide', 'standard');
     });
 
-    document.getElementById('continue-size-button').addEventListener('click', () => {
-        closeLowModal('low-modal-size-guide', 'low-modal-inner-size-guide');
-    });
+    document
+        .getElementById("size-guide-button")
+        .addEventListener("click", () => {
+            console.log("size guide button clicked");
+            openLowModal(
+                "low-modal-size-guide",
+                "low-modal-inner-size-guide",
+                "standard"
+            );
+        });
+
+    document
+        .getElementById("continue-size-button")
+        .addEventListener("click", () => {
+            closeLowModal("low-modal-size-guide", "low-modal-inner-size-guide");
+        });
 });
 
 window.addEventListener("unload", function () {});
