@@ -10,7 +10,6 @@ const quizContent = document.getElementById("quiz-content");
 
 // Require the quiz.html file
 const quizHTML = require("./configuration.html");
-const { getEventListeners } = require("events");
 
 // Inject the HTML into the quiz-content element
 quizContent.innerHTML = quizHTML.default;
@@ -780,6 +779,7 @@ const updateReadyProductImages = () => {
     const readyProduct = document.getElementById("ready-image-layer-mid");
     const cartPersonality = document.getElementById("cart-personality");
     const cartDesignSelected = document.getElementById("cart-design-selected");
+    const designDesc = document.getElementById("design-desc");
 
     const currentName =
         cookies.getOrder().personalities[cookies.getCurrentPersonality()].name;
@@ -790,8 +790,9 @@ const updateReadyProductImages = () => {
     if (currentImage !== "") {
         console.log("updateReadyProductImages", currentImage);
         readyProduct.src = currentImage;
-        if (cartDesignSelected && cartPersonality) {
+        if (cartDesignSelected && cartPersonality && designDesc) {
             cartDesignSelected.src = currentImage;
+            designDesc.innerHTML = cookies.getSelectedDesign().prompt;
             if (currentName === "anonymous") {
                 cartPersonality.innerHTML = currentPersonality;
             } else {
@@ -800,6 +801,41 @@ const updateReadyProductImages = () => {
             }
         }
     }
+};
+
+const updateReadyCheckoutProduct = () => {
+    // Get the current page URL
+        console.log("The current page is the checkout page.");
+        // Perform actions specific to the checkout page
+        const currentImage = cookies.getSelectedDesign().url;
+        const readyProduct = document.getElementById("ready-image-layer-mid");
+        const cartPersonality = document.getElementById("checkout-personality");
+        const cartDesignSelected = document.getElementById(
+            "checkout-design-image"
+        );
+        const designDesc = document.getElementById("checkout-design-text");
+
+        const currentName =
+            cookies.getOrder().personalities[cookies.getCurrentPersonality()]
+                .name;
+        const currentPersonality =
+            cookies.getOrder().personalities[cookies.getCurrentPersonality()]
+                .personality.personalityRole;
+
+        if (currentImage !== "") {
+            console.log("updateReadyProductImages", currentImage);
+            readyProduct.src = currentImage;
+            if (cartDesignSelected && cartPersonality && designDesc) {
+                cartDesignSelected.src = currentImage;
+                designDesc.innerHTML = cookies.getSelectedDesign().prompt;
+                if (currentName === "anonymous") {
+                    cartPersonality.innerHTML = currentPersonality;
+                } else {
+                    cartPersonality.innerHTML =
+                        currentName + " / " + currentPersonality;
+                }
+            }
+        }
 };
 
 async function reserveDesign(token) {
@@ -899,19 +935,23 @@ const updatePersonality = () => {
 
     console.log(personalityTypes);
 
-
     const order = cookies.getOrder();
     const personality = order.personalities[cookies.getCurrentPersonality()];
-    const personalityData = personality.personality;    
-    const currentDescription = personalityTypes.find( (personalityType) => {
-        if (personalityType.type.toLowerCase() === personalityData.personalityRole.toLowerCase()) {
+    const personalityData = personality.personality;
+    const currentDescription = personalityTypes.find((personalityType) => {
+        if (
+            personalityType.type.toLowerCase() ===
+            personalityData.personalityRole.toLowerCase()
+        ) {
             return personalityType;
         } else {
-            return ""
+            return "";
         }
-    } );
+    });
     personaliType.innerHTML = personalityData.personalityRole;
-    const personalityDescriptionElement = document.getElementById("personality-description");
+    const personalityDescriptionElement = document.getElementById(
+        "personality-description"
+    );
     personalityDescriptionElement.innerHTML = currentDescription.desc;
     extrovesionText.innerHTML =
         Math.round(personalityData.extroversionScore * 100) + "%";
@@ -933,9 +973,24 @@ const updatePersonality = () => {
     prospectingBar.style.width = `${Math.round(
         personalityData.prospectingScore * 100
     )}%`;
-
-
 };
+
+function animateNumber(element, targetNumber, duration) {
+    let currentNumber = parseInt(element.innerHTML);
+    let increment = Math.ceil(targetNumber / (duration / 10)); // Divide the target number by the duration
+
+    let interval = setInterval(function () {
+        if (currentNumber < targetNumber) {
+            currentNumber += increment;
+            if (currentNumber > targetNumber) {
+                currentNumber = targetNumber;
+            }
+            element.innerHTML = currentNumber + "%";
+        } else {
+            clearInterval(interval);
+        }
+    }, 10); // Interval of 10 milliseconds for smoother animation
+}
 
 const updateDesigns = () => {
     if (cookies.designsFetched()) {
@@ -1051,8 +1106,14 @@ function closeModals() {
     lowModals.forEach((modal) => {
         modal.addEventListener("click", (event) => {
             if (event.target === modal) {
-                closeLowModal('low-modal-reserve-design', 'low-modal-inner-reserve-design');
-                closeLowModal('low-modal-size-guide', 'low-modal-inner-size-guide');
+                closeLowModal(
+                    "low-modal-reserve-design",
+                    "low-modal-inner-reserve-design"
+                );
+                closeLowModal(
+                    "low-modal-size-guide",
+                    "low-modal-inner-size-guide"
+                );
             }
         });
     });
@@ -1060,7 +1121,10 @@ function closeModals() {
     highModals.forEach((modal) => {
         modal.addEventListener("click", (event) => {
             if (event.target === modal) {
-                closeHighModal('high-modal-active-product', 'high-modal-inner-active-product');
+                closeHighModal(
+                    "high-modal-active-product",
+                    "high-modal-inner-active-product"
+                );
             }
         });
     });
@@ -1068,6 +1132,7 @@ function closeModals() {
 
 //Event listeners
 document.addEventListener("DOMContentLoaded", function () {
+    updateReadyCheckoutProduct();
     setInitialProperties();
     setConfiguration();
     closeModals();
@@ -1227,7 +1292,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (targetElement.hasChildNodes()) {
                     const cartWrapper = document.getElementById("cart-wrapper");
                     cartWrapper.classList.add("dominate");
-                    const value = sizeSelect.options[sizeSelect.selectedIndex].innerHTML;
+                    const value =
+                        sizeSelect.options[sizeSelect.selectedIndex].innerHTML;
                     cookies.updateSelectedSize(value);
                     updateReadyProductImages();
                     cookies.handleAddToCart(true);

@@ -14,6 +14,8 @@ module.exports = {
     mode: "production",
     entry: {
         ["webflow.serve"]: "./src/configuration.js",
+        ["webflow.checkout"]: "./src/checkout.js",
+        
     },
     module: {
         rules: [
