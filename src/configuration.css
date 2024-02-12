@@ -1088,8 +1088,9 @@ input[type="radio"]:checked + .radio-option {
     transition: opacity 0.3s ease-in-out;
     width: 100%;
     height: 100%;
-    z-index: 1000;
+    z-index: 3000;
     opacity: 0;
+    gap: 24px;
 
     background-size: 200% 100%;
     background-position: center;
@@ -1110,6 +1111,13 @@ input[type="radio"]:checked + .radio-option {
 }
 
 .loading-screen.fit-done {
+    background-size: auto;
+    background-position: auto;
+    background-image: none;
+    background-color: white;
+}
+
+.loading-screen.confirmation {
     background-size: auto;
     background-position: auto;
     background-image: none;
@@ -1156,7 +1164,7 @@ input[type="radio"]:checked + .radio-option {
     min-width: 100%;
     height: 100%;
     max-height: 100%;
-    z-index: 1000;
+    z-index: 3000;
     opacity: 0;
 }
 
@@ -1349,6 +1357,7 @@ input[type="radio"]:checked + .radio-option {
 .active-product-header.right {
     flex: 0.3;
     width: 65%;
+    display: flex;
 }
 
 
@@ -1425,6 +1434,26 @@ input[type="radio"]:checked + .radio-option {
 
 .single-status.active {
     opacity: 1;
+}
+
+.single-status.price {
+    border-bottom: none;
+    flex-direction: row;
+    justify-content: right;
+    align-items:center;
+    opacity: 1;
+    gap: 8px;
+}
+
+.single-status.price p {
+    width: auto;
+    text-align: end;
+    margin-bottom: 0;
+}
+
+#ap-compare-price {
+    text-decoration: line-through;
+    color: #929296;
 }
 
 .single-status.first {

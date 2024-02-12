@@ -15,6 +15,7 @@ module.exports = {
     entry: {
         ["webflow.serve"]: "./src/configuration.js",
         ["webflow.checkout"]: "./src/checkout.js",
+        ["webflow.confirmation"]: "./src/confirmation.js",
         
     },
     module: {

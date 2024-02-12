@@ -158,6 +158,7 @@ function updateActiveProductState() {
     const name = product.product;
     const collection = product.collection;
     const price = product.price;
+    const comparePrice = product.comparePrice;
     const image = product.image;
     const description = product.description;
     const size = product.selectedSize;
@@ -172,6 +173,7 @@ function updateActiveProductState() {
     const apName = document.getElementById("ap-name");
     const apCollection = document.getElementById("ap-collection");
     const apPrice = document.getElementById("ap-price");
+    const apComparePrice = document.getElementById("ap-compare-price");
     const apImage = document.getElementById("ap-image");
     const apDescription = document.getElementById("ap-desc");
     const apPersonalityStatus = document.getElementById(
@@ -191,6 +193,7 @@ function updateActiveProductState() {
     apName.innerHTML = name;
     apCollection.innerHTML = collection;
     apPrice.innerHTML = price;
+    apComparePrice.innerHTML = comparePrice;
     apImage.src = image;
     apDescription.innerHTML = description;
 
@@ -535,7 +538,7 @@ function updateConfiguration(direction) {
             quizNextButton.classList.add("disabled");
         }
 
-        quizCloseButton.style.zIndex = "500";
+        quizCloseButton.style.zIndex = "2000";
 
         if (
             cookies.getConfigurationStatus().currentPhase === 4 &&
@@ -1130,8 +1133,19 @@ function closeModals() {
     });
 }
 
+function resetProcess() {
+    const resetProcess = cookies.getCookie("resetProcess");
+
+    if (resetProcess) {
+        localStorage.clear();
+    }
+}
+
 //Event listeners
 document.addEventListener("DOMContentLoaded", function () {
+
+    resetProcess();
+
     updateReadyCheckoutProduct();
     setInitialProperties();
     setConfiguration();
@@ -1297,6 +1311,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     cookies.updateSelectedSize(value);
                     updateReadyProductImages();
                     cookies.handleAddToCart(true);
+                    fitDoneLoadingScreen.classList.remove("active");
                 } else {
                     console.log("cart empty");
                     cookies.updateSelectedSize("Select Size");
