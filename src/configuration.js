@@ -97,12 +97,19 @@ const toggleText = document.getElementById("toggle-text");
 
 //handle overlay & quiz opening
 const setInitialProperties = () => {
-    quizOverlay.style.opacity = "1";
-    quizOverlay.style.display = "flex";
-    quizContainer.style.right = "0";
-    // quizOverlay.style.opacity = "0";
-    // quizOverlay.style.display = "none";
-    // quizContainer.style.right = "-125vw";
+
+    const quizCookie = getQuizCookie();
+
+    if (quizCookie === "true") {
+        quizOverlay.style.opacity = "1";
+        quizOverlay.style.display = "flex";
+        quizContainer.style.right = "0";
+    } else {
+        quizOverlay.style.opacity = "0";
+        quizOverlay.style.display = "none";
+        quizContainer.style.right = "-125vw";
+    }
+
     createYoursButton.addEventListener("click", openQuizOverlay);
     quizCloseButton.addEventListener("click", closeQuizOverlay);
     addToCartTarget.appendChild(addToCartHTML);
@@ -124,6 +131,31 @@ function setConfiguration() {
     updateReadyProductImages();
 }
 
+function setQuizCookie(value) {
+    var d = new Date();
+    d.setTime(d.getTime() + (365 * 24 * 60 * 60 * 1000)); // Cookie expires in 365 days
+    var expires = "expires=" + d.toUTCString();
+    document.cookie = "quizOpen=" + value + ";" + expires + ";path=/";
+}
+
+function getQuizCookie() {
+    var name = "quizOpen=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var cookieArray = decodedCookie.split(';');
+    for(var i = 0; i < cookieArray.length; i++) {
+        var cookie = cookieArray[i];
+        while (cookie.charAt(0) == ' ') {
+            cookie = cookie.substring(1);
+        }
+        if (cookie.indexOf(name) == 0) {
+            return cookie.substring(name.length, cookie.length);
+        }
+    }
+    return "";
+}
+
+
+
 //function to open the quiz overlay
 const openQuizOverlay = () => {
     quizOverlay.style.display = "flex";
@@ -138,6 +170,8 @@ const openQuizOverlay = () => {
     quizContainer.style.right = "0";
     updateConfiguration("forward");
     scrollToActiveQuestion();
+
+    setQuizCookie("true");
 };
 
 //function to close the quiz overlay§
@@ -149,6 +183,8 @@ function closeQuizOverlay() {
         quizOverlay.style.display = "none";
     }, 300); // Set timeout to match the transition duration
     quizContainer.style.right = "-125vh";
+
+    setQuizCookie("false");
 }
 
 function updateActiveProductState() {
@@ -1128,6 +1164,10 @@ function closeModals() {
                     "high-modal-active-product",
                     "high-modal-inner-active-product"
                 );
+                const statusText = document.getElementById("status-text");
+                const productArrow = document.getElementById("product-arrow");
+                productArrow.classList.remove("open");
+                statusText.innerHTML = "Personalized T-Shirt";
             }
         });
     });
@@ -1182,7 +1222,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     showDesignsBackButton.addEventListener("click", () => {
-        move("backward");
+        // move("backward");
     });
 
     showDesignsButton.addEventListener("click", () => {
@@ -1228,7 +1268,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     selectSizeBackButton.addEventListener("click", () => {
-        move("backward");
+        // move("backward");
     });
 
     selectSizeButton.addEventListener("click", () => {
