@@ -112,13 +112,15 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
 }
 
 .quiz-close {
-    padding: 8px 16px 8px 16px;
+    padding: 0px 0px 0px 0px;
     border-radius: 4px;
-    background-color: white;
+    background-color: transparent;
     font-size: 16px;
+    font-weight: 500;
 }
 
 @media (max-width: 1000px) {
@@ -128,13 +130,15 @@
 @media (max-width: 800px) {
 
     .quiz-upper-nav {
-        padding: 16px 16px 16px 16px;
+        padding: 8px 16px 8px 16px;
+        background-color: transparent;
     }
 
     .quiz-close {
         font-size: 14px;
-        padding: 4px 12px 4px 12px;
-        height: 30px;
+        padding:0px 0px 0px 0px;
+        height: auto;
+        background-color: transparent;
     }
 }
 
@@ -143,9 +147,9 @@
 }
 
 .current-product {
-    padding: 8px 16px 8px 16px;
+    padding: 0px 0px 0px 0px;
     border-radius: 4px;
-    background-color: white;
+    background-color: transparent;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -183,6 +187,13 @@
 
 @media (max-width: 800px) {
 
+    .current-product {
+        background-color: transparent;
+        padding: 0px 0px 0px 0px;
+        height: auto;
+        gap: 8px;
+    }
+
     .product-arrow {
         width: 8px;
     }
@@ -190,6 +201,11 @@
     .current-product {
         font-size: 16px;
         height: 30px;
+    }
+
+    .product-dot {
+        width: 10px;
+        height: 10px;
     }
 }
 
@@ -259,9 +275,8 @@
     min-height: 100%;
     max-height: 100%;
     overflow: scroll;
-    padding-bottom: 50vh;
-    padding-top: 15vh;
-    opacity: 0;
+    padding-bottom: 5vh;
+    padding-top: 0;
     padding-left: 16px;
     padding-right: 16px;
 }
@@ -280,7 +295,7 @@
     .quiz-phase.quiz.active {
         padding-left: 0;
         padding-right: 0;
-        padding-top: 8vh;
+        padding-top: 24px;
     }
     
 }
@@ -299,14 +314,14 @@
     padding-top: 0;
     display: flex;
     flex-direction: column;
-    gap: 100px;
+    gap: 24px;
     opacity: 0;
     width: 100%;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: left;
-    background-color: white;
-    padding: 36px 36px 36px 36px;
+    padding: 10vh 0px 0px 0px;
     border-radius: 8px;
+    height: 100%;
 }
 
 .phase-step.personality {
@@ -314,6 +329,9 @@
     flex-direction: column;
     gap: 24px;
     width: 100%;
+    background-color: white;
+    padding: 24px 24px 24px 24px;
+    border-radius: 8px;
 }
 
 .personality-header {
@@ -327,6 +345,8 @@
     font-size: 20px;
     margin-bottom: 0px;
     padding-bottom: 0px;
+    font-weight: 400;
+    font-family: Neue Montreal, sans-serif;
 }
 @media (max-width: 1000px) {
     
@@ -335,19 +355,21 @@
 @media (max-width: 800px) {
 
     .personality-header {
-        gap: 16px;
+        gap: 8px;
     }
 
     .quiz-phase.personality.active {
-        padding: 16px 16px 16px 16px;
+        justify-content: center;
+        gap: 16px;
     }
 
     .phase-step.personality {
         gap: 16px;
+        padding: 16px 16px 16px 16px;
     }
 
     #personality-name {
-        font-size: 14px;
+        font-size: 16px;
     }
 }
 
@@ -369,9 +391,9 @@
 .personality-metric {
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 16px;
     width: 100%;
-    margin-top: 24px;
+    margin-top: 16px;
 }
 
 .personality-netric-label {
@@ -493,7 +515,10 @@
 
 
 .quiz-phase.select-design.active h2 {
-
+    font-size: 20px;
+    font-family: Neue Montreal, sans-serif;
+    line-height: normal;
+    font-weight: 400;
 }
 
 .phase-step.carousel-container {
@@ -524,18 +549,18 @@
     gap: 24px;
     min-width: 100%;
     background-color: white;
-    border: 1px solid white;
+    border: 2px solid white;
     padding: 24px 24px 24px 24px;
     align-items: center;
     justify-content: flex-start;
-    border-radius: 8px;
+    border-radius: 6px;
     scroll-snap-align: start;
     flex: 0;
 
 }
 
 .design-container.selected {
-    border: 1px solid grey;
+    border: 2px solid black;
     
 }
 
@@ -546,7 +571,10 @@
 @media (max-width: 800px) {
 
     .quiz-phase.select-design.active h2 {
-        font-size: 28px;
+        font-size: 16px;
+        font-family: Neue Montreal, sans-serif;
+        line-height: normal;
+        font-weight: 400;
     }
 
     .quiz-phase.select-design.active {
@@ -555,6 +583,7 @@
     }
     .design-container {
         padding: 16px 16px 16px 16px;
+        gap: 16px;
     
     }
 }
@@ -585,7 +614,7 @@
     max-width: 100%;
     object-fit: scale-down; 
     display: none;
-    border-radius: 6px;
+    border-radius: 4px;
     
 }
 
@@ -600,7 +629,7 @@
     aspect-ratio: 5/7;
     display: none; 
     position: relative;
-    border-radius: 6px;
+    border-radius: 4px;
     overflow: hidden;
 }
 
@@ -665,8 +694,22 @@
 }
 
 @media (max-width: 800px) {
+
+    .product-layer.mid {
+        filter:  contrast(80%) blur(0.1px) saturate(0.80);
+    }
+
+    .design-info-container {
+        gap: 8px;
+        padding-top: 16px;
+    }
+
     .design-name {
         font-size: 16px;
+
+        -webkit-line-clamp: 3; /* Limit the number of lines to display */
+        -webkit-box-orient: vertical; /* Set the direction of the box */
+        max-height: 3 * 1.2em; /* 3 lines multiplied by the line height */
     }
 }
 
@@ -699,7 +742,7 @@
 
 .switch-image-button {
     font-family: Neue Montreal, sans-serif;
-    font-weight: 400;
+    font-weight: 500;
     font-size: 16px;
     background-color: transparent;
     opacity: 0.5;
@@ -711,7 +754,7 @@
 }
 
 .design-button {
-    padding: 8px 16px 8px 16px;
+    padding: 8px 8px 8px 8px;
     height: max-content;
     border-radius: 4px;
     color: black;
@@ -722,15 +765,15 @@
     font-size: 16px;
     width: auto;
     border: #000 1.5px solid;
-    min-width: 75px;
+    min-width: 125px;
     font-family: Neue Montreal, sans-serif;
-    font-weight: 400;
+    font-weight: 500;
 }
 
 
 .design-button.selected {
-    background: black;
-    color: white;
+    color: black;
+    font-weight: 500;
 }
 
 @media (max-width: 1000px) {
@@ -740,11 +783,21 @@
 @media (max-width: 800px) {
     .design-button {
         font-size: 14px;
+        min-width: 110px;
+    }
+
+    .switch-image p {
+        font-size: 14px;
+        text-transform: capitalize;
     }
 
     .switch-button-container {
         gap: 12px;
     
+    }
+
+    .switch-image-button {
+        font-size: 14px;
     }
 }
 
@@ -761,8 +814,8 @@
     align-items: center;
     justify-content: center;
     background-color: white;
-    border-radius: 8px;
-    max-height: 100%;
+    border-radius: 6px;
+    max-height: 90%;
 }
 
 @media (max-width: 800px) {
@@ -796,7 +849,7 @@
     aspect-ratio: 5/7;
     display: none; 
     position: relative;
-    border-radius: 6px;
+    border-radius: 4px;
     overflow: hidden;
 }
 
@@ -871,7 +924,7 @@
 }
 
 .fit-attribute.right {
-    margin-left: 10%;
+    margin-left: 5%;
 }
 
 .fit-title {
@@ -905,11 +958,26 @@
     align-items: left;
     width: 60%;
 }
+
+
+.quiz-phase.select-fit.active h2 {
+    font-size: 20px;
+    font-weight: 400;
+    font-family: Neue Montreal, sans-serif;
+    line-height: normal;
+}
+
 @media (max-width: 1000px) {
     
 }
 
+1280 x 832
+
 @media (max-width: 800px) {
+
+    .ready-layer.mid {
+        filter:  contrast(80%) blur(0.1px) saturate(0.80);
+    }
 
     .quiz-phase.select-fit.active {
         gap: 16px;
@@ -917,7 +985,9 @@
     }
 
     .quiz-phase.select-fit.active h2 {
-        font-size: 28px;
+        font-size: 16px;
+        font-weight: 400;
+        font-family: Neue Montreal, sans-serif;
     }
 
     .fit-value {
@@ -957,9 +1027,8 @@
     background: transparent;
     z-index: 200;
     justify-self: flex-end;
-    font-weight: 300;
-    text-decoration: underline;
-    min-width: 50%;
+    font-weight: 500;
+    min-width: 100px;
 }
 
 #new-add-to-cart-container {
@@ -1051,7 +1120,7 @@
     border: none;
     background: transparent;
     text-align: center;
-    border-bottom: 1.5px solid lightgrey;
+    border-bottom: 1.5px solid black;
     border-radius: 0;
 }
 
@@ -1073,7 +1142,7 @@
     outline: none;
 }
 #nickname::placeholder {
-    opacity: 0.5;
+    opacity: 0.6;
 }
 
 .slider-container {
@@ -1093,12 +1162,15 @@
     width: auto;
     color: black;
     margin-bottom: 6px;
-    opacity: 0.3;
 }
 
 @media (max-width: 1000px) {
     .slider-container {
         width: 100%;
+    }
+
+    .slider-container p {
+        font-size: 16px;
     }
 }
 
@@ -1114,6 +1186,8 @@
     height: 34px;
   }
   
+  
+
   /* Hide default HTML checkbox */
   .switch input {
     opacity: 0;
@@ -1196,6 +1270,11 @@
 
 @media (max-width: 800px) {
 
+    .instructions {
+        gap: 24px;
+        padding: 0px 0 24px 0;
+    }
+
     .name h1 {
         font-size: 28px;
     }
@@ -1205,7 +1284,8 @@
     }
     .lure {
         margin-top: 30px;
-        max-width: 100%;
+        max-width: 75%;
+        font-size: 16px;
     }
 }
 
@@ -1226,7 +1306,8 @@
     gap: 35px;
     padding: 42px 0 42px 0;
     border-bottom: 1.5px solid #000;
-    opacity: 0.5;
+    opacity: 0.3;
+    transition: opacity 0.3s ease-in-out;
 }
 
 .radio-question.active {
@@ -1367,7 +1448,7 @@ input[type="radio"]:focus {
     gap: 32px;
     transition: bottom 0.3s ease-in-out;
     opacity: 1;
-    /* border-top: 2px solid #000; */
+    border-top: 1.5px solid lightgray;
 
 }
 
@@ -1384,7 +1465,7 @@ input[type="radio"]:focus {
     justify-content: left;
     align-items: center;
     width: 100%;
-    gap: 12px;
+    gap: 0px;
 }
 
 .progress-text {
@@ -1398,8 +1479,8 @@ input[type="radio"]:focus {
 @media (max-width: 800px) {
     .progress-text {
         font-size: 16px;
-        min-width: 50px;
-        max-width: 50px;
+        min-width: 45px;
+        max-width: 45px;
     }
 }
 
@@ -1425,8 +1506,8 @@ input[type="radio"]:focus {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 24px 24px 24px 24px;
-    gap: 32px;
+    padding: 16px 16px 16px 16px;
+    gap: 24px;
     width: 100%;
     height: 100%;
 }
@@ -1438,8 +1519,8 @@ input[type="radio"]:focus {
 @media (max-width: 800px) {
 
     .nav-content {
-        padding: 16px 16px 16px 16px;
-        gap: 24px;
+        padding: 8px 8px 8px 8px;
+        gap: 16px;
     }
 
     .progress-bar-quiz {
@@ -1450,9 +1531,6 @@ input[type="radio"]:focus {
         gap: 0px;
     }
 
-    .nav-content {
-        padding: 16px 16px 16px 16px;
-    }
 }
 
 @media (max-width: 500px) {
@@ -1464,7 +1542,7 @@ input[type="radio"]:focus {
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    gap: 50%;
+    gap: 16px;
 }
 
 .button-container.column {
@@ -1479,13 +1557,14 @@ input[type="radio"]:focus {
 .quiz-button {
     width: 100%;
     height: 53px;
-    border-radius: 8px;
+    border-radius: 6px;
     color: white;
     background: black;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 16px;
+    font-weight: 500;
 }
 
 
@@ -1503,6 +1582,11 @@ input[type="radio"]:focus {
 
 .quiz-button.secondary.center {
     justify-content: center;
+}
+
+.quiz-button.secondary.left {
+    width: 30%;
+    justify-content: left;
 }
 
 @media (max-width: 800px) {
@@ -1596,6 +1680,8 @@ input[type="radio"]:focus {
     margin-bottom: 20px;
     width: 75%;
     text-align: center;
+    padding-bottom: 0;
+    margin-bottom: 0;
 }
 
 @media (max-width: 800px) {
@@ -1639,14 +1725,21 @@ input[type="radio"]:focus {
     flex-direction: column;
     background-color: white;
     gap: 24px;
-    padding: 24px 24px 24px 24px;
+    padding: 16px 16px 16px 16px;
     transition: margin-bottom 0.3s ease-in-out;
     max-height: 90%;
     overflow: hidden;
 }
 
+@media (max-width: 800px) {
+    .low-modal-inner {
+        padding: 8px 8px 8px 8px;
+        gap: 16px;
+    }
+}
+
 .low-modal-inner.reserve {
-    min-height: 300px;
+
 }
 
 
@@ -1681,6 +1774,14 @@ input[type="radio"]:focus {
     width: 100%;
     min-width: 100%;
     margin-bottom: 24px;
+}
+
+@media (max-width: 800px) {
+    .low-modal-inner-content p {
+        font-size: 16px;
+        gap: 16px;
+        margin-bottom: 8px;
+    }
 }
 
 .modal-absolute-button-container {
@@ -1730,12 +1831,14 @@ input[type="radio"]:focus {
     }
 
     .low-modal-inner {
-        padding: 16px 16px 16px 16px;
-        gap: 16px;
+        padding: 8px 8px 8px 8px;
+        gap: 8px;
     }
 
     .low-modal-inner.reserve {
-        min-height: 200px;
+        min-height: auto;
+        padding: 16px 16px 16px 16px;
+        gap: 8px;
     }
 
     .low-modal-inner-content p {
@@ -1770,7 +1873,7 @@ input[type="radio"]:focus {
     align-items: center;
     background-color: white;
     gap: 0px;
-    padding: 72px 24px 24px 24px;
+    padding: 72px 24px 8px 24px;
     transition: margin-top 0.3s ease-in-out;
 }
 
@@ -1857,6 +1960,11 @@ input[type="radio"]:focus {
 @media (max-width: 800px) {
     .active-product-header p {
         margin-bottom: 0px;
+        font-size: 16px;
+    }
+
+    .active-product-header h3 {
+        font-size: 16px;
     }
 }
 
@@ -1899,11 +2007,16 @@ input[type="radio"]:focus {
     min-width: none;
     width: auto;
     text-align: right;
+    font-weight: 500;
 }
 
 .color-container {
     display: flex;
     gap: 24px;
+}
+
+.color-container p {
+    font-weight: 700;
 }
 
 .color-dot {
@@ -1915,6 +2028,11 @@ input[type="radio"]:focus {
 }
 
 @media (max-width: 800px) {
+
+    .color-fit-container {
+        gap: 8px;
+    }
+
     .color-dot {
         width: 20px;
         height: 20px;
@@ -1951,6 +2069,11 @@ input[type="radio"]:focus {
     opacity: 1;
     gap: 4px;
     margin-bottom: 0px;
+    display: none;
+}
+
+.single-status.size {
+    margin-bottom: 8px;
 }
 
 .single-status.price p {
@@ -1974,6 +2097,10 @@ input[type="radio"]:focus {
         gap: 16px;
         padding-top: 16px;
         padding-bottom: 16px
+    }
+
+    .single-status.size {
+        margin-bottom: 0px;
     }
 }
 

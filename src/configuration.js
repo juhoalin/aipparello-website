@@ -97,7 +97,6 @@ const toggleText = document.getElementById("toggle-text");
 
 //handle overlay & quiz opening
 const setInitialProperties = () => {
-
     const quizCookie = getQuizCookie();
 
     if (quizCookie === "true") {
@@ -133,7 +132,7 @@ function setConfiguration() {
 
 function setQuizCookie(value) {
     var d = new Date();
-    d.setTime(d.getTime() + (365 * 24 * 60 * 60 * 1000)); // Cookie expires in 365 days
+    d.setTime(d.getTime() + 365 * 24 * 60 * 60 * 1000); // Cookie expires in 365 days
     var expires = "expires=" + d.toUTCString();
     document.cookie = "quizOpen=" + value + ";" + expires + ";path=/";
 }
@@ -141,10 +140,10 @@ function setQuizCookie(value) {
 function getQuizCookie() {
     var name = "quizOpen=";
     var decodedCookie = decodeURIComponent(document.cookie);
-    var cookieArray = decodedCookie.split(';');
-    for(var i = 0; i < cookieArray.length; i++) {
+    var cookieArray = decodedCookie.split(";");
+    for (var i = 0; i < cookieArray.length; i++) {
         var cookie = cookieArray[i];
-        while (cookie.charAt(0) == ' ') {
+        while (cookie.charAt(0) == " ") {
             cookie = cookie.substring(1);
         }
         if (cookie.indexOf(name) == 0) {
@@ -153,8 +152,6 @@ function getQuizCookie() {
     }
     return "";
 }
-
-
 
 //function to open the quiz overlay
 const openQuizOverlay = () => {
@@ -451,10 +448,12 @@ function scrollToQuestion(quizPhase, questionRect, containerRect) {
         containerRect.top -
         (containerRect.height - questionRect.height) / 2;
 
-    quizPhase.scrollTo({
-        top: targetPosition,
-        behavior: "smooth",
-    });
+    setTimeout(() => {
+        quizPhase.scrollTo({
+            top: targetPosition,
+            behavior: "smooth",
+        });
+    }, 200);
 }
 
 //function to update the state of the questions – active, answered, etc.
@@ -518,6 +517,7 @@ function updateConfiguration(direction) {
 
     changePhasesWithDelay(newPhase, oldPhase, 300);
 
+
     setTimeout(() => {
         if (
             cookies.getConfigurationStatus().currentPhase === 0 &&
@@ -574,7 +574,7 @@ function updateConfiguration(direction) {
             quizNextButton.classList.add("disabled");
         }
 
-        quizCloseButton.style.zIndex = "2000";
+        // quizCloseButton.style.zIndex = "2000";
 
         if (
             cookies.getConfigurationStatus().currentPhase === 4 &&
@@ -586,7 +586,7 @@ function updateConfiguration(direction) {
             const cartWrapper = document.getElementById("cart-wrapper");
             cartWrapper.classList.add("dominate");
             quizCloseButton.style.zIndex = "2000";
-            fitDoneLoadingScreen.classList.add("active");
+            // fitDoneLoadingScreen.classList.add("active");
         }
 
         updateActiveProductState();
@@ -844,37 +844,34 @@ const updateReadyProductImages = () => {
 
 const updateReadyCheckoutProduct = () => {
     // Get the current page URL
-        console.log("The current page is the checkout page.");
-        // Perform actions specific to the checkout page
-        const currentImage = cookies.getSelectedDesign().url;
-        const readyProduct = document.getElementById("ready-image-layer-mid");
-        const cartPersonality = document.getElementById("checkout-personality");
-        const cartDesignSelected = document.getElementById(
-            "checkout-design-image"
-        );
-        const designDesc = document.getElementById("checkout-design-text");
+    console.log("The current page is the checkout page.");
+    // Perform actions specific to the checkout page
+    const currentImage = cookies.getSelectedDesign().url;
+    const readyProduct = document.getElementById("ready-image-layer-mid");
+    const cartPersonality = document.getElementById("checkout-personality");
+    const cartDesignSelected = document.getElementById("checkout-design-image");
+    const designDesc = document.getElementById("checkout-design-text");
 
-        const currentName =
-            cookies.getOrder().personalities[cookies.getCurrentPersonality()]
-                .name;
-        const currentPersonality =
-            cookies.getOrder().personalities[cookies.getCurrentPersonality()]
-                .personality.personalityRole;
+    const currentName =
+        cookies.getOrder().personalities[cookies.getCurrentPersonality()].name;
+    const currentPersonality =
+        cookies.getOrder().personalities[cookies.getCurrentPersonality()]
+            .personality.personalityRole;
 
-        if (currentImage !== "") {
-            console.log("updateReadyProductImages", currentImage);
-            readyProduct.src = currentImage;
-            if (cartDesignSelected && cartPersonality && designDesc) {
-                cartDesignSelected.src = currentImage;
-                designDesc.innerHTML = cookies.getSelectedDesign().prompt;
-                if (currentName === "anonymous") {
-                    cartPersonality.innerHTML = currentPersonality;
-                } else {
-                    cartPersonality.innerHTML =
-                        currentName + " / " + currentPersonality;
-                }
+    if (currentImage !== "") {
+        console.log("updateReadyProductImages", currentImage);
+        readyProduct.src = currentImage;
+        if (cartDesignSelected && cartPersonality && designDesc) {
+            cartDesignSelected.src = currentImage;
+            designDesc.innerHTML = cookies.getSelectedDesign().prompt;
+            if (currentName === "anonymous") {
+                cartPersonality.innerHTML = currentPersonality;
+            } else {
+                cartPersonality.innerHTML =
+                    currentName + " / " + currentPersonality;
             }
         }
+    }
 };
 
 async function reserveDesign(token) {
@@ -1063,7 +1060,7 @@ const updateDesigns = () => {
                     nearestDesignContainer.classList.remove("selected");
                 });
                 buttonElement.classList.add("selected");
-                buttonElement.innerHTML = "SELECTED";
+                buttonElement.innerHTML = "SELECTED  ✓";
                 const nearestDesignContainer =
                     buttonElement.closest(".design-container");
                 nearestDesignContainer.classList.add("selected");
@@ -1083,7 +1080,7 @@ const updateSelectedDesign = () => {
         allDesignButtons.forEach((button) => {
             if (button.value === selectedDesign.token) {
                 button.classList.add("selected");
-                button.innerHTML = "SELECTED";
+                button.innerHTML = "SELECTED  ✓";
                 const nearestDesignContainer =
                     button.closest(".design-container");
                 nearestDesignContainer.classList.add("selected");
@@ -1181,9 +1178,21 @@ function resetProcess() {
     }
 }
 
+function handleKeyPress(event) {
+    console.log("Enter key pressed");
+    // Check if the pressed key is 'Enter' (key code 13)
+    if (event.keyCode === 13) {
+    
+        // Trigger the click event of the specified button
+        startQuizButton.click();
+    }
+}
+
+// Attach key press event listener to the document
+
+
 //Event listeners
 document.addEventListener("DOMContentLoaded", function () {
-
     resetProcess();
 
     updateReadyCheckoutProduct();

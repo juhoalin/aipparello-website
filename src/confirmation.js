@@ -131,18 +131,38 @@ async function confirmDesign(email, orderId, token) {
 
 document.addEventListener("DOMContentLoaded", function () {
 
+    // Target element
+const targetEmail = document.getElementById('order-email');
 
+// Create a new MutationObserver
+const emailObserver = new MutationObserver(function(mutationsList, observer) {
+    for(let mutation of mutationsList) {
+        if (mutation.type === 'childList') {
+            // Call your function here when innerHTML is added or edited
+            console.log('innerHTML added or edited:', targetEmail.innerHTML);
+            // Call your desired function here
+            const cookie = getCookie('order');
+            orderEmail = targetEmail.innerHTML;
+            orderID = getOrderIdFromURL(window.location.href);
+            token = cookie.personalities[0].products[0].selectedDesign.token;
 
-    const cookie = getCookie('order');
-    orderEmail = cookie.orderEmail;
-    orderID = getOrderIdFromURL(window.location.href);
-    token = cookie.personalities[0].products[0].selectedDesign.token;
+            console.log("sending call to confirmation API", orderEmail, orderID, token);
+        
+            cookie.orderID = orderID;
+            saveOrderToCookie(cookie);
+        
+        
+            confirmDesign(orderEmail, orderID, token);
+        }
+    }
+});
 
-    cookie.orderID = orderID;
-    saveOrderToCookie(cookie);
+// Options for the observer (which mutations to observe)
+const config = { attributes: true, childList: true, subtree: true };
 
+// Start observing the target node for configured mutations
+emailObserver.observe(targetEmail, config);
 
-    confirmDesign(orderEmail, orderID, token);
 
     loadingContainer.style.display = "initial";
 
