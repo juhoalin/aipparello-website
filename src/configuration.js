@@ -75,6 +75,8 @@ const selectSizeBackButton = document.getElementById("select-size-back-button");
 
 const addToCartButton = document.getElementById("add-to-cart-button");
 
+const navCartButton = document.getElementById("new-nav-cart-button");
+
 const personaliType = document.getElementById("personality-type");
 const personalityName = document.getElementById("personality-name");
 const extrovesionText = document.getElementById("extroversion-text");
@@ -1181,6 +1183,7 @@ function resetProcess() {
 
     if (resetProcess) {
         localStorage.clear();
+        navCartButton.innerHTML = "CART (0)";
     }
 }
 
@@ -1368,6 +1371,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     cookies.updateSelectedSize(value);
                     updateReadyProductImages();
                     cookies.handleAddToCart(true);
+                    navCartButton.innerHTML = "CART (1)";
                     fitDoneLoadingScreen.classList.remove("active");
                 } else {
                     console.log("cart empty");
@@ -1382,6 +1386,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     quizCloseButton.style.backgroundColor = "transparent";
                     quizCloseButton.style.padding = "0px 0px";
                     fitDoneLoadingScreen.classList.remove("active");
+                    navCartButton.innerHTML = "CART (0)";
                 }
             }
         });
