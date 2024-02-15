@@ -683,9 +683,9 @@
     text-overflow: ellipsis;
     line-height: 1.2em;
     display: -webkit-box; /* For Safari, iOS, and Android */
-    -webkit-line-clamp: 5; /* Limit the number of lines to display */
+    -webkit-line-clamp: 7; /* Limit the number of lines to display */
     -webkit-box-orient: vertical; /* Set the direction of the box */
-    max-height: 5 * 1.2em; /* 3 lines multiplied by the line height */
+    max-height: 7 * 1.2em; /* 3 lines multiplied by the line height */
     overflow: hidden; /* Hide the overflow content */
     white-space: normal; /* Allow text to wrap */
     text-overflow: ellipsis;
@@ -707,11 +707,11 @@
     }
 
     .design-name {
-        font-size: 16px;
+        font-size: 12px;
 
-        -webkit-line-clamp: 3; /* Limit the number of lines to display */
+        -webkit-line-clamp: 5; /* Limit the number of lines to display */
         -webkit-box-orient: vertical; /* Set the direction of the box */
-        max-height: 3 * 1.2em; /* 3 lines multiplied by the line height */
+        max-height: 5 * 1.2em; /* 3 lines multiplied by the line height */
     }
 }
 
@@ -2397,6 +2397,18 @@ input[type="radio"]:focus {
 #select-size-back-button {
     display: none;
     pointer-events: none;
+}
+
+*{
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0); /* Remove tap highlight color in WebKit browsers */
+}
+
+input, textarea, select, button, a {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+a:focus, a:visited, a:active {
+    outline: none;
 }
 
   
