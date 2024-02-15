@@ -1575,8 +1575,8 @@ input[type="radio"]:focus {
     justify-content: center;
     align-items: center;
     font-size: 16px;
-    font-weight: 500;
-    font-family: Neuemontreal Regular, sans-serif;
+    /* font-weight: 500; */
+    font-family: Neuemontreal Medium, sans-serif;
 }
 
 
@@ -1590,7 +1590,7 @@ input[type="radio"]:focus {
     color: #1D1D1F;
     justify-content: center;
     font-size: 16px;
-    font-family: Neuemontreal Regular, sans-serif;
+    font-family: Neuemontreal Medium, sans-serif;
 }
 
 .quiz-button.secondary.center {
