@@ -331,7 +331,7 @@
     width: 100%;
     background-color: white;
     padding: 24px 24px 24px 24px;
-    border-radius: 8px;
+    border-radius: 2px;
 }
 
 .personality-header {
@@ -361,7 +361,7 @@
     .quiz-phase.personality.active {
         justify-content: flex-start;
         gap: 16px;
-        padding: 3vh 0px 0px 0px;
+        padding: 0vh 0px 0px 0px;
     }
 
     .phase-step.personality {
@@ -413,7 +413,7 @@
 .personality-metric-data {
     width: 100%;
     display: flex;
-    background-color: lightgray;
+    background-color: #F5F5F7;
     height: 20px;
     border-radius: 50px;
 }
@@ -421,7 +421,7 @@
 .personality-metric-bar {
     width: 10%;
     height: 100%;
-    background-color: black;
+    background-color: #1D1D1F;
     border-radius: 50px;
     transition: width 1.5s ease;
 }
@@ -470,6 +470,7 @@
     
 }
 
+
 @media (max-width: 500px) {
     
 }
@@ -481,7 +482,7 @@
     margin-top: 24px;
     align-items: center;
     justify-content: space-between;
-    border-top: 2px solid #000;
+    border-top: 2px solid #1D1D1F;
     padding-top: 36px;
     display: none;
 }
@@ -550,18 +551,18 @@
     gap: 24px;
     min-width: 100%;
     background-color: white;
-    border: 2px solid white;
+    border: 1.5px solid white;
     padding: 24px 24px 24px 24px;
     align-items: center;
     justify-content: flex-start;
-    border-radius: 6px;
+    border-radius: 2px;
     scroll-snap-align: start;
     flex: 0;
 
 }
 
 .design-container.selected {
-    border: 1.5px solid black;
+    border: 1.5px solid #1D1D1F;
     
 }
 
@@ -615,7 +616,7 @@
     max-width: 100%;
     object-fit: scale-down; 
     display: none;
-    border-radius: 4px;
+    border-radius: 2px;
     
 }
 
@@ -630,7 +631,7 @@
     aspect-ratio: 5/7;
     display: none; 
     position: relative;
-    border-radius: 4px;
+    border-radius: 2px;
     overflow: hidden;
 }
 
@@ -672,7 +673,7 @@
     justify-content: space-between;
     align-items: flex-end;
     gap: 24px;
-    border-top: 1.5px solid black;
+    border-top: 1.5px solid #1D1D1F;
     padding-top: 24px;
 }
 
@@ -758,14 +759,14 @@
     padding: 8px 8px 8px 8px;
     height: max-content;
     border-radius: 4px;
-    color: black;
+    color: #1D1D1F;
     background: white;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 16px;
     width: auto;
-    border: #000 1.5px solid;
+    border: #1D1D1F 1.5px solid;
     min-width: 125px;
     font-family: Neuemontreal Regular, sans-serif;
     font-weight: 500;
@@ -773,9 +774,9 @@
 
 
 .design-button.selected {
-    color: white;
+    color: #F5F5F7;
     font-weight: 500;
-    background-color: black;
+    background-color: #1D1D1F;
 }
 
 @media (max-width: 1000px) {
@@ -817,7 +818,7 @@
     align-items: center;
     justify-content: center;
     background-color: white;
-    border-radius: 6px;
+    border-radius: 2px;
     max-height: 90%;
 }
 
@@ -852,7 +853,7 @@
     aspect-ratio: 5/7;
     display: none; 
     position: relative;
-    border-radius: 4px;
+    border-radius: 2px;
     overflow: hidden;
 }
 
@@ -901,7 +902,7 @@
     margin: 0 5px; /* Adjust spacing between dots */
   }
   .dot.visible {
-    background-color: black;
+    background-color: #1D1D1F;
   }
 
 
@@ -979,7 +980,7 @@
 @media (max-width: 800px) {
 
     .ready-layer.mid {
-        filter:  contrast(80%) blur(0.1px) saturate(0.80);
+        filter:  contrast(80%) saturate(0.80);
     }
 
     .quiz-phase.select-fit.active {
@@ -1018,8 +1019,8 @@
 
     #size-guide-button {
         font-size: 14px;
-        max-width: 100px;
-        min-width: 100px;
+        max-width: 115px;
+        min-width: 115px;
     }
 }
 
@@ -1033,7 +1034,9 @@
     z-index: 200;
     justify-self: flex-end;
     font-weight: 500;
-    min-width: 100px;
+    min-width: 115px;
+    padding: 0px 0px 0px 0px;
+    margin: 0px 0px 0px 0px;
 }
 
 #new-add-to-cart-container {
@@ -1125,7 +1128,7 @@
     border: none;
     background: transparent;
     text-align: center;
-    border-bottom: 1.5px solid black;
+    border-bottom: 1.5px solid #1D1D1F;
     border-radius: 0;
 }
 
@@ -1165,7 +1168,7 @@
     text-align: left;
     /* font-family: Neuemontreal Regular, sans-serif; */
     width: auto;
-    color: black;
+    color: #1D1D1F;
     margin-bottom: 6px;
 }
 
@@ -1253,7 +1256,7 @@
     display: flex;
     flex-direction: column;
     gap: 35px;
-    border-bottom: 1.5px solid #000;
+    border-bottom: 1.5px solid #1D1D1F;
     padding: 50px 0 35px 0;
 }
 
@@ -1300,7 +1303,7 @@
     display: block; /* Make the pseudo-element behave like a block element */
     width: 100%; /* Set the width to span the entire input field */
     height: 2px; /* Set the height of your desired border thickness */
-    background-color: black; /* Set your desired border color */
+    background-color: #1D1D1F; /* Set your desired border color */
     position: absolute; /* Position the border at the bottom */
     bottom: -2px; /* Adjust the offset for precise positioning */
     left: 0; /* Ensure the border starts at the left edge */
@@ -1311,7 +1314,7 @@
     flex-direction: column;
     gap: 35px;
     padding: 42px 0 42px 0;
-    border-bottom: 1.5px solid #000;
+    border-bottom: 1.5px solid #1D1D1F;
     opacity: 0.3;
     transition: opacity 0.3s ease-in-out;
 }
@@ -1369,7 +1372,7 @@
     width: 82px;
     height: 82px;
     border-radius: 50%;
-    border: 2.5px solid #000;
+    border: 2.5px solid #1D1D1F;
 }
 
 .radio-option {
@@ -1399,8 +1402,8 @@
 }
 
 input[type="radio"]:checked + .radio-option {
-    background-color: black; /* Set the desired text color */
-    color: white;
+    background-color: #1D1D1F; /* Set the desired text color */
+    color: #F5F5F7;
 }
 
 input[type="radio"] {
@@ -1427,7 +1430,7 @@ input[type="radio"]:focus {
         height: 15vw;
         max-width: 82px;
         max-height: 82px;
-        border: 1.75px solid #000;
+        border: 1.75px solid #1D1D1F;
     }
 
     .radio-option {
@@ -1454,7 +1457,7 @@ input[type="radio"]:focus {
     gap: 32px;
     transition: bottom 0.3s ease-in-out;
     opacity: 1;
-    border-top: 1.5px solid lightgray;
+    /* border-top: 1.5px solid lightgray; */
 
 }
 
@@ -1501,7 +1504,7 @@ input[type="radio"]:focus {
 }
 
 .progress {
-    background-color: black;
+    background-color: #1D1D1F;
     height: 100%;
     width: 25%;
     border-radius: 50px;
@@ -1564,8 +1567,8 @@ input[type="radio"]:focus {
     width: 100%;
     height: 53px;
     border-radius: 6px;
-    color: white;
-    background: black;
+    color: #F5F5F7;
+    background: #1D1D1F;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -1582,7 +1585,7 @@ input[type="radio"]:focus {
 
 .quiz-button.secondary {
     background: transparent;
-    color: black;
+    color: #1D1D1F;
     justify-content: center;
     font-size: 16px;
     font-family: Neuemontreal Regular, sans-serif;
@@ -1697,6 +1700,7 @@ input[type="radio"]:focus {
 
     .loading-screen {
         padding: 16px 16px 16px 16px;
+        gap: 12px;
     }
 
     .loading-text {
@@ -2033,7 +2037,7 @@ input[type="radio"]:focus {
     height: 24px;
     border-radius: 50%;
     background-color: white;
-    border: 1.5px solid black;
+    border: 1.5px solid #1D1D1F;
 }
 
 @media (max-width: 800px) {
@@ -2062,7 +2066,7 @@ input[type="radio"]:focus {
     width: 100%;
     padding-top: 24px;
     padding-bottom: 24px;
-    border-bottom: 1.5px solid #000;
+    border-bottom: 1.5px solid #1D1D1F;
     opacity: 0.5;
 }
 
@@ -2098,7 +2102,7 @@ input[type="radio"]:focus {
 }
 
 .single-status.first {
-    border-top: 1.5px solid #000;
+    border-top: 1.5px solid #1D1D1F;
 }
 
 @media (max-width: 800px) {
@@ -2130,10 +2134,10 @@ input[type="radio"]:focus {
     width: 64px;
     height: 64px;
     margin: 8px;
-    border: 8px solid black;
+    border: 8px solid #1D1D1F;
     border-radius: 50%;
     animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-    border-color: black transparent transparent transparent;
+    border-color: #1D1D1F transparent transparent transparent;
   }
   .lds-ring div:nth-child(1) {
     animation-delay: -0.45s;
@@ -2181,7 +2185,7 @@ input[type="radio"]:focus {
     position: absolute;
     transform: scale(1.1);
     animation: circle-anim 400ms ease;
-    background: black;	
+    background: #1D1D1F;	
   }
   
   @keyframes success-anim {
@@ -2210,7 +2214,7 @@ input[type="radio"]:focus {
     content: "";
     display: block;
     height: 4px;
-    background: black;
+    background: #1D1D1F;
     position: absolute;
   }
   

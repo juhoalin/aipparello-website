@@ -586,6 +586,8 @@ function updateConfiguration(direction) {
             const cartWrapper = document.getElementById("cart-wrapper");
             cartWrapper.classList.add("dominate");
             quizCloseButton.style.zIndex = "2000";
+            quizCloseButton.style.backgroundColor = "white";
+            quizCloseButton.style.padding = "4px 6px";
             // fitDoneLoadingScreen.classList.add("active");
         }
 
@@ -1285,6 +1287,8 @@ document.addEventListener("DOMContentLoaded", function () {
         cookies.handleAddToCart(true);
         fitDoneLoadingScreen.classList.add("active");
         quizCloseButton.style.zIndex = "2000";
+        quizCloseButton.style.backgroundColor = "white";
+        quizCloseButton.style.padding = "4px 6px";
     });
 
     currentProductButton.addEventListener("click", () => {
@@ -1371,6 +1375,8 @@ document.addEventListener("DOMContentLoaded", function () {
                     const cartWrapper = document.getElementById("cart-wrapper");
                     cartWrapper.classList.remove("dominate");
                     quizCloseButton.style.zIndex = "500";
+                    quizCloseButton.style.backgroundColor = "transparent";
+                    quizCloseButton.style.padding = "0px 0px";
                     fitDoneLoadingScreen.classList.remove("active");
                 }
             }
