@@ -907,67 +907,67 @@ const updatePersonality = () => {
     const personalityTypes = [
         {
             type: "Provider",
-            desc: "Providers are the cornerstone of support, ensuring everyone's needs are met with care and compassion, fostering security and warmth in every interaction",
+            desc: "Cornerstones of support, ensuring everyone's needs are met with care and compassion. Providers foster security and warmth in every interaction.",
         },
         {
             type: "Protector",
-            desc: "They're vigilant defenders, shielding loved ones and preserving safety, steadfast guardians like sturdy shields against life's adversities.",
+            desc: "Shielding loved ones, demonstrating empathy to others, and having a strong work ethic. Protectors remain steadfast guardians like sturdy shields against life's adversities.",
         },
         {
             type: "Supervisor",
-            desc: "Supervisors are skilled leaders who help teams work efficiently, maintaining order like conductors leading a symphony, ensuring harmony and success.",
+            desc: "Skilled leaders who help teams work efficiently, maintaining order to ensure harmony and success. Supervisors are methodical, practical, and direct.",
         },
         {
             type: "Inspector",
-            desc: "Detail-oriented evaluators, identifying flaws, maintaining standards, ensuring precision, meticulous craftsmen refining works to perfection.",
+            desc: "Meticulous craftsmen who refine their works to perfection. Although Inspectors are reserved and calm, they are also detail-oriented, responsible, and organised.",
         },
         {
             type: "Performer",
-            desc: "Charismatic entertainers, captivating crowds, spreading joy, igniting passion, radiant stars lighting up the dark night sky.",
+            desc: "Charismatic entertainers who captivate crowds and spread joy. Performers are outgoing, adaptable, and enjoy working with others.",
         },
         {
             type: "Composer",
-            desc: "Artistic creators, weaving melodies, evoking emotions, crafting beauty, like painters splashing vibrant colors onto the canvas of sound.",
+            desc: "Artistic creators, weaving melodies, evoking emotions, like painters splashing vibrant colours onto the canvas of sound. Despite being introverted, composers are spontaneous, sensitive, and warm.",
         },
         {
             type: "Promoter",
-            desc: "Enthusiastic advocates, championing causes, fostering connections, inspiring change, beacons guiding ships through tumultuous waters.",
+            desc: "Enthusiastic advocates, championing causes and inspiring change. Promoters are logical thinkers who always seek out new opportunities with passion and diligence.",
         },
         {
             type: "Crafter",
-            desc: "Skilled artisans, shaping dreams, infusing passion, creating wonders, like sculptors molding life's raw materials into exquisite forms.",
+            desc: "Skilled artisans who love to dig deep and understand the core of practical problems. Crafters are rational and logical, but can be spontaneous and enthusiastic.",
         },
         {
             type: "Champion",
-            desc: "Fearless warriors, fighting for justice, defending the weak, inspiring hope, knights wielding truth's mighty sword.",
+            desc: "Fearless warriors, fighting for justice, defending the weak, and inspiring hope. Champions enjoy being around others, and are highly perceptive.",
         },
         {
             type: "Healer",
-            desc: "Compassionate caregivers, soothing souls, healing wounds, offering comfort, gentle breezes in the sweltering heat of despair.",
+            desc: "Compassionate caregivers who can soothe souls, heal wounds, and offer comfort. Healers are creative and quick to see possibilities. They seek to understand others and help them fulfil their potential.",
         },
         {
             type: "Teacher",
-            desc: "Knowledge sharers, inspiring minds, opening doors, guiding paths, lanterns illuminating the way through darkness.",
+            desc: "Knowledge sharers who inspire and guide others. Teachers are warm, empathetic and responsive. They are highly attuned to the needs of others, and are natural leaders.",
         },
         {
             type: "Counselor",
-            desc: "Understanding listeners, offering wisdom, lending support, providing solace, beacons guiding ships to safe harbor.",
+            desc: "Understanding listeners, offering wisdom and lending support. Counselors have a profound way of looking at the world. They are creative, empathetic, and insightful.",
         },
         {
             type: "Inventor",
-            desc: "Creative thinkers, sparking innovation, exploring possibilities, shaping the future, pioneers forging new paths in uncharted territories.",
+            desc: "Creative thinkers, sparking innovation, and exploring possibilities. Inventors are quick, ingenious, and outspoken. They are resourceful in solving new and challenging problems.",
         },
         {
             type: "Architect",
-            desc: "Design visionaries, planning spaces, shaping landscapes, crafting visions, artists painting the tapestry of urban life.",
+            desc: "Analytical visionaries who shape solutions with clear visions. Architects are quick to notice patterns. They are logical, creative, and insightful.",
         },
         {
             type: "Fieldmarshal",
-            desc: "Strategic leaders, charting courses, commanding respect, achieving goals, skilled navigators steering ships through treacherous waters.",
+            desc: "Strategic leaders, charting courses, commanding respect, skilled navigators steering ships through treacherous waters. Fieldmarshals are natural leaders who make rational decisions and set clear goals.",
         },
         {
             type: "Mastermind",
-            desc: "Strategic geniuses, planning meticulously, orchestrating solutions, achieving greatness, maestros conducting the symphony of success.",
+            desc: "Strategic geniuses who excel at planning and strategizing. Recognising connections and patterns comes naturally to Masterminds, making them natural problem solvers.",
         },
     ];
 
