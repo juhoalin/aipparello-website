@@ -164,7 +164,7 @@ const config = { attributes: true, childList: true, subtree: true };
 emailObserver.observe(targetEmail, config);
 
 
-    loadingContainer.style.display = "initial";
+    loadingContainer.style.display = "flex";
 
 
     const targetElement = document.querySelector(

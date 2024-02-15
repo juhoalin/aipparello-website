@@ -342,11 +342,11 @@
 }
 
 #personality-name {
-    font-size: 20px;
+    font-size: 16px;
     margin-bottom: 0px;
     padding-bottom: 0px;
     font-weight: 400;
-    font-family: Neue Montreal, sans-serif;
+    font-family: Neuemontreal Regular, sans-serif;
 }
 @media (max-width: 1000px) {
     
@@ -359,8 +359,9 @@
     }
 
     .quiz-phase.personality.active {
-        justify-content: center;
+        justify-content: flex-start;
         gap: 16px;
+        padding: 3vh 0px 0px 0px;
     }
 
     .phase-step.personality {
@@ -369,7 +370,7 @@
     }
 
     #personality-name {
-        font-size: 16px;
+        font-size: 14px;
     }
 }
 
@@ -516,7 +517,7 @@
 
 .quiz-phase.select-design.active h2 {
     font-size: 20px;
-    font-family: Neue Montreal, sans-serif;
+    font-family: Neuemontreal Regular, sans-serif;
     line-height: normal;
     font-weight: 400;
 }
@@ -560,7 +561,7 @@
 }
 
 .design-container.selected {
-    border: 2px solid black;
+    border: 1.5px solid black;
     
 }
 
@@ -572,7 +573,7 @@
 
     .quiz-phase.select-design.active h2 {
         font-size: 16px;
-        font-family: Neue Montreal, sans-serif;
+        font-family: Neuemontreal Regular, sans-serif;
         line-height: normal;
         font-weight: 400;
     }
@@ -655,7 +656,7 @@
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    filter:  contrast(80%) blur(0.5px) saturate(0.80);
+    filter:  contrast(80%) saturate(0.80);
 
 }
 
@@ -696,11 +697,11 @@
 @media (max-width: 800px) {
 
     .product-layer.mid {
-        filter:  contrast(80%) blur(0.1px) saturate(0.80);
+        filter:  contrast(80%) saturate(0.80);
     }
 
     .design-info-container {
-        gap: 8px;
+        gap: 10px;
         padding-top: 16px;
     }
 
@@ -733,15 +734,15 @@
 }
 
 .switch-image p {
-    font-size: 16px;
+    font-size: 20px;
     font-weight: 500;
     text-align: left;
-    font-family: Neue Montreal, sans-serif;
+    font-family: Neuemontreal Regular, sans-serif;
     margin: 0 0 0 0;
 }
 
 .switch-image-button {
-    font-family: Neue Montreal, sans-serif;
+    font-family: Neuemontreal Medium, sans-serif;
     font-weight: 500;
     font-size: 16px;
     background-color: transparent;
@@ -766,14 +767,15 @@
     width: auto;
     border: #000 1.5px solid;
     min-width: 125px;
-    font-family: Neue Montreal, sans-serif;
+    font-family: Neuemontreal Regular, sans-serif;
     font-weight: 500;
 }
 
 
 .design-button.selected {
-    color: black;
+    color: white;
     font-weight: 500;
+    background-color: black;
 }
 
 @media (max-width: 1000px) {
@@ -782,13 +784,14 @@
 
 @media (max-width: 800px) {
     .design-button {
+        padding: 6px 0px 6px 0px;
         font-size: 14px;
-        min-width: 110px;
+        min-width: 105px;
     }
 
     .switch-image p {
-        font-size: 14px;
-        text-transform: capitalize;
+        font-size: 16px;
+
     }
 
     .switch-button-container {
@@ -931,7 +934,7 @@
     font-size: 20px;
     font-weight: 500;
     text-align: left;
-    font-family: Neue Montreal, sans-serif;
+    font-family: Neuemontreal Medium, sans-serif;
     width: auto;
 }
 
@@ -939,7 +942,7 @@
     font-size: 20px;
     font-weight: 400;
     text-align: left;
-    font-family: Neue Montreal, sans-serif;
+    font-family: Neuemontreal Regular, sans-serif;
 }
 
 .fit-selection-container {
@@ -963,7 +966,7 @@
 .quiz-phase.select-fit.active h2 {
     font-size: 20px;
     font-weight: 400;
-    font-family: Neue Montreal, sans-serif;
+    font-family: Neuemontreal Regular, sans-serif;
     line-height: normal;
 }
 
@@ -971,7 +974,7 @@
     
 }
 
-1280 x 832
+
 
 @media (max-width: 800px) {
 
@@ -987,7 +990,7 @@
     .quiz-phase.select-fit.active h2 {
         font-size: 16px;
         font-weight: 400;
-        font-family: Neue Montreal, sans-serif;
+        font-family: Neuemontreal Regular, sans-serif;
     }
 
     .fit-value {
@@ -1005,16 +1008,18 @@
 
       .indicator-container {
           margin: 0 0;
+          gap: 0px;
       }
 
     .dot {
-        width: 10px;
-        height: 10px;
+        width: 8px;
+        height: 8px;
     }
 
     #size-guide-button {
         font-size: 14px;
         max-width: 100px;
+        min-width: 100px;
     }
 }
 
@@ -1156,9 +1161,9 @@
 
 .slider-container p {
     font-size: 20px;
-    font-weight: 400;
+    /* font-weight: 400; */
     text-align: left;
-    font-family: Neue Montreal, sans-serif;
+    /* font-family: Neuemontreal Regular, sans-serif; */
     width: auto;
     color: black;
     margin-bottom: 6px;
@@ -1167,6 +1172,7 @@
 @media (max-width: 1000px) {
     .slider-container {
         width: 100%;
+        gap: 8px;
     }
 
     .slider-container p {
@@ -1280,7 +1286,7 @@
     }
 
     .desc {
-   
+        font-size: 16px;
     }
     .lure {
         margin-top: 30px;
@@ -1473,7 +1479,7 @@ input[type="radio"]:focus {
     font-size: 20px;
     min-width: 60px;
     max-width: 60px;
-    font-family: Neue Montreal, sans-serif;
+    font-family: Neuemontreal Regular, sans-serif;
 }
 
 @media (max-width: 800px) {
@@ -1565,6 +1571,7 @@ input[type="radio"]:focus {
     align-items: center;
     font-size: 16px;
     font-weight: 500;
+    font-family: Neuemontreal Regular, sans-serif;
 }
 
 
@@ -1578,6 +1585,7 @@ input[type="radio"]:focus {
     color: black;
     justify-content: center;
     font-size: 16px;
+    font-family: Neuemontreal Regular, sans-serif;
 }
 
 .quiz-button.secondary.center {
@@ -1586,19 +1594,20 @@ input[type="radio"]:focus {
 
 .quiz-button.secondary.left {
     width: 30%;
+    min-width: 50px;
     justify-content: left;
 }
 
 @media (max-width: 800px) {
     .quiz-button {
-     height: 42px;
+     height: 48px;
      font-size: 14px;
  
     }
 
     .quiz-button.secondary {
         font-size: 14px;
-        height: 42px;
+        height: 48px;
     }
 
     .size-guide-button {

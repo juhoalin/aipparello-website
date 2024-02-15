@@ -453,7 +453,7 @@ function scrollToQuestion(quizPhase, questionRect, containerRect) {
             top: targetPosition,
             behavior: "smooth",
         });
-    }, 200);
+    }, 100);
 }
 
 //function to update the state of the questions – active, answered, etc.
@@ -1060,7 +1060,7 @@ const updateDesigns = () => {
                     nearestDesignContainer.classList.remove("selected");
                 });
                 buttonElement.classList.add("selected");
-                buttonElement.innerHTML = "SELECTED  ✓";
+                buttonElement.innerHTML = "SELECTED";
                 const nearestDesignContainer =
                     buttonElement.closest(".design-container");
                 nearestDesignContainer.classList.add("selected");
@@ -1080,7 +1080,7 @@ const updateSelectedDesign = () => {
         allDesignButtons.forEach((button) => {
             if (button.value === selectedDesign.token) {
                 button.classList.add("selected");
-                button.innerHTML = "SELECTED  ✓";
+                button.innerHTML = "SELECTED";
                 const nearestDesignContainer =
                     button.closest(".design-container");
                 nearestDesignContainer.classList.add("selected");
