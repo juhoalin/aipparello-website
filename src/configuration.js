@@ -2,7 +2,7 @@ require("./api.js");
 require("./configuration.css");
 require("./cookies.js");
 
-const durationInMinutes = 2;
+const durationInMinutes = 14;
 
 const cookies = require("./cookies.js");
 const api = require("./api.js");
@@ -39,7 +39,8 @@ const allPhases = document.querySelectorAll(".quiz-phase");
 const createYoursButtons = document.querySelectorAll(".create-yours");
 const quizOverlay = document.querySelector(".quiz-overlay");
 const quizContainer = document.querySelector(".quiz-container");
-const quizCloseButton = document.querySelector(".quiz-close");
+const quizCloseButton = document.getElementById("quiz-close");
+const quizResetButton = document.getElementById("reset-button");
 const previousButton = document.getElementById("previous-button");
 const nextButton = document.getElementById("next-button");
 const progressContainer = document.getElementById("progress-container");
@@ -530,6 +531,7 @@ function updateConfiguration(direction) {
             !cookies.getConfigurationStatus().nameDone
         ) {
             document.getElementById("nickname").focus();
+            quizResetButton.style.display = "none";
         }
 
         if (cookies.getConfigurationStatus().nameDone) {
@@ -538,6 +540,7 @@ function updateConfiguration(direction) {
             progressContainer.classList.add("active");
             showDesignsButtonContainer.classList.add("hidden");
             selectDesignButtonContainer.classList.add("hidden");
+            quizResetButton.style.display = "none";
         }
 
         if (
@@ -547,6 +550,7 @@ function updateConfiguration(direction) {
             showDesignsButtonContainer.classList.remove("hidden");
             quizButtonContainer.classList.add("hidden");
             progressContainer.classList.remove("active");
+            quizResetButton.style.display = "none";
         }
         if (cookies.getConfigurationStatus().currentPhase === 3) {
             showDesignsButtonContainer.classList.add("hidden");
@@ -554,6 +558,7 @@ function updateConfiguration(direction) {
             progressContainer.classList.remove("active");
             selectDesignButtonContainer.classList.remove("hidden");
             selectSizeButtonContainer.classList.add("hidden");
+            quizResetButton.style.display = "flex";
         }
 
         if (
@@ -565,12 +570,14 @@ function updateConfiguration(direction) {
             progressContainer.classList.remove("active");
             selectDesignButtonContainer.classList.add("hidden");
             selectSizeButtonContainer.classList.remove("hidden");
+            quizResetButton.style.display = "flex";
         }
 
         if (cookies.getConfigurationStatus().currentPhase === 0) {
             progressContainer.classList.remove("active");
             quizButtonContainer.classList.add("hidden");
             startQuizButtonContainer.classList.remove("hidden");
+            quizResetButton.style.display = "none";
             checknameFilled();
         }
 
@@ -1147,6 +1154,7 @@ function closeModals() {
                     "low-modal-size-guide",
                     "low-modal-inner-size-guide"
                 );
+                closeLowModal("low-modal-reset", "low-modal-inner-reset");
             }
         });
     });
@@ -1190,20 +1198,24 @@ let localStorageTimeout; // Declare a variable to store the timeout ID
 function setLocalStorageTimer(durationInMinutes) {
     // Set the timestamp in localStorage
     const currentTime = new Date().getTime();
-    localStorage.setItem('timestamp', currentTime);
+    localStorage.setItem("timestamp", currentTime);
 
     // Set the timer for the specified duration (in minutes)
-    localStorageTimeout = setTimeout(function() {
+    localStorageTimeout = setTimeout(function () {
         // Clear the localStorage after the specified duration
         localStorage.clear();
-        openLowModal('low-modal-timeout', 'low-modal-inner-timeout', 'standard')
+        openLowModal(
+            "low-modal-timeout",
+            "low-modal-inner-timeout",
+            "standard"
+        );
         console.log(`localStorage cleared after ${durationInMinutes} minutes.`);
     }, durationInMinutes * 60 * 1000); // Convert minutes to milliseconds
 }
 
 // Function to check if localStorage timer has expired
 function checkLocalStorageTimer() {
-    const timestamp = localStorage.getItem('timestamp');
+    const timestamp = localStorage.getItem("timestamp");
     if (timestamp) {
         const currentTime = new Date().getTime();
         const elapsedTime = currentTime - parseInt(timestamp);
@@ -1211,15 +1223,27 @@ function checkLocalStorageTimer() {
         if (remainingTime <= 0) {
             // Clear localStorage if timer has expired
             localStorage.clear();
-            openLowModal('low-modal-timeout', 'low-modal-inner-timeout', 'standard')
-            console.log(`localStorage cleared after ${durationInMinutes} minutes.`);
+            openLowModal(
+                "low-modal-timeout",
+                "low-modal-inner-timeout",
+                "standard"
+            );
+            console.log(
+                `localStorage cleared after ${durationInMinutes} minutes.`
+            );
         } else {
             // Start the timer based on remaining time
-            localStorageTimeout = setTimeout(function() {
+            localStorageTimeout = setTimeout(function () {
                 // Clear the localStorage after remaining time
                 localStorage.clear();
-                openLowModal('low-modal-timeout', 'low-modal-inner-timeout', 'standard')
-                console.log(`localStorage cleared after ${durationInMinutes} minutes.`);
+                openLowModal(
+                    "low-modal-timeout",
+                    "low-modal-inner-timeout",
+                    "standard"
+                );
+                console.log(
+                    `localStorage cleared after ${durationInMinutes} minutes.`
+                );
             }, remainingTime);
         }
     }
@@ -1227,9 +1251,9 @@ function checkLocalStorageTimer() {
 
 // Function to stop the localStorage clear timeout
 function stopLocalStorageTimeout() {
-    console.log('localStorage timeout stopped.');
+    console.log("localStorage timeout stopped.");
     clearTimeout(localStorageTimeout);
-    localStorage.removeItem('timestamp');
+    localStorage.removeItem("timestamp");
 }
 
 function forcePageRefresh() {
@@ -1250,6 +1274,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const timeoutButton = document.getElementById("timeout-button");
     timeoutButton.addEventListener("click", forcePageRefreshAndReset);
+
+    quizResetButton.addEventListener("click", () => {
+        console.log("reset button clicked");
+        openLowModal("low-modal-reset", "low-modal-inner-reset", "standard");
+    });
+
+    const resetModalButton = document.getElementById("reset-modal-button");
+    resetModalButton.addEventListener("click", forcePageRefreshAndReset);
+    const cancelResetModalButton = document.getElementById("reset-cancel-button");
+    cancelResetModalButton.addEventListener("click", ()=> {
+        closeLowModal("low-modal-reset", "low-modal-inner-reset");
+    });
 
     updateReadyCheckoutProduct();
     setInitialProperties();

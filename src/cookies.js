@@ -1,17 +1,16 @@
 //Saved cookies structure
 
-
 const quizLength = 16;
 
 // Now always zero – used in the future to handle multiple personalities during the same session
 let currentPersonality = 0;
 
 let resetProcess = false;
-let resetToPersonality = false
+let resetToPersonality = false;
 
 function updateResetProcess(bool) {
-        resetProcess = bool;
-        saveResetProcessToCookies(resetProcess);
+    resetProcess = bool;
+    saveResetProcessToCookies(resetProcess);
 }
 
 function saveResetProcessToCookies(resetProcess) {
@@ -58,9 +57,10 @@ let order = {
                     collection: "Original",
                     price: "￡ 14.99 GBP",
                     comparePrice: "￡ 24.99 GBP",
-                    image:  "https://uploads-ssl.webflow.com/649a7177573e38f6a02e440d/65a3cde9c0d90b9719d405fd_woman-owl.webp",
+                    image: "https://uploads-ssl.webflow.com/649a7177573e38f6a02e440d/65a3cde9c0d90b9719d405fd_woman-owl.webp",
                     selectedSize: "",
-                    description: "Premium crew neck T-Shirt with custom 001 Nature collection design based on your personality",
+                    description:
+                        "Premium crew neck T-Shirt with custom 001 Nature collection design based on your personality",
                     options: [],
                     selectedDesign: "",
                 },
@@ -83,7 +83,11 @@ let configurationStatus = {
 };
 
 const handleAddToCart = (add) => {
-    if (add && order.personalities[currentPersonality].products[0].selectedSize !== "") {
+    console.log("add to cart");
+    if (
+        add &&
+        order.personalities[currentPersonality].products[0].selectedSize !== ""
+    ) {
         configurationStatus.phases[4].completed = true;
         configurationStatus.phases[4].progress = 1;
         configurationStatus.sizeDone = true;
@@ -94,10 +98,10 @@ const handleAddToCart = (add) => {
         configurationStatus.sizeDone = false;
         saveconfigurationStatusToCookie(configurationStatus);
     }
-}
+};
 
 const updateSelectedSize = (size) => {
-
+    console.log("update size");
     if (size !== "Select Size") {
         order.personalities[currentPersonality].products[0].selectedSize = size;
         saveOrderToCookie(order);
@@ -105,7 +109,7 @@ const updateSelectedSize = (size) => {
         order.personalities[currentPersonality].products[0].selectedSize = "";
         saveOrderToCookie(order);
     }
-}
+};
 
 const updateDesignDone = () => {
     configurationStatus.designDone = true;
@@ -180,7 +184,7 @@ const designsSelected = () => {
 
 const designDone = () => {
     return configurationStatus.designDone;
-}
+};
 
 // Check if the current phase is done
 const phaseDone = () => {
@@ -216,7 +220,7 @@ const getConfigurationStatus = () => {
 
 const personalityDone = () => {
     return configurationStatus.personalityDone;
-}
+};
 
 //retrieve the current personality
 const getCurrentPersonality = () => {
@@ -334,7 +338,6 @@ function updateTotalProgress() {
     saveconfigurationStatusToCookie(configurationStatus);
 }
 
-
 // Update the nameDone status
 function updateNameDone() {
     if (order.personalities[currentPersonality].name === "") {
@@ -398,7 +401,6 @@ function getCookie(cookieName) {
     }
 }
 
-
 // Update the phase status on window load based on cookies / if no cookies are found, create new ones
 async function initialCookiesSetup(phases) {
     // Check if there is an order cookie
@@ -408,7 +410,6 @@ async function initialCookiesSetup(phases) {
         saveOrderToCookie(order);
     } else {
         order = orderCookie;
-       
     }
 
     // Check if there is a configurationStatus cookie
@@ -419,7 +420,6 @@ async function initialCookiesSetup(phases) {
         saveconfigurationStatusToCookie(configurationStatus);
     } else {
         configurationStatus = configurationStatusCookie;
-      
     }
 
     // Check if there is a currentPersonality cookie
@@ -429,7 +429,6 @@ async function initialCookiesSetup(phases) {
         saveCurrentPersonalityToCookie(currentPersonality);
     } else {
         currentPersonality = currentPersonalityCookie;
-     
     }
 
     const resetProcessCookie = getCookie("resetProcess");
@@ -437,7 +436,6 @@ async function initialCookiesSetup(phases) {
         saveResetProcessToCookies(resetProcess);
     } else {
         resetProcess = resetProcessCookie;
-      
     }
 }
 

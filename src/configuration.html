@@ -12,7 +12,8 @@
                     src="https://uploads-ssl.webflow.com/649a7177573e38f6a02e440d/65c0099e177d6f6b0eeddb9f_Arrow.svg"
                 />
             </button>
-            <button class="quiz-close">CLOSE</button>
+            <button class="quiz-close reset" id="reset-button">RESET</button>
+            <button class="quiz-close" id="quiz-close">CLOSE</button>
         </div>
         <div class="quiz">
             <form class="quiz-form" id="quizForm">
@@ -1935,8 +1936,8 @@
             </div>
         </div>
 
-        <div class="low-modal refresh" id="low-modal-refresh">
-            <div class="low-modal-inner refresh" id="low-modal-inner-refresh">
+        <div class="low-modal reset" id="low-modal-reset">
+            <div class="low-modal-inner reset" id="low-modal-inner-reset">
                 <h3 class="heading-3">Confirm reset</h3>
                 <div class="low-modal-inner-content standard">
                     <p class="bodytext">
@@ -1944,7 +1945,7 @@
                     </p>
                     <button
                         class="quiz-button"
-                        id="refresh-button"
+                        id="reset-modal-button"
                         type="button"
                         onclick=""
                     >
@@ -1952,7 +1953,7 @@
                     </button>
                     <button
                         class="quiz-button secondary center"
-                        id="refresh-cancel-button"
+                        id="reset-cancel-button"
                         type="button"
                         onclick=""
                     >

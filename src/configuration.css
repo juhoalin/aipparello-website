@@ -110,11 +110,17 @@
 }
 
 .quiz-close {
+    display: flex;
     padding: 0px 0px 0px 0px;
     border-radius: 4px;
     background-color: transparent;
     font-size: 16px;
     font-weight: 500;
+}
+
+.quiz-close.reset {
+    display: none;
+    z-index: 200;
 }
 
 @media (max-width: 1000px) {
@@ -727,7 +733,7 @@
     width: auto;
     border: #1d1d1f 1.5px solid;
     min-width: 125px;
-    font-family: Neuemontreal Regular, sans-serif;
+    font-family: Neuemontreal Medium, sans-serif;
     font-weight: 500;
 }
 
