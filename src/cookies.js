@@ -53,14 +53,14 @@ let order = {
             },
             products: [
                 {
-                    product: "Personalized T-shirt",
+                    product: "Personalised T-shirt",
                     collection: "Original",
                     price: "￡ 14.99 GBP",
                     comparePrice: "￡ 24.99 GBP",
                     image: "https://uploads-ssl.webflow.com/649a7177573e38f6a02e440d/65a3cde9c0d90b9719d405fd_woman-owl.webp",
                     selectedSize: "",
                     description:
-                        "Premium crew neck T-Shirt with custom 001 Nature collection design based on your personality",
+                        "A unique personalised T-shirt that reflects who you are. Made from 100% sustainably sourced organic cotton.",
                     options: [],
                     selectedDesign: "",
                 },

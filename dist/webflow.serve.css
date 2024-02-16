@@ -846,10 +846,41 @@
     object-fit: scale-down;
 }
 
+.change-design-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    align-items: center;
+}
+
 .indicator-container {
     display: flex;
     justify-content: center;
     gap: 4px;
+}
+
+.change-design-button {
+    width: 42px;
+    padding: 0px 6px 0px 6px;
+    background-color: transparent;
+    background: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@media (max-width: 800px) {
+    .change-design-button {
+        width: 32px;
+        padding: 0px 4px 0px 4px;
+        max-height: 15px;
+    }
+}
+
+.change-design-icon {
+    width: 100%;
+    height: auto;
 }
 .dot {
     width: 15px;

@@ -1407,17 +1407,35 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const designCarousel = document.querySelector(".carousel-container");
     const dots = document.querySelectorAll(".dot");
+    const leftArrow = document.getElementById("change-design-left");
+    const rightArrow = document.getElementById("change-design-right");
 
-    designCarousel.addEventListener("scroll", function () {
-        // Calculate the width of a single scroll item
+    function updateCarousel() {
         const itemWidth = designCarousel.scrollWidth / 5; // Assuming 5 items
-
-        // Calculate the index of the currently visible item
         const visibleIndex = Math.round(designCarousel.scrollLeft / itemWidth);
-
-        // Update the selected dot
+    
         dots.forEach((dot) => dot.classList.remove("visible"));
         dots[visibleIndex].classList.add("visible");
+    }
+
+    leftArrow.addEventListener("click", function () {
+        designCarousel.scrollTo({
+            left: designCarousel.scrollLeft - designCarousel.offsetWidth,
+            behavior: "smooth"
+        });
+        updateCarousel();
+    });
+    
+    rightArrow.addEventListener("click", function () {
+        designCarousel.scrollTo({
+            left: designCarousel.scrollLeft + designCarousel.offsetWidth,
+            behavior: "smooth"
+        });
+        updateCarousel();
+    });
+
+    designCarousel.addEventListener("scroll", function () {
+        updateCarousel();
     });
 
     document
