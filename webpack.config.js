@@ -16,7 +16,7 @@ module.exports = {
         ["webflow.serve"]: "./src/configuration.js",
         ["webflow.checkout"]: "./src/checkout.js",
         ["webflow.confirmation"]: "./src/confirmation.js",
-        
+        ["webflow.profile"]: "./src/profile.js",
     },
     module: {
         rules: [

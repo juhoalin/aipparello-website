@@ -104,8 +104,35 @@ async function confirmDesign(email, orderId, token) {
     }
 }
 
+async function viewProfile(id) {
+    try {
+        const response = await fetch(
+            `https://evhmif8p8c.execute-api.ap-southeast-1.amazonaws.com/prod/profile/view?id=${id}`,
+            {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            }
+        );
+
+        if (!response.ok) {
+            throw new Error("Network response was not ok");
+        }
+
+        const responseData = await response.json();
+        console.log("Response Data:", responseData);
+        // Process the response data here
+        return responseData;
+    } catch (error) {
+        console.error("There was a problem with the fetch operation:", error);
+        throw error; // Re-throw the error to propagate it to the caller
+    }
+}
+
 module.exports = {
     getDesigns,
     reserveDesign,
-    confirmDesign
+    confirmDesign,
+    viewProfile,
 };
