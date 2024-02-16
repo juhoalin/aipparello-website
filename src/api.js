@@ -9,7 +9,7 @@ async function getDesigns(quizData) {
     try {
         const response = await fetch(
             // "https://example.com/invalid-url",
-            "https://evhmif8p8c.execute-api.ap-southeast-1.amazonaws.com/prod/designs/get-options",
+            "https://ovw1bhw4bf.execute-api.ap-southeast-1.amazonaws.com/prod/designs/get-options",
             {
                 method: "POST",
                 headers: {
@@ -43,7 +43,7 @@ async function reserveDesign(token) {
     try {
         const response = await fetch(
             // "https://example.com/invalid-url",
-            "https://evhmif8p8c.execute-api.ap-southeast-1.amazonaws.com/prod/designs/reserve-design",
+            "https://ovw1bhw4bf.execute-api.ap-southeast-1.amazonaws.com/prod/designs/reserve-design",
             {
                 method: "POST",
                 headers: {
@@ -79,7 +79,7 @@ async function confirmDesign(email, orderId, token) {
     try {
         const response = await fetch(
             // "https://example.com/invalid-url",
-            "https://evhmif8p8c.execute-api.ap-southeast-1.amazonaws.com/prod/designs/confirm-design",
+            "https://ovw1bhw4bf.execute-api.ap-southeast-1.amazonaws.com/prod/designs/confirm-design",
             {
                 method: "POST",
                 headers: {
@@ -106,7 +106,7 @@ async function confirmDesign(email, orderId, token) {
 async function viewProfile(id) {
     try {
         const response = await fetch(
-            `https://evhmif8p8c.execute-api.ap-southeast-1.amazonaws.com/prod/profile/view?id=${id}`,
+            `https://ovw1bhw4bf.execute-api.ap-southeast-1.amazonaws.com/prod/profile/view?id=${id}`,
             {
                 method: "GET",
                 headers: {
