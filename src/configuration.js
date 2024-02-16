@@ -2,6 +2,8 @@ require("./api.js");
 require("./configuration.css");
 require("./cookies.js");
 
+const durationInMinutes = 2;
+
 const cookies = require("./cookies.js");
 const api = require("./api.js");
 
@@ -122,7 +124,6 @@ const setInitialProperties = () => {
         ".w-commerce-commercecartwrapper"
     );
     cartOuterDiv.setAttribute("id", "cart-outer-div");
-   
 };
 
 //update cookies and frontend based on cookies on page load
@@ -523,7 +524,6 @@ function updateConfiguration(direction) {
 
     changePhasesWithDelay(newPhase, oldPhase, 300);
 
-
     setTimeout(() => {
         if (
             cookies.getConfigurationStatus().currentPhase === 0 &&
@@ -602,7 +602,6 @@ function updateConfiguration(direction) {
 }
 
 function scrollToActiveQuestion() {
-   
     // Find the phase1 div
     var phase1Div = document.getElementById("phase1");
 
@@ -657,7 +656,7 @@ function updateQuestionButtons() {
         const parentPhaseIndex = Array.from(allPhases).indexOf(parentPhase);
         const parentPhaseStatus =
             cookies.getConfigurationStatus().phases[parentPhaseIndex];
-       
+
         question.querySelectorAll(".radio-input").forEach((input) => {
             input.setAttribute("disabled", "");
         });
@@ -737,23 +736,19 @@ function updateQuestionButtons() {
 //function to move forward or backward in the process. Updates cookies and frontend based on cookies
 const move = (direction) => {
     if (direction == "forward") {
-       
         cookies.moveForward();
         cookies.updateQuizDone();
         updateProgressBar();
         updateConfiguration("forward");
     } else if (direction === "backward") {
-       
         cookies.moveBackward();
         updateProgressBar();
         updateConfiguration("backward");
     } else if (direction == "forward-skip") {
-       
         cookies.skipPhases();
         updateProgressBar();
         updateConfiguration("forward");
     } else if (direction == "question-forward") {
-     
         cookies.moveForward();
         cookies.updateQuizDone();
         updateProgressBar();
@@ -785,6 +780,7 @@ async function fetchDesigns() {
                 ].quiz;
             const responseData = await api.getDesigns(quizData);
             move("forward");
+            setLocalStorageTimer(durationInMinutes);
             cookies.updateGetDesigns(responseData);
             updateDesigns();
             updateActiveProductState();
@@ -835,7 +831,6 @@ const updateReadyProductImages = () => {
             .personality.personalityRole;
 
     if (currentImage !== "") {
-       
         readyProduct.src = currentImage;
         if (cartDesignSelected && cartPersonality && designDesc) {
             cartDesignSelected.src = currentImage;
@@ -852,7 +847,7 @@ const updateReadyProductImages = () => {
 
 const updateReadyCheckoutProduct = () => {
     // Get the current page URL
-  
+
     // Perform actions specific to the checkout page
     const currentImage = cookies.getSelectedDesign().url;
     const readyProduct = document.getElementById("ready-image-layer-mid");
@@ -867,7 +862,6 @@ const updateReadyCheckoutProduct = () => {
             .personality.personalityRole;
 
     if (currentImage !== "") {
-      
         readyProduct.src = currentImage;
         if (cartDesignSelected && cartPersonality && designDesc) {
             cartDesignSelected.src = currentImage;
@@ -890,7 +884,7 @@ async function reserveDesign(token) {
     );
     try {
         const responseData = await api.reserveDesign(token);
-      
+        stopLocalStorageTimeout();
         closeLowModal(
             "low-modal-reserve-design",
             "low-modal-inner-reserve-design"
@@ -976,8 +970,6 @@ const updatePersonality = () => {
             desc: "Strategic geniuses who excel at planning and strategizing. Recognising connections and patterns comes naturally to Masterminds, making them natural problem solvers.",
         },
     ];
-
-  
 
     const order = cookies.getOrder();
     const personality = order.personalities[cookies.getCurrentPersonality()];
@@ -1099,7 +1091,6 @@ const updateSelectedDesign = () => {
 };
 
 const switchDesignImage = (index) => {
-   
     const indexToNumber = parseInt(index);
 
     const imageContainer =
@@ -1123,8 +1114,6 @@ const switchDesignImage = (index) => {
         designButton.classList.add("active");
         imageSelectorContainer.classList.add("design-active");
     }
-
-  
 };
 
 function updateNameInput() {
@@ -1188,21 +1177,79 @@ function resetProcess() {
 }
 
 function handleKeyPress(event) {
-   
     // Check if the pressed key is 'Enter' (key code 13)
     if (event.keyCode === 13) {
-    
         // Trigger the click event of the specified button
         startQuizButton.click();
     }
 }
 
-// Attach key press event listener to the document
+let localStorageTimeout; // Declare a variable to store the timeout ID
 
+// Function to set the timestamp and start the timer
+function setLocalStorageTimer(durationInMinutes) {
+    // Set the timestamp in localStorage
+    const currentTime = new Date().getTime();
+    localStorage.setItem('timestamp', currentTime);
+
+    // Set the timer for the specified duration (in minutes)
+    localStorageTimeout = setTimeout(function() {
+        // Clear the localStorage after the specified duration
+        localStorage.clear();
+        openLowModal('low-modal-timeout', 'low-modal-inner-timeout', 'standard')
+        console.log(`localStorage cleared after ${durationInMinutes} minutes.`);
+    }, durationInMinutes * 60 * 1000); // Convert minutes to milliseconds
+}
+
+// Function to check if localStorage timer has expired
+function checkLocalStorageTimer() {
+    const timestamp = localStorage.getItem('timestamp');
+    if (timestamp) {
+        const currentTime = new Date().getTime();
+        const elapsedTime = currentTime - parseInt(timestamp);
+        const remainingTime = durationInMinutes * 60 * 1000 - elapsedTime; // Convert minutes to milliseconds
+        if (remainingTime <= 0) {
+            // Clear localStorage if timer has expired
+            localStorage.clear();
+            openLowModal('low-modal-timeout', 'low-modal-inner-timeout', 'standard')
+            console.log(`localStorage cleared after ${durationInMinutes} minutes.`);
+        } else {
+            // Start the timer based on remaining time
+            localStorageTimeout = setTimeout(function() {
+                // Clear the localStorage after remaining time
+                localStorage.clear();
+                openLowModal('low-modal-timeout', 'low-modal-inner-timeout', 'standard')
+                console.log(`localStorage cleared after ${durationInMinutes} minutes.`);
+            }, remainingTime);
+        }
+    }
+}
+
+// Function to stop the localStorage clear timeout
+function stopLocalStorageTimeout() {
+    console.log('localStorage timeout stopped.');
+    clearTimeout(localStorageTimeout);
+    localStorage.removeItem('timestamp');
+}
+
+function forcePageRefresh() {
+    window.location.reload();
+}
+
+function forcePageRefreshAndReset() {
+    localStorage.clear();
+    window.location.reload();
+}
+
+// Attach key press event listener to the document
 
 //Event listeners
 document.addEventListener("DOMContentLoaded", function () {
     resetProcess();
+    checkLocalStorageTimer();
+
+    const timeoutButton = document.getElementById("timeout-button");
+    timeoutButton.addEventListener("click", forcePageRefreshAndReset);
 
     updateReadyCheckoutProduct();
     setInitialProperties();
@@ -1244,7 +1291,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     showDesignsButton.addEventListener("click", () => {
-       
         move("forward-skip");
         // updateDesigns();
     });
@@ -1374,7 +1420,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     navCartButton.innerHTML = "CART (1)";
                     fitDoneLoadingScreen.classList.remove("active");
                 } else {
-                 
                     cookies.updateSelectedSize("Select Size");
                     cookies.handleAddToCart(false);
                     addToCartHTML
@@ -1394,8 +1439,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     observer.observe(targetElement, { childList: true });
 
-   
-
     document.getElementById("phase1").addEventListener("scroll", () => {});
 
     // Save the scroll position of the phase1 div when it's scrolled
@@ -1412,7 +1455,6 @@ document.addEventListener("DOMContentLoaded", function () {
     document
         .getElementById("size-guide-button")
         .addEventListener("click", () => {
-           
             openLowModal(
                 "low-modal-size-guide",
                 "low-modal-inner-size-guide",
