@@ -1282,8 +1282,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const resetModalButton = document.getElementById("reset-modal-button");
     resetModalButton.addEventListener("click", forcePageRefreshAndReset);
-    const cancelResetModalButton = document.getElementById("reset-cancel-button");
-    cancelResetModalButton.addEventListener("click", ()=> {
+    const cancelResetModalButton = document.getElementById(
+        "reset-cancel-button"
+    );
+    cancelResetModalButton.addEventListener("click", () => {
         closeLowModal("low-modal-reset", "low-modal-inner-reset");
     });
 
@@ -1433,7 +1435,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     sizeSelect.addEventListener("change", function () {
         const value = sizeSelect.options[sizeSelect.selectedIndex].innerHTML;
-
+        console.log("sizeSelect", value);
         cookies.updateSelectedSize(value);
         updateAddToCartState();
     });
@@ -1453,6 +1455,9 @@ document.addEventListener("DOMContentLoaded", function () {
                     cookies.updateSelectedSize(value);
                     updateReadyProductImages();
                     cookies.handleAddToCart(true);
+                    quizCloseButton.style.zIndex = "2000";
+                    quizCloseButton.style.backgroundColor = "white";
+                    quizCloseButton.style.padding = "4px 6px";
                     navCartButton.innerHTML = "CART (1)";
                     fitDoneLoadingScreen.classList.remove("active");
                 } else {
