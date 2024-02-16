@@ -2402,7 +2402,7 @@ a:active {
     justify-content: space-between;
     gap: 16px;
     width: 100%;
-
+    align-items: center;
     padding-top: 16px;
     border-top: #1d1d1f 1.5px solid;
 }
@@ -2412,11 +2412,24 @@ a:active {
     width: 70%;
 }
 
+.id-container {
+    flex-basis: 0.3;
+    width: 30%;
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
 .profile-id {
     flex-basis: 0.3;
     width: 30%;
     text-align: right;
     color: #929296;
+}
+
+.black-id {
+    color: #1d1d1f;
 }
 
 .profile-img {
