@@ -1,7 +1,7 @@
 require("./api.js");
 const api = require("./api.js");
 
-console.log("hello from checkout js file!");
+
 
 function getCookie(cookieName) {
     const cookieValue = localStorage.getItem(cookieName);
@@ -36,7 +36,7 @@ const updateReadyCheckoutProduct = () => {
     const imgDesc = currentProduct.selectedDesign.prompt;
     const img = currentProduct.selectedDesign.url;
 
-    console.log(cookies);
+    
     // Perform actions specific to the checkout page
     const cartPersonality = document.getElementById("checkout-personality");
     const cartDesignSelected = document.getElementById("checkout-design-image");
@@ -81,10 +81,10 @@ document.addEventListener("DOMContentLoaded", function () {
         mutations.forEach((mutation) => {
             if (mutation.type === "childList") {
                 if (targetElement.hasChildNodes()) {
-                    console.log('checkout has items')
+                    
                     updateReadyCheckoutProduct();
                 } else {
-                    console.log('checkout no items')
+                    
                 }
             }
         });

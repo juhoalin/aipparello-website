@@ -1,10 +1,10 @@
-console.log('confirmation.js');
+
 
 require("./api.js");
 const api = require("./api.js");
 const confirmationHTML = require("./conf-loading.html");
 
-console.log("hello from checkout js file!");
+
 
 const loadingContainer = document.getElementById("loading-container");
 
@@ -59,7 +59,7 @@ const updateReadyCheckoutProduct = () => {
     const imgDesc = currentProduct.selectedDesign.prompt;
     const img = currentProduct.selectedDesign.url;
 
-    console.log(cookies);
+   
     // Perform actions specific to the checkout page
     const cartPersonality = document.getElementById("confirmation-personality");
     const cartDesignSelected = document.getElementById("confirmation-design-image");
@@ -107,13 +107,13 @@ function saveResetProcessToCookies(resetProcess) {
 }
 
 async function confirmDesign(email, orderId, token) {
-    console.log(email, orderId, token);
+   
 
     try {
         const response = await api.confirmDesign(email, orderId, token);
-        console.log(response);
+    
         loadingContainer.style.display = "none";
-        console.log('design confirmed');
+
         saveResetProcessToCookies(true);
     } catch (error) {
         console.error("There was a problem with the fetch operation:", error);
@@ -139,14 +139,14 @@ const emailObserver = new MutationObserver(function(mutationsList, observer) {
     for(let mutation of mutationsList) {
         if (mutation.type === 'childList') {
             // Call your function here when innerHTML is added or edited
-            console.log('innerHTML added or edited:', targetEmail.innerHTML);
+      
             // Call your desired function here
             const cookie = getCookie('order');
             orderEmail = targetEmail.innerHTML;
             orderID = getOrderIdFromURL(window.location.href);
             token = cookie.personalities[0].products[0].selectedDesign.token;
 
-            console.log("sending call to confirmation API", orderEmail, orderID, token);
+      
         
             cookie.orderID = orderID;
             saveOrderToCookie(cookie);
@@ -175,10 +175,10 @@ emailObserver.observe(targetEmail, config);
         mutations.forEach((mutation) => {
             if (mutation.type === "childList") {
                 if (targetElement.hasChildNodes()) {
-                    console.log('checkout has items')
+           
                     updateReadyCheckoutProduct();
                 } else {
-                    console.log('checkout no items')
+                 
                 }
             }
         });

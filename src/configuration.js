@@ -122,7 +122,7 @@ const setInitialProperties = () => {
         ".w-commerce-commercecartwrapper"
     );
     cartOuterDiv.setAttribute("id", "cart-outer-div");
-    console.log("add-to-cart-element", addToCartTarget);
+   
 };
 
 //update cookies and frontend based on cookies on page load
@@ -602,7 +602,7 @@ function updateConfiguration(direction) {
 }
 
 function scrollToActiveQuestion() {
-    console.log("scrollToActiveQuestion");
+   
     // Find the phase1 div
     var phase1Div = document.getElementById("phase1");
 
@@ -657,7 +657,7 @@ function updateQuestionButtons() {
         const parentPhaseIndex = Array.from(allPhases).indexOf(parentPhase);
         const parentPhaseStatus =
             cookies.getConfigurationStatus().phases[parentPhaseIndex];
-        console.log(question.querySelector(".radio-input", "input"));
+       
         question.querySelectorAll(".radio-input").forEach((input) => {
             input.setAttribute("disabled", "");
         });
@@ -737,23 +737,23 @@ function updateQuestionButtons() {
 //function to move forward or backward in the process. Updates cookies and frontend based on cookies
 const move = (direction) => {
     if (direction == "forward") {
-        console.log("forward");
+       
         cookies.moveForward();
         cookies.updateQuizDone();
         updateProgressBar();
         updateConfiguration("forward");
     } else if (direction === "backward") {
-        console.log("backward");
+       
         cookies.moveBackward();
         updateProgressBar();
         updateConfiguration("backward");
     } else if (direction == "forward-skip") {
-        console.log("forward-skip");
+       
         cookies.skipPhases();
         updateProgressBar();
         updateConfiguration("forward");
     } else if (direction == "question-forward") {
-        console.log("question-forward");
+     
         cookies.moveForward();
         cookies.updateQuizDone();
         updateProgressBar();
@@ -835,7 +835,7 @@ const updateReadyProductImages = () => {
             .personality.personalityRole;
 
     if (currentImage !== "") {
-        console.log("updateReadyProductImages", currentImage);
+       
         readyProduct.src = currentImage;
         if (cartDesignSelected && cartPersonality && designDesc) {
             cartDesignSelected.src = currentImage;
@@ -852,7 +852,7 @@ const updateReadyProductImages = () => {
 
 const updateReadyCheckoutProduct = () => {
     // Get the current page URL
-    console.log("The current page is the checkout page.");
+  
     // Perform actions specific to the checkout page
     const currentImage = cookies.getSelectedDesign().url;
     const readyProduct = document.getElementById("ready-image-layer-mid");
@@ -867,7 +867,7 @@ const updateReadyCheckoutProduct = () => {
             .personality.personalityRole;
 
     if (currentImage !== "") {
-        console.log("updateReadyProductImages", currentImage);
+      
         readyProduct.src = currentImage;
         if (cartDesignSelected && cartPersonality && designDesc) {
             cartDesignSelected.src = currentImage;
@@ -890,7 +890,7 @@ async function reserveDesign(token) {
     );
     try {
         const responseData = await api.reserveDesign(token);
-        console.log(responseData);
+      
         closeLowModal(
             "low-modal-reserve-design",
             "low-modal-inner-reserve-design"
@@ -977,7 +977,7 @@ const updatePersonality = () => {
         },
     ];
 
-    console.log(personalityTypes);
+  
 
     const order = cookies.getOrder();
     const personality = order.personalities[cookies.getCurrentPersonality()];
@@ -1099,7 +1099,7 @@ const updateSelectedDesign = () => {
 };
 
 const switchDesignImage = (index) => {
-    console.log("switchDesignImage", index);
+   
     const indexToNumber = parseInt(index);
 
     const imageContainer =
@@ -1124,7 +1124,7 @@ const switchDesignImage = (index) => {
         imageSelectorContainer.classList.add("design-active");
     }
 
-    console.log("designImage", index);
+  
 };
 
 function updateNameInput() {
@@ -1188,7 +1188,7 @@ function resetProcess() {
 }
 
 function handleKeyPress(event) {
-    console.log("Enter key pressed");
+   
     // Check if the pressed key is 'Enter' (key code 13)
     if (event.keyCode === 13) {
     
@@ -1244,7 +1244,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     showDesignsButton.addEventListener("click", () => {
-        console.log("show designs");
+       
         move("forward-skip");
         // updateDesigns();
     });
@@ -1374,7 +1374,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     navCartButton.innerHTML = "CART (1)";
                     fitDoneLoadingScreen.classList.remove("active");
                 } else {
-                    console.log("cart empty");
+                 
                     cookies.updateSelectedSize("Select Size");
                     cookies.handleAddToCart(false);
                     addToCartHTML
@@ -1394,7 +1394,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     observer.observe(targetElement, { childList: true });
 
-    console.log("sizeSelect", sizeSelect);
+   
 
     document.getElementById("phase1").addEventListener("scroll", () => {});
 
@@ -1412,7 +1412,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document
         .getElementById("size-guide-button")
         .addEventListener("click", () => {
-            console.log("size guide button clicked");
+           
             openLowModal(
                 "low-modal-size-guide",
                 "low-modal-inner-size-guide",

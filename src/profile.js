@@ -156,7 +156,7 @@ async function getProfile() {
     }
     try {
         const data = await api.viewProfile(id);
-        console.log("Profile Data:", data);
+       
         updatePersonality(data);
         loadingScreen.style.display = "none";
     } catch (error) {
@@ -166,7 +166,7 @@ async function getProfile() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    console.log("Hello from proile.js!");
+
 
     getProfile();
 });

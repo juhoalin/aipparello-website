@@ -408,7 +408,7 @@ async function initialCookiesSetup(phases) {
         saveOrderToCookie(order);
     } else {
         order = orderCookie;
-        console.log("Order cookie found:", orderCookie);
+       
     }
 
     // Check if there is a configurationStatus cookie
@@ -419,7 +419,7 @@ async function initialCookiesSetup(phases) {
         saveconfigurationStatusToCookie(configurationStatus);
     } else {
         configurationStatus = configurationStatusCookie;
-        console.log("Quiz Status cookie found:", configurationStatus);
+      
     }
 
     // Check if there is a currentPersonality cookie
@@ -429,7 +429,7 @@ async function initialCookiesSetup(phases) {
         saveCurrentPersonalityToCookie(currentPersonality);
     } else {
         currentPersonality = currentPersonalityCookie;
-        console.log("Current Personality cookie found:", currentPersonality);
+     
     }
 
     const resetProcessCookie = getCookie("resetProcess");
@@ -437,7 +437,7 @@ async function initialCookiesSetup(phases) {
         saveResetProcessToCookies(resetProcess);
     } else {
         resetProcess = resetProcessCookie;
-        console.log("Reset Process cookie found:", resetProcess);
+      
     }
 }
 

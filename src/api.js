@@ -5,7 +5,6 @@ async function getDesigns(quizData) {
         answers: quizData,
     };
 
-    console.log("Data:", data);
 
     try {
         const response = await fetch(
@@ -25,7 +24,7 @@ async function getDesigns(quizData) {
         }
 
         const responseData = await response.json();
-        console.log("Response Data:", responseData);
+        
         // Process the response data here
         return responseData;
     } catch (error) {
@@ -39,7 +38,7 @@ async function reserveDesign(token) {
         token: token,
     };
 
-    console.log("Data:", data);
+    
 
     try {
         const response = await fetch(
@@ -59,7 +58,7 @@ async function reserveDesign(token) {
         }
 
         const responseData = await response.json();
-        console.log("Response Data:", responseData);
+       
         // Process the response data here
         return responseData;
     } catch (error) {
@@ -75,7 +74,7 @@ async function confirmDesign(email, orderId, token) {
         tokens: [token]
     };
 
-    console.log("Data:", data);
+   
 
     try {
         const response = await fetch(
@@ -95,7 +94,7 @@ async function confirmDesign(email, orderId, token) {
         }
 
         const responseData = await response.json();
-        console.log("Response Data:", responseData);
+       
         // Process the response data here
         return responseData;
     } catch (error) {
@@ -121,7 +120,7 @@ async function viewProfile(id) {
         }
 
         const responseData = await response.json();
-        console.log("Response Data:", responseData);
+    
         // Process the response data here
         return responseData;
     } catch (error) {
