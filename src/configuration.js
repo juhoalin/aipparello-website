@@ -446,10 +446,8 @@ function changePhasesWithDelay(newPhase, oldPhase, delay) {
 
 //function to scroll to the question currently being answered
 function scrollToQuestion(quizPhase, questionRect, containerRect) {
-    const scrollTop =
-        quizPhase.scrollTop ||
-        quizPhase.pageYOffset ||
-        document.documentElement.scrollTop;
+    const scrollTop = quizPhase.scrollTop;
+
     const targetPosition =
         questionRect.top +
         scrollTop -
@@ -618,28 +616,29 @@ function scrollToActiveQuestion() {
     );
 
     if (activeChild) {
-        // Get the bounding rectangle of the active child and phase1 div
-        var questionRect = activeChild.getBoundingClientRect();
-        var containerRect = phase1Div.getBoundingClientRect();
+        // // Get the bounding rectangle of the active child and phase1 div
+        // var questionRect = activeChild.getBoundingClientRect();
+        // var containerRect = phase1Div.getBoundingClientRect();
 
-        // Calculate the current scroll position
-        var scrollTop =
-            phase1Div.scrollTop ||
-            phase1Div.pageYOffset ||
-            document.documentElement.scrollTop;
+        // console.log("onload scroll", phase1Div.scrollTop);
 
-        // Calculate the target position to center the active child
-        var targetPosition =
-            questionRect.top +
-            scrollTop -
-            containerRect.top -
-            (containerRect.height - questionRect.height) / 2;
+        // // Calculate the current scroll position
+        // var scrollTop =
+        //     phase1Div.scrollTop;
+        // // Calculate the target position to center the active child
+        // var targetPosition =
+        //     questionRect.top +
+        //     scrollTop -
+        //     containerRect.top -
+        //     (containerRect.height - questionRect.height) / 2;
 
-        // Scroll the phase1 div to the target positionJuhi
-        phase1Div.scrollTo({
-            top: targetPosition,
-            behavior: "instant",
-        });
+        const phase1ScrollPositionString = localStorage.getItem(
+            "phase1ScrollPosition"
+        );
+
+        // Parse the retrieved value as an integer
+        const targetPosition = parseInt(phase1ScrollPositionString);
+        phase1Div.scrollTop = targetPosition;
     }
 }
 
@@ -1413,7 +1412,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function updateCarousel() {
         const itemWidth = designCarousel.scrollWidth / 5; // Assuming 5 items
         const visibleIndex = Math.round(designCarousel.scrollLeft / itemWidth);
-    
+
         dots.forEach((dot) => dot.classList.remove("visible"));
         dots[visibleIndex].classList.add("visible");
     }
@@ -1421,15 +1420,15 @@ document.addEventListener("DOMContentLoaded", function () {
     leftArrow.addEventListener("click", function () {
         designCarousel.scrollTo({
             left: designCarousel.scrollLeft - designCarousel.offsetWidth,
-            behavior: "smooth"
+            behavior: "smooth",
         });
         updateCarousel();
     });
-    
+
     rightArrow.addEventListener("click", function () {
         designCarousel.scrollTo({
             left: designCarousel.scrollLeft + designCarousel.offsetWidth,
-            behavior: "smooth"
+            behavior: "smooth",
         });
         updateCarousel();
     });
