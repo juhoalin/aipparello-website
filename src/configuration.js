@@ -528,7 +528,11 @@ function updateConfiguration(direction) {
             cookies.getConfigurationStatus().currentPhase === 0 &&
             !cookies.getConfigurationStatus().nameDone
         ) {
-            document.getElementById("nickname").focus();
+            const quizCookie = getQuizCookie();
+            if (quizCookie === "true") {
+                console.log("focused")
+                document.getElementById("nickname").focus();
+            }
             quizResetButton.style.display = "none";
         }
 
