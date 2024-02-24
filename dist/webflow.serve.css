@@ -44,7 +44,14 @@
 @media (max-width: 800px) {
 }
 
-@media (max-width: 600px) {
+@media (max-height: 1000px) {
+    .quiz-container {
+        min-width: 450px;
+        max-width: 500px;
+    }
+}
+
+@media (max-width: 800px) {
     .quiz-container {
         width: 100%;
         min-width: 100%;
@@ -126,7 +133,7 @@
 @media (max-width: 1000px) {
 }
 
-@media (max-width: 800px) {
+@media (max-width: 800px), (max-height: 1000px) {
     .quiz-upper-nav {
         padding: 8px 16px 8px 16px;
         background-color: transparent;
@@ -181,7 +188,7 @@
 @media (max-width: 1000px) {
 }
 
-@media (max-width: 800px) {
+@media (max-width: 800px), (max-height: 1000px) {
     .current-product {
         background-color: transparent;
         padding: 0px 0px 0px 0px;
@@ -226,7 +233,7 @@
 @media (max-width: 1000px) {
 }
 
-@media (max-width: 800px) {
+@media (max-width: 800px), (max-height: 1000px) {
     .quiz {
         padding: 0px 16px 0px 16px;
     }
@@ -281,7 +288,7 @@
     overflow: scroll;
 }
 
-@media (max-width: 800px) {
+@media (max-width: 800px), (max-height: 1000px) {
     .quiz-phase.quiz.active {
         padding-left: 0;
         padding-right: 0;
@@ -340,7 +347,7 @@
 @media (max-width: 1000px) {
 }
 
-@media (max-width: 800px) {
+@media (max-width: 800px), (max-height: 1000px) {
     .personality-header {
         gap: 8px;
     }
@@ -420,7 +427,7 @@
 @media (max-width: 1000px) {
 }
 
-@media (max-width: 800px) {
+@media (max-width: 800px), (max-height: 1000px) {
     #personality-type {
         font-size: 28px;
     }
@@ -544,7 +551,7 @@
 @media (max-width: 1000px) {
 }
 
-@media (max-width: 800px) {
+@media (max-width: 800px), (max-height: 1000px) {
     .quiz-phase.select-design.active h2 {
         font-size: 16px;
         font-family: Neuemontreal Regular, sans-serif;
@@ -662,7 +669,7 @@
 @media (max-width: 1000px) {
 }
 
-@media (max-width: 800px) {
+@media (max-width: 800px), (max-height: 1000px) {
     .product-layer.mid {
         filter: contrast(80%) saturate(0.8);
     }
@@ -746,7 +753,7 @@
 @media (max-width: 1000px) {
 }
 
-@media (max-width: 800px) {
+@media (max-width: 800px), (max-height: 1000px) {
     .design-button {
         padding: 6px 0px 6px 0px;
         font-size: 14px;
@@ -782,7 +789,7 @@
     max-height: 90%;
 }
 
-@media (max-width: 800px) {
+@media (max-width: 800px), (max-height: 1000px) {
     .fit-padding-wrapper {
         padding: 16px 16px 16px 16px;
         gap: 16px;
@@ -870,7 +877,7 @@
     align-items: center;
 }
 
-@media (max-width: 800px) {
+@media (max-width: 800px), (max-height: 1000px) {
     .change-design-button {
         width: 32px;
         padding: 0px 4px 0px 4px;
@@ -955,7 +962,7 @@
 @media (max-width: 1000px) {
 }
 
-@media (max-width: 800px) {
+@media (max-width: 800px), (max-height: 1000px) {
     .ready-layer.mid {
         filter: contrast(80%) saturate(0.8);
     }
@@ -1083,7 +1090,7 @@
     text-align: center;
 }
 
-@media (max-width: 800px) {
+@media (max-width: 800px), (max-height: 1000px) {
     .name h1 {
         font-size: 28px;
     }
@@ -1104,7 +1111,7 @@
     border-radius: 0;
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 1000px), (max-height: 1000px) {
     #nickname {
         font-size: 32px;
         width: 80%;
@@ -1142,7 +1149,7 @@
     margin-bottom: 6px;
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 1000px), (max-height: 1000px) {
     .slider-container {
         width: 100%;
         gap: 8px;
@@ -1245,7 +1252,7 @@ input:checked + .slider:before {
     line-height: normal;
 }
 
-@media (max-width: 800px) {
+@media (max-width: 800px), (max-height: 1000px) {
     .instructions {
         gap: 24px;
         padding: 0px 0 24px 0;
@@ -1302,7 +1309,7 @@ input:checked + .slider:before {
     margin: 0 0 0 0;
 }
 
-@media (max-width: 800px) {
+@media (max-width: 800px), (max-height: 1000px) {
     .question-header {
         font-size: 24px;
         max-width: 100%;
@@ -1386,7 +1393,7 @@ input[type="radio"]:focus {
     outline: none; /* Remove tap highlight color */
 }
 
-@media (max-width: 800px) {
+@media (max-width: 800px), (max-height: 1000px) {
     .radio-container {
         gap: 0px;
     }
@@ -1398,16 +1405,16 @@ input[type="radio"]:focus {
     .radio-wrapper {
         width: 15vw;
         height: 15vw;
-        max-width: 82px;
-        max-height: 82px;
+        max-width: 64px;
+        max-height: 64px;
         border: 1.75px solid #1d1d1f;
     }
 
     .radio-option {
         width: 15vw;
         height: 15vw;
-        max-width: 82px;
-        max-height: 82px;
+        max-width: 64px;
+        max-height: 64px;
     }
 }
 
@@ -1452,7 +1459,7 @@ input[type="radio"]:focus {
     font-family: Neuemontreal Regular, sans-serif;
 }
 
-@media (max-width: 800px) {
+@media (max-width: 800px), (max-height: 1000px) {
     .progress-text {
         font-size: 16px;
         min-width: 45px;
@@ -1491,7 +1498,7 @@ input[type="radio"]:focus {
 @media (max-width: 1000px) {
 }
 
-@media (max-width: 800px) {
+@media (max-width: 800px), (max-height: 1000px) {
     .nav-content {
         padding: 8px 8px 8px 8px;
         gap: 16px;
@@ -1563,7 +1570,7 @@ input[type="radio"]:focus {
     justify-content: left;
 }
 
-@media (max-width: 800px) {
+@media (max-width: 800px), (max-height: 1000px) {
     .quiz-button {
         height: 48px;
         font-size: 14px;
@@ -1657,7 +1664,7 @@ input[type="radio"]:focus {
     margin-bottom: 0;
 }
 
-@media (max-width: 800px) {
+@media (max-width: 800px), (max-height: 1000px) {
     .loading-screen {
         padding: 16px 16px 16px 16px;
         gap: 12px;
@@ -1704,7 +1711,7 @@ input[type="radio"]:focus {
     overflow: hidden;
 }
 
-@media (max-width: 800px) {
+@media (max-width: 800px), (max-height: 1000px) {
     .low-modal-inner {
         padding: 8px 8px 8px 8px;
         gap: 16px;
@@ -1746,7 +1753,7 @@ input[type="radio"]:focus {
     margin-bottom: 24px;
 }
 
-@media (max-width: 800px) {
+@media (max-width: 800px), (max-height: 1000px) {
     .low-modal-inner-content p {
         font-size: 16px;
         gap: 16px;
@@ -1792,7 +1799,7 @@ input[type="radio"]:focus {
 #continue-size-button {
 }
 
-@media (max-width: 800px) {
+@media (max-width: 800px), (max-height: 1000px) {
     .low-modal-inner h3 {
         font-size: 16px;
     }
@@ -1870,7 +1877,7 @@ input[type="radio"]:focus {
     max-width: none;
 }
 
-@media (max-width: 800px) {
+@media (max-width: 800px), (max-height: 1000px) {
     .high-modal-inner {
         padding: 54px 16px 16px 16px;
         gap: 16px;
@@ -1921,7 +1928,7 @@ input[type="radio"]:focus {
     display: flex;
 }
 
-@media (max-width: 800px) {
+@media (max-width: 800px), (max-height: 1000px) {
     .active-product-header p {
         margin-bottom: 0px;
         font-size: 16px;
@@ -1989,7 +1996,7 @@ input[type="radio"]:focus {
     border: 1.5px solid #1d1d1f;
 }
 
-@media (max-width: 800px) {
+@media (max-width: 800px), (max-height: 1000px) {
     .color-fit-container {
         gap: 8px;
     }
@@ -2053,7 +2060,7 @@ input[type="radio"]:focus {
     border-top: 1.5px solid #1d1d1f;
 }
 
-@media (max-width: 800px) {
+@media (max-width: 800px), (max-height: 1000px) {
     .single-status {
         gap: 16px;
         padding-top: 16px;
@@ -2460,7 +2467,7 @@ a:active {
 
 .profile-id {
     flex-basis: 0.3;
-    width: 30%;
+    width: 100%;
     text-align: right;
     color: #929296;
 }
