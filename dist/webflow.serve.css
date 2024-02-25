@@ -986,6 +986,7 @@
 @media (max-width: 800px), (max-height: 1000px) {
     .fit-selection-container.size {
         padding-top: 16px;
+        gap: 16px;
     }
     .ready-layer.mid {
         filter: contrast(80%) saturate(0.8);
@@ -1027,8 +1028,8 @@
 
     #size-guide-button {
         font-size: 14px;
-        max-width: 115px;
-        min-width: 115px;
+        max-width: 80px;
+        min-width: 80px;
     }
 }
 
