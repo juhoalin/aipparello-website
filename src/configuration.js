@@ -35,12 +35,13 @@ const editDesignButtonError = document.getElementById(
 const lowModalReserveDesign = document.getElementById(
     "loading-screen-reserve-design"
 );
+const universalBackButton = document.getElementById("quiz-back");
 const allPhases = document.querySelectorAll(".quiz-phase");
 const createYoursButtons = document.querySelectorAll(".create-yours");
 const quizOverlay = document.querySelector(".quiz-overlay");
 const quizContainer = document.querySelector(".quiz-container");
 const quizCloseButton = document.getElementById("quiz-close");
-const quizResetButton = document.getElementById("reset-button");
+// const quizResetButton = document.getElementById("reset-button");
 const previousButton = document.getElementById("previous-button");
 const nextButton = document.getElementById("next-button");
 const progressContainer = document.getElementById("progress-container");
@@ -108,10 +109,14 @@ const setInitialProperties = () => {
         quizOverlay.style.opacity = "1";
         quizOverlay.style.display = "flex";
         quizContainer.style.right = "0";
+        const body = document.querySelector("body");
+        body.style.overflow = "hidden"; // Prevent scrolling when overlay is open
     } else {
         quizOverlay.style.opacity = "0";
         quizOverlay.style.display = "none";
         quizContainer.style.right = "-125vw";
+        const body = document.querySelector("body");
+        body.style.overflow = "auto"; // Prevent scrolling when overlay is open
     }
 
     // createYoursButton.addEventListener("click", openQuizOverlay);
@@ -493,6 +498,16 @@ function updateQuestionState(currentQuestion, nextQuestion, phase) {
     }
 }
 
+function showBackButton() {
+    universalBackButton.style.pointerEvents = "auto";
+    universalBackButton.style.opacity = "1";
+}
+
+function hideBackButton() {
+    universalBackButton.style.pointerEvents = "none";
+    universalBackButton.style.opacity = "0";
+};
+
 //function to update the whole configuration interface  based on the current phase. Called when moving forward in the process
 function updateConfiguration(direction) {
     let oldPhase = null;
@@ -533,7 +548,8 @@ function updateConfiguration(direction) {
                 console.log("focused")
                 document.getElementById("nickname").focus();
             }
-            quizResetButton.style.display = "none";
+            // quizResetButton.style.display = "none";
+            hideBackButton();
         }
 
         if (cookies.getConfigurationStatus().nameDone) {
@@ -542,7 +558,8 @@ function updateConfiguration(direction) {
             progressContainer.classList.add("active");
             showDesignsButtonContainer.classList.add("hidden");
             selectDesignButtonContainer.classList.add("hidden");
-            quizResetButton.style.display = "none";
+            // quizResetButton.style.display = "none";
+            showBackButton();
         }
 
         if (
@@ -552,7 +569,8 @@ function updateConfiguration(direction) {
             showDesignsButtonContainer.classList.remove("hidden");
             quizButtonContainer.classList.add("hidden");
             progressContainer.classList.remove("active");
-            quizResetButton.style.display = "none";
+            // quizResetButton.style.display = "none";
+            hideBackButton();
         }
         if (cookies.getConfigurationStatus().currentPhase === 3) {
             showDesignsButtonContainer.classList.add("hidden");
@@ -560,7 +578,8 @@ function updateConfiguration(direction) {
             progressContainer.classList.remove("active");
             selectDesignButtonContainer.classList.remove("hidden");
             selectSizeButtonContainer.classList.add("hidden");
-            quizResetButton.style.display = "flex";
+            // quizResetButton.style.display = "flex";
+            showBackButton();
         }
 
         if (
@@ -572,14 +591,16 @@ function updateConfiguration(direction) {
             progressContainer.classList.remove("active");
             selectDesignButtonContainer.classList.add("hidden");
             selectSizeButtonContainer.classList.remove("hidden");
-            quizResetButton.style.display = "flex";
+            // quizResetButton.style.display = "flex";
+            hideBackButton();
         }
 
         if (cookies.getConfigurationStatus().currentPhase === 0) {
             progressContainer.classList.remove("active");
             quizButtonContainer.classList.add("hidden");
             startQuizButtonContainer.classList.remove("hidden");
-            quizResetButton.style.display = "none";
+            // quizResetButton.style.display = "none";
+            hideBackButton();
             checknameFilled();
         }
 
@@ -1172,7 +1193,7 @@ function closeModals() {
                 const statusText = document.getElementById("status-text");
                 const productArrow = document.getElementById("product-arrow");
                 productArrow.classList.remove("open");
-                statusText.innerHTML = "Personalized T-Shirt";
+                statusText.innerHTML = "See Details";
             }
         });
     });
@@ -1278,9 +1299,17 @@ document.addEventListener("DOMContentLoaded", function () {
     const timeoutButton = document.getElementById("timeout-button");
     timeoutButton.addEventListener("click", forcePageRefreshAndReset);
 
-    quizResetButton.addEventListener("click", () => {
-        console.log("reset button clicked");
-        openLowModal("low-modal-reset", "low-modal-inner-reset", "standard");
+    // quizResetButton.addEventListener("click", () => {
+    //     console.log("reset button clicked");
+    //     openLowModal("low-modal-reset", "low-modal-inner-reset", "standard");
+    // });
+
+    const resetButtons = document.querySelectorAll(".reset-button");
+    resetButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+            console.log("reset button clicked");
+            openLowModal("low-modal-reset", "low-modal-inner-reset", "standard");
+        });
     });
 
     const resetModalButton = document.getElementById("reset-modal-button");
@@ -1340,6 +1369,12 @@ document.addEventListener("DOMContentLoaded", function () {
         move("backward");
     });
 
+    universalBackButton.addEventListener("click", () => {
+        if (cookies.getConfigurationStatus().currentPhase === 1 || cookies.getConfigurationStatus().currentPhase === 3) {
+            move("backward");
+        }
+    });
+
     selectDesignButton.addEventListener("click", () => {
         openLowModal(
             "low-modal-reserve-design",
@@ -1391,14 +1426,14 @@ document.addEventListener("DOMContentLoaded", function () {
         const productArrow = document.getElementById("product-arrow");
 
         if (highModal.classList.contains("active")) {
-            statusText.innerHTML = "Personalized T-Shirt";
+            statusText.innerHTML = "See Details";
             productArrow.classList.remove("open");
             closeHighModal(
                 "high-modal-active-product",
                 "high-modal-inner-active-product"
             );
         } else {
-            statusText.innerHTML = "In-progress";
+            statusText.innerHTML = "Close Details";
             productArrow.classList.add("open");
             openHighModal(
                 "high-modal-active-product",

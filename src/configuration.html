@@ -3,16 +3,16 @@
     <div class="radient-wrapper"></div>
     <div class="content">
         <div class="quiz-upper-nav">
+            <button class="quiz-close" id="quiz-back">BACK</button>
             <button class="current-product" id="current-product-button">
                 <div class="product-dot"></div>
-                <span class="buttontext" id="status-text">Personalized T-Shirt</span>
+                <span class="buttontext" id="status-text">See Details</span>
                 <img
                 id="product-arrow"
                     class="product-arrow"
-                    src="https://uploads-ssl.webflow.com/649a7177573e38f6a02e440d/65c0099e177d6f6b0eeddb9f_Arrow.svg"
+                    src="https://uploads-ssl.webflow.com/649a7177573e38f6a02e440d/65da3c8af55fa45b0eed01d3_Arrow%20(1).svg"
                 />
             </button>
-            <button class="quiz-close reset" id="reset-button">RESET</button>
             <button class="quiz-close" id="quiz-close">CLOSE</button>
         </div>
         <div class="quiz">
@@ -1562,7 +1562,7 @@
                     </div>
                 </div>
                 <div class="quiz-phase select-design">
-                    <h2 class="heading-2">Please select your unique design.</h2>
+                    <!-- <h2 class="heading-2">Please select your unique design.</h2> -->
                     <div class="phase-step carousel-container">
                         <div class="design-container"> 
                             <div class="images">
@@ -1587,11 +1587,11 @@
                                 />
                             </div>
                             <div class="switch-image">
-                                <p class="">Switch view  →</p>
                                 <div class="switch-button-container">
                                     <button class="switch-image-button product-button active" type="button" onclick="" value="0">PRODUCT</button>
                                 <button class="switch-image-button image-button" type="button" onclick="" value="0">DESIGN</button>
                                 </div>
+                                <button class="quiz-close reset reset-button" type="button" onclick="">RESET</button>
                             </div>
                             <div class="design-info-container">
                                 <p class="bodytext design-name">
@@ -1630,11 +1630,11 @@
                                 />
                             </div>
                             <div class="switch-image">
-                                <p class="">Switch view  →</p>
                                 <div class="switch-button-container">
                                     <button class="switch-image-button product-button active" type="button" onclick="" value="1">PRODUCT</button>
                                 <button class="switch-image-button image-button" type="button" onclick="" value="1">DESIGN</button>
                                 </div>
+                                <button class="quiz-close reset reset-button" type="button" onclick="">RESET</button>
                             </div>
                             <div class="design-info-container">
                                 <p class="bodytext design-name">
@@ -1673,11 +1673,11 @@
                                 />
                             </div>
                             <div class="switch-image">
-                                <p class="">Switch view  →</p>
                                 <div class="switch-button-container">
                                     <button class="switch-image-button product-button active" type="button" onclick="" value="2">PRODUCT</button>
                                 <button class="switch-image-button image-button" type="button" onclick="" value="2">DESIGN</button>
                                 </div>
+                                <button class="quiz-close reset reset-button" type="button" onclick="">RESET</button>
                             </div>
                             <div class="design-info-container">
                                 <p class="bodytext design-name">
@@ -1716,11 +1716,11 @@
                                 />
                             </div>
                             <div class="switch-image">
-                                <p class="">Switch view  →</p>
                                 <div class="switch-button-container">
                                     <button class="switch-image-button product-button active" type="button" onclick="" value="3">PRODUCT</button>
                                 <button class="switch-image-button image-button" type="button" onclick="" value="3">DESIGN</button>
                                 </div>
+                                <button class="quiz-close reset reset-button" type="button" onclick="">RESET</button>
                             </div>
                             <div class="design-info-container">
                                 <p class="bodytext design-name">
@@ -1759,11 +1759,11 @@
                                 />
                             </div>
                             <div class="switch-image">
-                                <p class="">Switch view  →</p>
                                 <div class="switch-button-container">
                                     <button class="switch-image-button product-button active" type="button" onclick="" value="4">PRODUCT</button>
                                 <button class="switch-image-button image-button" type="button" onclick="" value="4">DESIGN</button>
                                 </div>
+                                <button class="quiz-close reset reset-button" type="button" onclick="">RESET</button>
                             </div>
                             <div class="design-info-container">
                                 <p class="bodytext design-name">
@@ -1808,7 +1808,6 @@
                     </div>
                 </div>
                 <div class="quiz-phase select-fit">
-                    <h2 class="heading-2 ">Please select your size.</h2>
                     <div class="fit-padding-wrapper">
                     <div class="ready-images">
                     <div class="ready-image-preview active">
@@ -1830,12 +1829,11 @@
 
                <div class="fit-selection-container">
                 <div class="fit-attribute">
-                    <p class="bodytext fit-title">Color:</p>
-                    <p class="bodytext fit-value">White</p>
+                    <p class="bodytext fit-title">Shirt:</p>
+                    <p class="bodytext fit-value">White / Unisex</p>
                 </div>
                 <div class="fit-attribute right">
-                    <p class="bodytext fit-title">Fit:</p>
-                    <p class="bodytext fit-value">Unisex</p>
+                    <button class="quiz-close reset reset-button" type="button" onclick="">RESET</button>
                 </div>
                </div>
                 <div class="fit-selection-container size">
@@ -1968,7 +1966,7 @@
                         type="button"
                         onclick=""
                     >
-                        RESET PERSONALITY & DESIGN
+                        RESET PERSONALITY & DESIGNS
                     </button>
                     <button
                         class="quiz-button secondary center"
@@ -1976,7 +1974,7 @@
                         type="button"
                         onclick=""
                     >
-                        CANCEL SELECTION
+                        CANCEL
                     </button>
                 </div>
             </div>
@@ -2008,51 +2006,59 @@
 
         <div class="high-modal active-product" id="high-modal-active-product">
             <div class="high-modal-inner" id="high-modal-inner-active-product">
-                <div class="active-product-header">
-                <div class="left">
-                    <h3 class="heading-3" id="ap-name">Personalized T-Shirt</h3>
-                    <p class="bodytext" id="ap-collection">Nature</p>
-                </div>
-                <div class="right">
-
-                </div>
-                </div>
                 <div class="high-modal-inner-content standard">
                     <div class="product-image-description-container">
-                        <img
-                            class="product-image"
-                            id="ap-image"
-                            src="https://uploads-ssl.webflow.com/649a7177573e38f6a02e440d/65cf397b8adefed460afad89_product-img.webp"
-                        />
                         <div class="product-description">
+                            <div class="active-product-header">
+                                <div class="left">
+                                    <h3 class="heading-3" id="ap-name">Personalized T-Shirt</h3>
+                                    <p class="bodytext" id="ap-collection">Nature</p>
+                                </div>
+                                <div class="right">
+                
+                                </div>
+                                </div>
                             <p class="bodytext" id="ap-desc">
                                 Description
                             </p>
                             <div class="color-fit-container">
-                                <div class="color-container">
+                                <!-- <div class="color-container">
                                     <div class="color-dot"></div>
-                                </div>
-                                <p class="bodytext">Unisex</p>
+                                </div> -->
+                                <p class="bodytext color-fit-text">White / Unisex</p>
                             </div>
                         </div>
+                        <img
+                        class="product-image"
+                        id="ap-image"
+                        src="https://uploads-ssl.webflow.com/649a7177573e38f6a02e440d/65cf397b8adefed460afad89_product-img.webp"
+                    />
                     </div>
                     <div class="status-container">
                         <div class="single-status active first" id="ap-status-1">
-                            <p class="bodytext">Personality</p>
+                            <p class="bodytext status-item">Personality</p>
                             <p class="bodytext status-text" id="ap-personality-status">Responding...</p>
                         </div>
                         <div class="single-status" id="ap-status-2">
-                            <p class="bodytext">Design</p>
-                            <img class="status-text hidden" id="ap-design-selected" src="https://uploads-ssl.webflow.com/649a7177573e38f6a02e440d/65a3cde9c0d90b9719d405fd_woman-owl.webp"/>
+                            <p class="bodytext status-item">Design</p>
                             <p class="bodytext status-text" id="ap-design-status">Unselected</p>
+                            <img class="status-text hidden" id="ap-design-selected" src="https://uploads-ssl.webflow.com/649a7177573e38f6a02e440d/65a3cde9c0d90b9719d405fd_woman-owl.webp"/>
                         </div>
                         <div class="single-status size" id="ap-status-3">
-                            <p class="bodytext">Size</p>
+                            <p class="bodytext status-item">Size</p>
                             <p class="bodytext status-text" id="ap-fit-status">Unselected</p>
                         </div>
                         <div class="single-status price" id="ap-status-4">
-                            <p class="bodyText" id="ap-compare-price">25.99</p>
-                            <p class="bodytext" id="ap-price">14.99</p>
+                            <div class="discount-container">
+                                <div class="offer-tag-container">
+                                    <p class="bodytext status-offer status-item">LAUNCH OFFER - 40%</p>
+                                </div>
+                                <p class="bodytext status-delivery status-item">FREE UK DELIVERY</p>
+                            </div>
+                            <div class="price-container">
+                                <p class="bodyText" id="ap-compare-price">25.99</p>
+                                <p class="bodytext" id="ap-price">14.99</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -2141,7 +2147,7 @@
                             onclick=""
                             id="select-design-button"
                         >
-                            CONTINUE TO SELECT SIZE
+                            SELECT DESIGN TO CONTINUE
                         </button>
                     </div>
                     <div
@@ -2162,7 +2168,7 @@
                             onclick=""
                             id="select-size-button"
                         >
-                            ADD TO CART +
+                            SELECT SIZE & ADD TO CART +
                         </button>
                     </div>
                 </div>

@@ -53,14 +53,14 @@ let order = {
             },
             products: [
                 {
-                    product: "Personalised T-shirt",
-                    collection: "Original",
+                    product: "Personalized T-Shirt",
+                    collection: "Original Collection",
                     price: "￡ 14.99 GBP",
-                    comparePrice: "￡ 24.99 GBP",
-                    image: "https://uploads-ssl.webflow.com/649a7177573e38f6a02e440d/65a3cde9c0d90b9719d405fd_woman-owl.webp",
+                    comparePrice: "￡ 25.99 GBP",
+                    image: "https://uploads-ssl.webflow.com/649a7177573e38f6a02e440d/65cf397b8adefed460afad89_product-img.webp",
                     selectedSize: "",
                     description:
-                        "A unique personalised T-shirt that reflects who you are. Made from 100% sustainably sourced organic cotton.",
+                        "Made from premium, 100% sustainably sourced cotton.",
                     options: [],
                     selectedDesign: "",
                 },
