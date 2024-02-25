@@ -931,10 +931,12 @@
     flex-direction: row;
     gap: 8px;
     align-items: flex-start;
+    width: 100%;
 }
 
 .fit-attribute.right {
     margin-left: 5%;
+    width: auto;
 }
 
 .fit-title {
@@ -950,6 +952,7 @@
     font-weight: 400;
     text-align: left;
     font-family: Neuemontreal Regular, sans-serif;
+    width: 100%;
 }
 
 .fit-selection-container {
