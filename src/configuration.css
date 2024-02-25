@@ -2098,7 +2098,7 @@ input[type="radio"]:focus {
     align-items: center;
     font-size: 14px !important;
     width: min-content;
-    min-width: 175px;
+    min-width: 192px;
     background: linear-gradient(261.21deg, #c53c76 -0.13%, #52a3c5 100.13%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -2116,7 +2116,7 @@ input[type="radio"]:focus {
 @media (max-width: 800px), (max-height: 1000px) {
     .status-offer {
         font-size: 12px !important;
-        min-width: 150px;
+        min-width: 168px;
     }
 
     .status-delivery {
