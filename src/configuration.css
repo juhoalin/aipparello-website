@@ -2638,3 +2638,48 @@ a:active {
     width: 100vw;
     height: 100dvh;
 }
+
+.loading-image-shine {
+    width: 100%;
+    min-height: 100%;
+    background: #fff;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+}
+
+.card .content {
+    padding: 20px 30px;
+}
+
+@keyframes shine {
+    to {
+        background-position-x: -400%;
+    }
+}
+
+.loading-image-shine.is-loading .image,
+.loading-image-shine.is-loading h2,
+.loading-image-shine.is-loading p {
+    background: #eee;
+    background: linear-gradient(110deg, #ececec 8%, #f5f5f5 18%, #ececec 33%);
+    border-radius: 5px;
+    background-size: 400% 100%;
+    animation: 2.5s shine linear infinite;
+}
+
+.loading-image-shine.is-loading .image {
+    width: 100%;
+    min-height: 100%;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.loading-image-shine.is-loading h2 {
+    height: 30px;
+}
+
+.loading-image-shine.is-loading p {
+    height: 100%;
+}

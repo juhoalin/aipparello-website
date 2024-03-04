@@ -890,6 +890,7 @@ async function rerollDesigns() {
             selectDesignButton.classList.add("disabled");
             setLocalStorageTimer(durationInMinutes);
             cookies.updateGetDesigns(responseData);
+            relaunchLoadingAnimation();
             updateDesigns();
             updateActiveProductState();
             const container = document.querySelector(".carousel-container");
@@ -1392,12 +1393,35 @@ function forcePageRefreshAndReset() {
     window.location.reload();
 }
 
+const handleLoadingImages = () => {
+    const allLoadingImages = document.querySelectorAll(".loading-image");
+    allLoadingImages.forEach((image) => {
+        image.addEventListener("load", () => {
+            console.log("image loaded");
+            const parent = image.parentNode.parentNode;
+            console.log(parent);
+            const loadingImage = parent.querySelector(".loading-image-shine");
+            loadingImage.style.display = "none";
+        });
+    });
+};
+
+const relaunchLoadingAnimation = () => {
+    const allLoadingImages = document.querySelectorAll(".loading-image");
+    allLoadingImages.forEach((image) => {
+        const parent = image.parentNode.parentNode;
+        const loadingImage = parent.querySelector(".loading-image-shine");
+        loadingImage.style.display = "flex";
+    });
+};
+
 // Attach key press event listener to the document
 
 //Event listeners
 document.addEventListener("DOMContentLoaded", function () {
     resetProcess();
     checkLocalStorageTimer();
+    handleLoadingImages();
 
     const timeoutButton = document.getElementById("timeout-button");
     timeoutButton.addEventListener("click", forcePageRefreshAndReset);
