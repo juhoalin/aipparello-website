@@ -506,7 +506,7 @@ function showBackButton() {
 function hideBackButton() {
     universalBackButton.style.pointerEvents = "none";
     universalBackButton.style.opacity = "0";
-};
+}
 
 //function to update the whole configuration interface  based on the current phase. Called when moving forward in the process
 function updateConfiguration(direction) {
@@ -536,6 +536,18 @@ function updateConfiguration(direction) {
         }
     });
 
+    const currentRerolls = cookies.getConfigurationStatus().rerolls;
+    const rerollsLeft = 3 - currentRerolls;
+    const rerollButtons = document.querySelectorAll(".reroll-button");
+
+    rerollButtons.forEach((button) => {
+        button.innerHTML = `REFRESH (${rerollsLeft})`;
+        if (rerollsLeft === 0) {
+            button.style.pointerEvents = "none";
+            button.style.opacity = "0.5";
+        }
+    });
+
     changePhasesWithDelay(newPhase, oldPhase, 300);
 
     setTimeout(() => {
@@ -545,7 +557,7 @@ function updateConfiguration(direction) {
         ) {
             const quizCookie = getQuizCookie();
             if (quizCookie === "true") {
-                console.log("focused")
+                console.log("focused");
                 document.getElementById("nickname").focus();
             }
             // quizResetButton.style.display = "none";
@@ -832,6 +844,90 @@ async function fetchDesigns() {
                     }, 1500);
                 }, 3000);
             }, 750);
+        } catch (error) {
+            innerFirst.style.opacity = "0";
+            innerFirst.classList.remove("active");
+            errorMessage.classList.add("active");
+            setTimeout(() => {
+                errorMessage.classList.remove("active");
+                loadingScreen.style.opacity = "0";
+                setTimeout(() => {
+                    loadingScreen.classList.remove("active");
+                }, 300);
+            }, 3000);
+            console.log(error);
+        }
+    }
+}
+
+async function rerollDesigns() {
+    console.log("rerolling pressed first");
+    const loadingScreen = document.getElementById("loading-screen-reroll");
+    const innerFirst = loadingScreen.querySelector(".first");
+    const innerSecond = loadingScreen.querySelector(".second");
+    const errorMessage = loadingScreen.querySelector(".error");
+
+    const rerollAllowed = cookies.rerollAllowed();
+
+    console.log(rerollAllowed);
+
+    closeLowModal("low-modal-reroll", "low-modal-inner-reroll");
+
+    if (rerollAllowed) {
+        console.log("reroll allowed");
+        try {
+            setLocalStorageTimer(durationInMinutes);
+            loadingScreen.classList.add("active");
+            innerFirst.classList.add("active");
+            loadingScreen.style.opacity = "1";
+            innerFirst.style.opacity = "1";
+            const token = cookies.getConfigurationStatus().rerollToken;
+            const responseData = await api.rerollDesigns(token);
+            console.log(responseData);
+            cookies.updateRerolls();
+            cookies.clearOptions();
+            cookies.clearSelectedDesign();
+            selectDesignButton.classList.add("disabled");
+            setLocalStorageTimer(durationInMinutes);
+            cookies.updateGetDesigns(responseData);
+            updateDesigns();
+            updateActiveProductState();
+            const container = document.querySelector(".carousel-container");
+            container.scrollLeft = 0;
+
+            const designContainers =
+                document.querySelectorAll(".design-container");
+            designContainers.forEach((container) => {
+                container.classList.remove("selected");
+            });
+            const designButtons = document.querySelectorAll(".design-button");
+            designButtons.forEach((button) => {
+                button.classList.remove("selected");
+            });
+
+            const currentRerolls = cookies.getConfigurationStatus().rerolls;
+            const rerollsLeft = 3 - currentRerolls;
+            const rerollButtons = document.querySelectorAll(".reroll-button");
+
+            rerollButtons.forEach((button) => {
+                button.innerHTML = `REFRESH (${rerollsLeft})`;
+                if (rerollsLeft === 0) {
+                    button.style.pointerEvents = "none";
+                    button.style.opacity = "0.5";
+                }
+            });
+
+            setTimeout(() => {
+                innerFirst.classList.remove("active");
+                innerSecond.classList.add("active");
+                setTimeout(() => {
+                    innerSecond.classList.remove("active");
+                    loadingScreen.style.opacity = "0";
+                    setTimeout(() => {
+                        loadingScreen.classList.remove("active");
+                    }, 300);
+                }, 1500);
+            }, 3000);
         } catch (error) {
             innerFirst.style.opacity = "0";
             innerFirst.classList.remove("active");
@@ -1170,10 +1266,10 @@ function closeModals() {
     lowModals.forEach((modal) => {
         modal.addEventListener("click", (event) => {
             if (event.target === modal) {
-                closeLowModal(
-                    "low-modal-reserve-design",
-                    "low-modal-inner-reserve-design"
-                );
+                // closeLowModal(
+                //     "low-modal-reserve-design",
+                //     "low-modal-inner-reserve-design"
+                // );
                 closeLowModal(
                     "low-modal-size-guide",
                     "low-modal-inner-size-guide"
@@ -1225,6 +1321,10 @@ function setLocalStorageTimer(durationInMinutes) {
     localStorage.setItem("timestamp", currentTime);
 
     // Set the timer for the specified duration (in minutes)
+    if (localStorageTimeout) {
+        clearTimeout(localStorageTimeout);
+    }
+
     localStorageTimeout = setTimeout(function () {
         // Clear the localStorage after the specified duration
         localStorage.clear();
@@ -1235,6 +1335,7 @@ function setLocalStorageTimer(durationInMinutes) {
         );
         console.log(`localStorage cleared after ${durationInMinutes} minutes.`);
     }, durationInMinutes * 60 * 1000); // Convert minutes to milliseconds
+    console.log(`SET FUNCTON localStorage timer`, localStorageTimeout);
 }
 
 // Function to check if localStorage timer has expired
@@ -1244,6 +1345,7 @@ function checkLocalStorageTimer() {
         const currentTime = new Date().getTime();
         const elapsedTime = currentTime - parseInt(timestamp);
         const remainingTime = durationInMinutes * 60 * 1000 - elapsedTime; // Convert minutes to milliseconds
+
         if (remainingTime <= 0) {
             // Clear localStorage if timer has expired
             localStorage.clear();
@@ -1270,6 +1372,7 @@ function checkLocalStorageTimer() {
                 );
             }, remainingTime);
         }
+        console.log(`CHECK FUNCTON localStorage timer`, localStorageTimeout);
     }
 }
 
@@ -1308,7 +1411,11 @@ document.addEventListener("DOMContentLoaded", function () {
     resetButtons.forEach((button) => {
         button.addEventListener("click", () => {
             console.log("reset button clicked");
-            openLowModal("low-modal-reset", "low-modal-inner-reset", "standard");
+            openLowModal(
+                "low-modal-reset",
+                "low-modal-inner-reset",
+                "standard"
+            );
         });
     });
 
@@ -1319,6 +1426,30 @@ document.addEventListener("DOMContentLoaded", function () {
     );
     cancelResetModalButton.addEventListener("click", () => {
         closeLowModal("low-modal-reset", "low-modal-inner-reset");
+    });
+
+    const rerollButtons = document.querySelectorAll(".reroll-button");
+    rerollButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+            console.log("reroll button clicked");
+            openLowModal(
+                "low-modal-reroll",
+                "low-modal-inner-reroll",
+                "standard"
+            );
+        });
+    });
+
+    const rerollModalButton = document.getElementById("reroll-modal-button");
+    rerollModalButton.addEventListener("click", () => {
+        rerollDesigns();
+    });
+
+    const cancelRerollModalButton = document.getElementById(
+        "reroll-cancel-button"
+    );
+    cancelRerollModalButton.addEventListener("click", () => {
+        closeLowModal("low-modal-reroll", "low-modal-inner-reroll");
     });
 
     updateReadyCheckoutProduct();
@@ -1370,7 +1501,10 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     universalBackButton.addEventListener("click", () => {
-        if (cookies.getConfigurationStatus().currentPhase === 1 || cookies.getConfigurationStatus().currentPhase === 3) {
+        if (
+            cookies.getConfigurationStatus().currentPhase === 1 ||
+            cookies.getConfigurationStatus().currentPhase === 3
+        ) {
             move("backward");
         }
     });
@@ -1381,6 +1515,38 @@ document.addEventListener("DOMContentLoaded", function () {
             "low-modal-inner-reserve-design",
             "standard"
         );
+
+        const container = document.querySelector(".carousel-container");
+        const designContainers = document.querySelectorAll(".design-container");
+        let selectedDiv;
+
+        // Loop through each .design-container element
+        designContainers.forEach((container) => {
+            // Find the .selected element within the current container
+            const selectedInContainer = container.querySelector(".selected");
+
+            // Check if a .selected element was found
+            if (selectedInContainer) {
+                // If found, assign it to selectedDiv and exit the loop
+                selectedDiv = selectedInContainer;
+                return;
+            }
+        });
+
+        if (selectedDiv) {
+            // Calculate the scroll position needed to center the selected div horizontally
+            const containerWidth = container.offsetWidth;
+            const selectedDivWidth = selectedDiv.offsetWidth;
+            const scrollLeft =
+                selectedDiv.offsetLeft -
+                (containerWidth - selectedDivWidth) / 2;
+
+            // Smoothly scroll the container to center the selected div horizontally
+            container.scrollTo({
+                left: scrollLeft,
+                behavior: "smooth",
+            });
+        }
     });
 
     confirmDesignButton.addEventListener("click", () => {

@@ -1591,7 +1591,7 @@
                                     <button class="switch-image-button product-button active" type="button" onclick="" value="0">PRODUCT</button>
                                 <button class="switch-image-button image-button" type="button" onclick="" value="0">DESIGN</button>
                                 </div>
-                                <button class="quiz-close reset reset-button" type="button" onclick="">RESET</button>
+                                <button class="quiz-close reroll reroll-button" type="button" onclick="">REFRESH (3)</button>
                             </div>
                             <div class="design-info-container">
                                 <p class="bodytext design-name">
@@ -1634,7 +1634,7 @@
                                     <button class="switch-image-button product-button active" type="button" onclick="" value="1">PRODUCT</button>
                                 <button class="switch-image-button image-button" type="button" onclick="" value="1">DESIGN</button>
                                 </div>
-                                <button class="quiz-close reset reset-button" type="button" onclick="">RESET</button>
+                                <button class="quiz-close reroll reroll-button" type="button" onclick="">REFRESH (3)</button>
                             </div>
                             <div class="design-info-container">
                                 <p class="bodytext design-name">
@@ -1677,7 +1677,7 @@
                                     <button class="switch-image-button product-button active" type="button" onclick="" value="2">PRODUCT</button>
                                 <button class="switch-image-button image-button" type="button" onclick="" value="2">DESIGN</button>
                                 </div>
-                                <button class="quiz-close reset reset-button" type="button" onclick="">RESET</button>
+                                <button class="quiz-close reroll reroll-button" type="button" onclick="">REFRESH (3)</button>
                             </div>
                             <div class="design-info-container">
                                 <p class="bodytext design-name">
@@ -1720,7 +1720,7 @@
                                     <button class="switch-image-button product-button active" type="button" onclick="" value="3">PRODUCT</button>
                                 <button class="switch-image-button image-button" type="button" onclick="" value="3">DESIGN</button>
                                 </div>
-                                <button class="quiz-close reset reset-button" type="button" onclick="">RESET</button>
+                                <button class="quiz-close reroll reroll-button" type="button" onclick="">REFRESH (3)</button>
                             </div>
                             <div class="design-info-container">
                                 <p class="bodytext design-name">
@@ -1763,7 +1763,7 @@
                                     <button class="switch-image-button product-button active" type="button" onclick="" value="4">PRODUCT</button>
                                 <button class="switch-image-button image-button" type="button" onclick="" value="4">DESIGN</button>
                                 </div>
-                                <button class="quiz-close reset reset-button" type="button" onclick="">RESET</button>
+                                <button class="quiz-close reroll reroll-button" type="button" onclick="">REFRESH (3)</button>
                             </div>
                             <div class="design-info-container">
                                 <p class="bodytext design-name">
@@ -1879,6 +1879,33 @@
                 </div>
             </div>
         </div>
+        <div class="loading-screen reroll" id="loading-screen-reroll">
+            <div class="loading-screen-inner first  active">
+                <h2 class="loading-text heading-2">MATCHING DESIGNS</h2>
+                <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+            </div>
+            <div class="loading-screen-inner second">
+                <h2 class="loading-text heading-2">UNIQUE DESIGNS READY</h2>
+                <div class="success-checkmark">
+                    <div class="check-icon">
+                      <span class="icon-line line-tip"></span>
+                      <span class="icon-line line-long"></span>
+                      <div class="icon-circle"></div>
+                      <div class="icon-fix"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="loading-screen-inner error">
+                <h2 class="loading-text heading-2">SOMETHING WENT WRONG</h2>
+                <div class="container-error-icon">
+                    <div class="circle-border"></div>
+                    <div class="circle">
+                        <div class="error-icon"></div>
+                      </div>
+                </div>
+            </div>
+        </div>
+        
         <div class="loading-screen fit-done" id="loading-screen-fit-done">
             <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
         </div>
@@ -1979,6 +2006,34 @@
                 </div>
             </div>
         </div>
+
+        <div class="low-modal reroll" id="low-modal-reroll">
+            <div class="low-modal-inner reroll" id="low-modal-inner-reroll">
+                <h3 class="heading-3">Confirm refresh</h3>
+                <div class="low-modal-inner-content standard">
+                    <p class="bodytext">
+                        This will match five new designs with your personality (and remove current options).
+                    </p>
+                    <button
+                        class="quiz-button"
+                        id="reroll-modal-button"
+                        type="button"
+                        onclick=""
+                    >
+                        REFRESH DESIGNS
+                    </button>
+                    <button
+                        class="quiz-button secondary center"
+                        id="reroll-cancel-button"
+                        type="button"
+                        onclick=""
+                    >
+                        CANCEL
+                    </button>
+                </div>
+            </div>
+        </div>
+        
 
         <div class="low-modal size-guide" id="low-modal-size-guide">
             <div class="low-modal-inner" id="low-modal-inner-size-guide">

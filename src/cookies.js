@@ -1,6 +1,7 @@
 //Saved cookies structure
 
 const quizLength = 16;
+const allowedRerolls = 3;
 
 // Now always zero – used in the future to handle multiple personalities during the same session
 let currentPersonality = 0;
@@ -80,6 +81,27 @@ let configurationStatus = {
     personalityDone: false,
     designDone: false,
     sizeDone: false,
+    rerolls: 0,
+    rerollToken: "",
+};
+
+const clearSelectedDesign = () => {
+    order.personalities[currentPersonality].products[0].selectedDesign = "";
+    saveOrderToCookie(order);
+};
+
+const clearOptions = () => {
+    order.personalities[currentPersonality].products[0].options = [];
+    saveOrderToCookie(order);   
+};
+
+const rerollAllowed = () => {
+    return configurationStatus.rerolls < allowedRerolls;
+}
+
+const updateRerolls = () => {
+    configurationStatus.rerolls++;
+    saveconfigurationStatusToCookie(configurationStatus);
 };
 
 const handleAddToCart = (add) => {
@@ -154,6 +176,9 @@ const updateGetDesigns = (data) => {
             option
         );
     });
+
+    const firstToken = options[0].token;
+    configurationStatus.rerollToken = firstToken;
 
     configurationStatus.personalityDone = true;
     configurationStatus.phases[2].completed = true;
@@ -470,4 +495,8 @@ module.exports = {
     personalityDone,
     handleAddToCart,
     updateResetProcess,
+    rerollAllowed,
+    updateRerolls,
+    clearOptions,
+    clearSelectedDesign
 };

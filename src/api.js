@@ -1,15 +1,34 @@
 const cookies = require("./cookies.js");
 
+const devMode = false;
+
+let devUrl = "https://evhmif8p8c.execute-api.ap-southeast-1.amazonaws.com/prod";
+let prodUrl =
+    "https://ovw1bhw4bf.execute-api.ap-southeast-1.amazonaws.com/prod";
+
+const getDesignsUrl = devMode
+    ? `${devUrl}/designs/get-options`
+    : `${prodUrl}/designs/get-options`;
+const reserveDesignUrl = devMode
+    ? `${devUrl}/designs/reserve-design`
+    : `${prodUrl}/designs/reserve-design`;
+const confirmDesignUrl = devMode
+    ? `${devUrl}/designs/confirm-design`
+    : `${prodUrl}/designs/confirm-design`;
+
+const rerollDesignsUrl = devMode ? `${devUrl}/designs/reroll` : `${prodUrl}/designs/reroll`;
+
+
+
 async function getDesigns(quizData) {
     const data = {
         answers: quizData,
     };
 
-
     try {
         const response = await fetch(
             // "https://example.com/invalid-url",
-            "https://ovw1bhw4bf.execute-api.ap-southeast-1.amazonaws.com/prod/designs/get-options",
+            getDesignsUrl,
             {
                 method: "POST",
                 headers: {
@@ -24,7 +43,40 @@ async function getDesigns(quizData) {
         }
 
         const responseData = await response.json();
-        
+
+        // Process the response data here
+        return responseData;
+    } catch (error) {
+        console.error("There was a problem with the fetch operation:", error);
+        throw error; // Re-throw the error to propagate it to the caller
+    }
+}
+
+async function rerollDesigns(token) {
+    console.log("rerolling designs");
+    const data = {
+        token: token,
+    };
+    console.log(data);
+    try {
+        const response = await fetch(
+            // "https://example.com/invalid-url",
+            rerollDesignsUrl,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
+            }
+        );
+
+        if (!response.ok) {
+            throw new Error("Network response was not ok");
+        }
+
+        const responseData = await response.json();
+
         // Process the response data here
         return responseData;
     } catch (error) {
@@ -38,12 +90,10 @@ async function reserveDesign(token) {
         token: token,
     };
 
-    
-
     try {
         const response = await fetch(
             // "https://example.com/invalid-url",
-            "https://ovw1bhw4bf.execute-api.ap-southeast-1.amazonaws.com/prod/designs/reserve-design",
+            reserveDesignUrl,
             {
                 method: "POST",
                 headers: {
@@ -58,7 +108,7 @@ async function reserveDesign(token) {
         }
 
         const responseData = await response.json();
-       
+
         // Process the response data here
         return responseData;
     } catch (error) {
@@ -71,15 +121,13 @@ async function confirmDesign(email, orderId, token) {
     const data = {
         email: email,
         orderId: orderId,
-        tokens: [token]
+        tokens: [token],
     };
-
-   
 
     try {
         const response = await fetch(
             // "https://example.com/invalid-url",
-            "https://ovw1bhw4bf.execute-api.ap-southeast-1.amazonaws.com/prod/designs/confirm-design",
+            confirmDesignUrl,
             {
                 method: "POST",
                 headers: {
@@ -94,7 +142,7 @@ async function confirmDesign(email, orderId, token) {
         }
 
         const responseData = await response.json();
-       
+
         // Process the response data here
         return responseData;
     } catch (error) {
@@ -120,7 +168,7 @@ async function viewProfile(id) {
         }
 
         const responseData = await response.json();
-    
+
         // Process the response data here
         return responseData;
     } catch (error) {
@@ -134,4 +182,5 @@ module.exports = {
     reserveDesign,
     confirmDesign,
     viewProfile,
+    rerollDesigns
 };
