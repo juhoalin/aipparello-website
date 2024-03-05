@@ -53,11 +53,9 @@ async function getDesigns(quizData) {
 }
 
 async function rerollDesigns(token) {
-    console.log("rerolling designs");
     const data = {
         token: token,
     };
-    console.log(data);
     try {
         const response = await fetch(
             // "https://example.com/invalid-url",

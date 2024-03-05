@@ -557,7 +557,7 @@ function updateConfiguration(direction) {
         ) {
             const quizCookie = getQuizCookie();
             if (quizCookie === "true") {
-                console.log("focused");
+
                 document.getElementById("nickname").focus();
             }
             // quizResetButton.style.display = "none";
@@ -861,7 +861,7 @@ async function fetchDesigns() {
 }
 
 async function rerollDesigns() {
-    console.log("rerolling pressed first");
+
     const loadingScreen = document.getElementById("loading-screen-reroll");
     const innerFirst = loadingScreen.querySelector(".first");
     const innerSecond = loadingScreen.querySelector(".second");
@@ -869,12 +869,12 @@ async function rerollDesigns() {
 
     const rerollAllowed = cookies.rerollAllowed();
 
-    console.log(rerollAllowed);
+
 
     closeLowModal("low-modal-reroll", "low-modal-inner-reroll");
 
     if (rerollAllowed) {
-        console.log("reroll allowed");
+     
         try {
             setLocalStorageTimer(durationInMinutes);
             loadingScreen.classList.add("active");
@@ -883,7 +883,7 @@ async function rerollDesigns() {
             innerFirst.style.opacity = "1";
             const token = cookies.getConfigurationStatus().rerollToken;
             const responseData = await api.rerollDesigns(token);
-            console.log(responseData);
+
             cookies.updateRerolls();
             cookies.clearOptions();
             cookies.clearSelectedDesign();
@@ -1334,9 +1334,8 @@ function setLocalStorageTimer(durationInMinutes) {
             "low-modal-inner-timeout",
             "standard"
         );
-        console.log(`localStorage cleared after ${durationInMinutes} minutes.`);
+
     }, durationInMinutes * 60 * 1000); // Convert minutes to milliseconds
-    console.log(`SET FUNCTON localStorage timer`, localStorageTimeout);
 }
 
 // Function to check if localStorage timer has expired
@@ -1355,9 +1354,7 @@ function checkLocalStorageTimer() {
                 "low-modal-inner-timeout",
                 "standard"
             );
-            console.log(
-                `localStorage cleared after ${durationInMinutes} minutes.`
-            );
+
         } else {
             // Start the timer based on remaining time
             localStorageTimeout = setTimeout(function () {
@@ -1368,18 +1365,16 @@ function checkLocalStorageTimer() {
                     "low-modal-inner-timeout",
                     "standard"
                 );
-                console.log(
-                    `localStorage cleared after ${durationInMinutes} minutes.`
-                );
+
             }, remainingTime);
         }
-        console.log(`CHECK FUNCTON localStorage timer`, localStorageTimeout);
+
     }
 }
 
 // Function to stop the localStorage clear timeout
 function stopLocalStorageTimeout() {
-    console.log("localStorage timeout stopped.");
+
     clearTimeout(localStorageTimeout);
     localStorage.removeItem("timestamp");
 }
@@ -1389,6 +1384,7 @@ function forcePageRefresh() {
 }
 
 function forcePageRefreshAndReset() {
+    relaunchLoadingAnimation();
     localStorage.clear();
     window.location.reload();
 }
@@ -1397,9 +1393,9 @@ const handleLoadingImages = () => {
     const allLoadingImages = document.querySelectorAll(".loading-image");
     allLoadingImages.forEach((image) => {
         image.addEventListener("load", () => {
-            console.log("image loaded");
+
             const parent = image.parentNode.parentNode;
-            console.log(parent);
+
             const loadingImage = parent.querySelector(".loading-image-shine");
             loadingImage.style.display = "none";
         });
@@ -1434,7 +1430,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const resetButtons = document.querySelectorAll(".reset-button");
     resetButtons.forEach((button) => {
         button.addEventListener("click", () => {
-            console.log("reset button clicked");
+  
             openLowModal(
                 "low-modal-reset",
                 "low-modal-inner-reset",
@@ -1455,7 +1451,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const rerollButtons = document.querySelectorAll(".reroll-button");
     rerollButtons.forEach((button) => {
         button.addEventListener("click", () => {
-            console.log("reroll button clicked");
+
             openLowModal(
                 "low-modal-reroll",
                 "low-modal-inner-reroll",
@@ -1681,7 +1677,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     sizeSelect.addEventListener("change", function () {
         const value = sizeSelect.options[sizeSelect.selectedIndex].innerHTML;
-        console.log("sizeSelect", value);
+
         cookies.updateSelectedSize(value);
         updateAddToCartState();
     });
